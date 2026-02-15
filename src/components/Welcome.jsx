@@ -11,10 +11,10 @@ function Welcome() {
   return (
     <div className="welcome-container">
       <div className="welcome-content">
-        <h1>歡迎</h1>
-        <p>探索互動式地圖</p>
+        <h1>welcome</h1>
+        <p>press enter </p>
         <button className="enter-button" onClick={handleEnter}>
-          進入
+          enter
         </button>
       </div>
     </div>
