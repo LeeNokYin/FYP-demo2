@@ -1,28 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
+import * as Cesium from 'cesium'
+import CesiumCompass from './CesiumCompass'
 import './MapView.css'
+import Toolbar from './Toolbar'; 
+
 
 function MapView() {
   const cesiumContainer = useRef(null)
   const viewerRef = useRef(null)
-  const [compassRotation, setCompassRotation] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [showResults, setShowResults] = useState(false)
   const [currentLayer, setCurrentLayer] = useState('satellite')
+  const [viewerInstance, setViewerInstance] = useState(null)
+  const cesiumContainerRef = useRef(null);
+  const [viewer, setViewer] = useState(null);
 
   useEffect(() => {
-    // 檢查 Cesium 是否加載
-    if (typeof window.Cesium === 'undefined') {
-      console.error('Cesium library not loaded')
-      return
-    }
-
-    const Cesium = window.Cesium
-    
-    // 設置 Cesium Token
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwNTZmYzAwNS03MDU3LTQ1MGYtYjJkNC1kMmFjNzUxODU5OWUiLCJpZCI6Mzg4MDk1LCJpYXQiOjE3NzA0NTQ5NTd9.4DzniAg6qD-wNw_E0t75ytmPCkba163P2u_XIIjYNFU'
 
-    // 初始化地圖
     const initViewer = () => {
       try {
         // 創建 Cesium Viewer - 不指定 terrainProvider 讓它使用預設值
@@ -38,6 +34,7 @@ function MapView() {
         })
 
         viewerRef.current = viewer
+        setViewerInstance(viewer)
 
         // 設置初始視圖
         viewer.camera.setView({
@@ -94,21 +91,12 @@ function MapView() {
           }
         }
 
-        // 更新指北針旋轉角度
-        const updateCompass = () => {
-          const heading = viewer.camera.heading
-          const rotation = Cesium.Math.toDegrees(heading)
-          setCompassRotation(-rotation)
-        }
-
         // 監聽相機移動事件
         viewer.camera.moveEnd.addEventListener(updateScale)
         viewer.camera.changed.addEventListener(updateScale)
-        viewer.camera.changed.addEventListener(updateCompass)
         
         // 初始更新
         updateScale()
-        updateCompass()
       } catch (error) {
         console.error('Failed to initialize Cesium viewer:', error)
       }
@@ -139,7 +127,7 @@ function MapView() {
       setSearchResults(data)
       setShowResults(true)
     } catch (error) {
-      console.error('搜尋失敗:', error)
+      console.error('Search failed:', error)
     }
   }
 
@@ -147,7 +135,6 @@ function MapView() {
   const handleSelectResult = (result) => {
     if (!viewerRef.current) return
 
-    const Cesium = window.Cesium
     const lon = parseFloat(result.lon)
     const lat = parseFloat(result.lat)
 
@@ -160,33 +147,10 @@ function MapView() {
     setSearchQuery('')
   }
 
-  // 重置指北功能
-  const resetNorth = () => {
-    if (!viewerRef.current) return
-    
-    const Cesium = window.Cesium
-    const currentPosition = viewerRef.current.camera.positionCartographic
-    
-    viewerRef.current.camera.flyTo({
-      destination: Cesium.Cartesian3.fromRadians(
-        currentPosition.longitude,
-        currentPosition.latitude,
-        currentPosition.height
-      ),
-      orientation: {
-        heading: 0,
-        pitch: viewerRef.current.camera.pitch,
-        roll: 0
-      },
-      duration: 1
-    })
-  }
-
   // 切換地圖圖層
   const switchLayer = async (layerType) => {
     if (!viewerRef.current) return
-    
-    const Cesium = window.Cesium
+
     const imageryLayers = viewerRef.current.imageryLayers
 
     // 移除現有圖層
@@ -198,18 +162,15 @@ function MapView() {
       // 根據選擇添加新圖層
       switch (layerType) {
         case 'satellite':
-          provider = await Cesium.IonImageryProvider.fromAssetId(2)
+          provider = await Cesium.IonImageryProvider.fromAssetId(3)
           break
         case 'street':
           provider = new Cesium.OpenStreetMapImageryProvider({
             url: 'https://tile.openstreetmap.org/'
           })
           break
-        case 'terrain':
-          provider = await Cesium.IonImageryProvider.fromAssetId(3)
-          break
         default:
-          provider = await Cesium.IonImageryProvider.fromAssetId(2)
+          provider = await Cesium.IonImageryProvider.fromAssetId(3)
       }
 
       imageryLayers.addImageryProvider(provider)
@@ -217,7 +178,7 @@ function MapView() {
     } catch (error) {
       console.error('Layer switching failed', error)
       // 如果失敗，恢復預設圖層
-      const defaultProvider = await Cesium.IonImageryProvider.fromAssetId(2)
+      const defaultProvider = await Cesium.IonImageryProvider.fromAssetId(3)
       imageryLayers.addImageryProvider(defaultProvider)
     }
   }
@@ -280,35 +241,11 @@ function MapView() {
             <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/>
           </svg>
         </button>
-        <button
-          className={`layer-button ${currentLayer === 'terrain' ? 'active' : ''}`}
-          onClick={() => switchLayer('terrain')}
-          title="Terrain map"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M14 6l-3.75 5 2.85 3.8-1.6 1.2C9.81 13.75 7 10 7 10l-6 8h22L14 6z"/>
-          </svg>
-        </button>
       </div>
 
-      {/* 指北針 - 可點擊重置 */}
-      <div 
-        className="compass" 
-        onClick={resetNorth}
-      >
-        <svg 
-          width="60" 
-          height="60" 
-          viewBox="0 0 60 60"
-          style={{ transform: `rotate(${compassRotation}deg)` }}
-          className="compass-needle"
-        >
-          <circle cx="30" cy="30" r="28" fill="white" fillOpacity="0.9" stroke="#333" strokeWidth="2"/>
-          <polygon points="30,10 35,28 30,25 25,28" fill="#e74c3c"/>
-          <polygon points="30,50 35,32 30,35 25,32" fill="#95a5a6"/>
-          <text x="30" y="15" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#333">N</text>
-        </svg>
-      </div>
+      {viewerInstance && (
+        <CesiumCompass viewer={viewerInstance} />
+      )}
       
       {/* 比例尺 */}
       <div className="scale-bar" id="scale-bar">
