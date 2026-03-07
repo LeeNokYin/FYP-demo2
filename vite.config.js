@@ -4,7 +4,8 @@ import cesium from 'vite-plugin-cesium'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/FYP-demo2/',
+  // Relative base avoids nested repo paths for vite-plugin-cesium on GitHub Pages.
+  base: './',
   plugins: [react(), cesium()],
   server: {
     proxy: {
