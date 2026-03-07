@@ -1,4 +1,4 @@
-.cctv-dashboard {
+.voice-dashboard {
   width: 100%;
   max-height: 100%;
   background: transparent;
@@ -446,7 +446,7 @@ h2 {
 
 /* 響應式設計 */
 @media (max-width: 768px) {
-  .cctv-dashboard {
+  .voice-dashboard {
     width: 100%;
     height: auto;
     position: relative;
@@ -477,20 +477,20 @@ h2 {
 }
 
 /* 捲軸樣式 */
-.cctv-dashboard::-webkit-scrollbar {
+.voice-dashboard::-webkit-scrollbar {
   width: 8px;
 }
 
-.cctv-dashboard::-webkit-scrollbar-track {
+.voice-dashboard::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
-.cctv-dashboard::-webkit-scrollbar-thumb {
+.voice-dashboard::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 4px;
 }
 
-.cctv-dashboard::-webkit-scrollbar-thumb:hover {
+.voice-dashboard::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 

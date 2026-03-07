@@ -1,8 +1,18 @@
-function TopPanels({ topPanels, toggleTopPanel, toggleCCTVDashboard }) {
+function TopPanels({ topPanels, topPanelPositions, toggleTopPanel, toggleVoiceDashboard }) {
+  const getPanelStyle = (panelKey) => {
+    const position = topPanelPositions?.[panelKey]
+    if (!position) return undefined
+
+    return {
+      left: `${position.left}px`,
+      top: `${position.top}px`
+    }
+  }
+
   return (
     <>
       {topPanels.projectManager && (
-        <div className="top-panel project-manager-panel">
+        <div className="top-panel project-manager-panel" style={getPanelStyle('projectManager')}>
           <div className="panel-header">
             <h3>📁 Project Manager</h3>
             <button className="panel-close" onClick={() => toggleTopPanel('projectManager')}>×</button>
@@ -28,7 +38,7 @@ function TopPanels({ topPanels, toggleTopPanel, toggleCCTVDashboard }) {
       )}
 
       {topPanels.modelManager && (
-        <div className="top-panel model-manager-panel">
+        <div className="top-panel model-manager-panel" style={getPanelStyle('modelManager')}>
           <div className="panel-header">
             <h3>🏗️ Model Manager</h3>
             <button className="panel-close" onClick={() => toggleTopPanel('modelManager')}>×</button>
@@ -47,7 +57,7 @@ function TopPanels({ topPanels, toggleTopPanel, toggleCCTVDashboard }) {
       )}
 
       {topPanels.layerManager && (
-        <div className="top-panel layer-manager-panel">
+        <div className="top-panel layer-manager-panel" style={getPanelStyle('layerManager')}>
           <div className="panel-header">
             <h3>🗂️ Layer Manager</h3>
             <button className="panel-close" onClick={() => toggleTopPanel('layerManager')}>×</button>
@@ -83,7 +93,7 @@ function TopPanels({ topPanels, toggleTopPanel, toggleCCTVDashboard }) {
       )}
 
       {topPanels.assessmentWizard && (
-        <div className="top-panel assessment-panel">
+        <div className="top-panel assessment-panel" style={getPanelStyle('assessmentWizard')}>
           <div className="panel-header">
             <h3>📊 Assessment Wizard</h3>
             <button className="panel-close" onClick={() => toggleTopPanel('assessmentWizard')}>×</button>
@@ -112,7 +122,7 @@ function TopPanels({ topPanels, toggleTopPanel, toggleCCTVDashboard }) {
       )}
 
       {topPanels.monitoringWizard && (
-        <div className="top-panel monitoring-panel">
+        <div className="top-panel monitoring-panel" style={getPanelStyle('monitoringWizard')}>
           <div className="panel-header">
             <h3>🔍 Ecological Monitoring</h3>
             <button className="panel-close" onClick={() => toggleTopPanel('monitoringWizard')}>×</button>
@@ -121,7 +131,7 @@ function TopPanels({ topPanels, toggleTopPanel, toggleCCTVDashboard }) {
             <div className="monitoring-types">
               <div className="monitoring-card">
                 <img src="/images/monitorWizard/camera.png" alt="" width="32" />
-                <h4>CCTV Cameras</h4>
+                <h4>Voice Sensors</h4>
                 <p>View live camera feeds</p>
                 <button className="btn-sm">Open Dashboard</button>
               </div>
@@ -130,7 +140,7 @@ function TopPanels({ topPanels, toggleTopPanel, toggleCCTVDashboard }) {
                 <h4>Sound Sensors</h4>
                 <p>Monitor noise levels</p>
                 <button className="btn-sm" onClick={() => {
-                  toggleCCTVDashboard()
+                  toggleVoiceDashboard()
                   toggleTopPanel('monitoringWizard')
                 }}>Open Dashboard</button>
               </div>

@@ -6,7 +6,7 @@ import Toolbar from './Toolbar'
 import TopToolbar from './TopToolbar'
 import TopPanels from './TopPanels'
 import RightToolbar from './RightToolbar'
-import CCTVDashboard from './CCTVDashboard'
+import VoiceDashboard from './VoiceDashboard'
 import BirdAnalyticsDashboard from './BirdAnalyticsDashboard'
 
 
@@ -33,8 +33,9 @@ function MapView() {
     assessmentWizard: false,
     monitoringWizard: false
   })
+  const [topPanelPositions, setTopPanelPositions] = useState({})
   const [activeLeftPanel, setActiveLeftPanel] = useState(null)
-  const [showCCTVDashboard, setShowCCTVDashboard] = useState(false)
+  const [showVoiceDashboard, setShowVoiceDashboard] = useState(false)
   const [analyticsData, setAnalyticsData] = useState(null)
   const [showPinPanel, setShowPinPanel] = useState(false)
   const [cameraTelemetry, setCameraTelemetry] = useState({
@@ -50,7 +51,27 @@ function MapView() {
     setActiveTool(tool)
   }
 
-  const toggleTopPanel = (panel) => {
+  const getTopPanelPosition = (anchorEl) => {
+    const rect = anchorEl.getBoundingClientRect()
+    const panelWidth = 340
+    const viewportMargin = 12
+    const left = Math.min(
+      Math.max(rect.left, viewportMargin),
+      window.innerWidth - panelWidth - viewportMargin
+    )
+    const top = rect.bottom + 8
+
+    return { left, top }
+  }
+
+  const toggleTopPanel = (panel, anchorEl) => {
+    if (anchorEl) {
+      setTopPanelPositions((prev) => ({
+        ...prev,
+        [panel]: getTopPanelPosition(anchorEl)
+      }))
+    }
+
     setTopPanels((prev) => ({
       ...prev,
       [panel]: !prev[panel]
@@ -61,8 +82,8 @@ function MapView() {
     setActiveLeftPanel((prev) => (prev === panel ? null : panel))
   }
 
-  const toggleCCTVDashboard = () => {
-    setShowCCTVDashboard((prev) => !prev)
+  const toggleVoiceDashboard = () => {
+    setShowVoiceDashboard((prev) => !prev)
   }
 
   const handleViewAnalytics = (data) => {
@@ -393,14 +414,18 @@ function MapView() {
 
       {viewerInstance && (
         <TopToolbar
-          viewer={viewerInstance}
           topPanels={topPanels}
           toggleTopPanel={toggleTopPanel}
           toggleLeftPanel={toggleLeftPanel}
         />
       )}
 
-      <TopPanels topPanels={topPanels} toggleTopPanel={toggleTopPanel} toggleCCTVDashboard={toggleCCTVDashboard} />
+      <TopPanels
+        topPanels={topPanels}
+        topPanelPositions={topPanelPositions}
+        toggleTopPanel={toggleTopPanel}
+        toggleVoiceDashboard={toggleVoiceDashboard}
+      />
 
       <RightToolbar
         viewer={viewerInstance}
@@ -505,12 +530,12 @@ function MapView() {
         <div className="scale-bar-label" id="scale-label">1000 m</div>
       </div>
 
-      {/* CCTV 儀表板 */}
-      {showCCTVDashboard && (
+      {/* Voice 儀表板 */}
+      {showVoiceDashboard && (
         <div className="dashboard-overlay">
           <div className="dashboard-modal">
-            <button className="dashboard-close" onClick={() => setShowCCTVDashboard(false)}>×</button>
-            <CCTVDashboard onViewAnalytics={handleViewAnalytics} />
+            <button className="dashboard-close" onClick={() => setShowVoiceDashboard(false)}>×</button>
+            <VoiceDashboard onViewAnalytics={handleViewAnalytics} />
           </div>
         </div>
       )}

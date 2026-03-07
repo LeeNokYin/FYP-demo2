@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { fetchVoiceData } from '../services/cctvApi'
-import './CCTVDashboard.css'
+import { fetchVoiceData } from '../services/voiceApi'
+import './VoiceDashboard.css'
 
-function CCTVDashboard({ onViewAnalytics }) {
+function VoiceDashboard({ onViewAnalytics }) {
   const [startTime, setStartTime] = useState(new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().slice(0, 16))
   const [endTime, setEndTime] = useState(new Date().toISOString().slice(0, 16))
   const [startIndex, setStartIndex] = useState(0)
@@ -48,8 +48,8 @@ function CCTVDashboard({ onViewAnalytics }) {
     return date.toISOString().replace('T', ' ').slice(0, 19)
   }
 
-  // 取得 CCTV 資料
-  const fetchCCTVData = async () => {
+  // 取得 Voice 資料
+  const fetchVoiceDashboardData = async () => {
     setLoading(true)
     setError(null)
     try {
@@ -88,7 +88,7 @@ function CCTVDashboard({ onViewAnalytics }) {
   // 處理搜尋按鈕點擊
   const handleSearch = (e) => {
     e.preventDefault()
-    fetchCCTVData()
+    fetchVoiceDashboardData()
   }
 
   // 計算鳥類出現統計
@@ -121,7 +121,7 @@ function CCTVDashboard({ onViewAnalytics }) {
   const birdStats = getBirdStats()
 
   return (
-    <div className="cctv-dashboard">
+    <div className="voice-dashboard">
       <div className="dashboard-container">
         {/* API 連線狀態 */}
         <div className="api-status">
@@ -323,4 +323,4 @@ function CCTVDashboard({ onViewAnalytics }) {
   )
 }
 
-export default CCTVDashboard
+export default VoiceDashboard

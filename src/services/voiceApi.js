@@ -4,10 +4,10 @@ const DEFAULT_PRODUCTION_API = 'https://eaplanner.odensystems.hk/Api/IVEBird/Voi
 const DEV_API = '/api/IVEBird/Voice'
 
 const getApiConfig = () => {
-  const apiKey = import.meta.env.VITE_CCTV_API_KEY || DEFAULT_API_KEY
+  const apiKey = import.meta.env.VITE_VOICE_API_KEY || DEFAULT_API_KEY
   const apiUrl = import.meta.env.DEV
     ? DEV_API
-    : import.meta.env.VITE_CCTV_API_URL || DEFAULT_PRODUCTION_API
+    : import.meta.env.VITE_VOICE_API_URL || DEFAULT_PRODUCTION_API
 
   return { apiKey, apiUrl }
 }
@@ -55,9 +55,9 @@ const normalizeVoiceResponse = (data) => {
 export const fetchVoiceData = async (params) => {
   try {
     const { apiUrl, apiKey } = getApiConfig()
-    console.log(`[CCTV API] Request URL: ${apiUrl}`)
-    console.log(`[CCTV API] Environment: ${import.meta.env.DEV ? 'Development (using Vite proxy)' : 'Production'}`)
-    console.log(`[CCTV API] Request params:`, params)
+    console.log(`[VOICE API] Request URL: ${apiUrl}`)
+    console.log(`[VOICE API] Environment: ${import.meta.env.DEV ? 'Development (using Vite proxy)' : 'Production'}`)
+    console.log(`[VOICE API] Request params:`, params)
 
     // 建立表單資料（API 看起來預期 application/x-www-form-urlencoded 格式）
     const formData = new URLSearchParams()
@@ -79,7 +79,7 @@ export const fetchVoiceData = async (params) => {
     }
 
     const data = await response.json()
-    console.log('[CCTV API] Response successful:', data)
+    console.log('[VOICE API] Response successful:', data)
 
     return normalizeVoiceResponse(data)
   } catch (error) {
@@ -88,7 +88,7 @@ export const fetchVoiceData = async (params) => {
         'CORS/network error: In production, this API must be called via a backend/proxy that returns Access-Control-Allow-Origin for your GitHub Pages domain.'
       )
     }
-    console.error('[CCTV API] Request failed:', error)
+    console.error('[VOICE API] Request failed:', error)
     throw error
   }
 }
