@@ -9,14 +9,11 @@ const CesiumCompass = ({ viewer }) => {
 
   useEffect(() => {
     if (!viewer) return;
-
+// 角度環繞修正
     const updateCompass = () => {
-      // 1. 獲取當前攝像頭的航向 (弧度轉角度)
-      // Cesium 的 heading 是 0~360，我們取負值因為指針旋轉方向與地圖相反
       const heading = -Cesium.Math.toDegrees(viewer.camera.heading);
 
       setCompassRotation(prevRotation => {
-        // 2. 計算新舊角度的差值
         let delta = heading - prevRotation;
 
        
@@ -52,13 +49,31 @@ const CesiumCompass = ({ viewer }) => {
     container: {
       position: 'absolute',
       top: '70px',
-      right: '40px',
-      width: '150px',
-      height: '150px',
+      right: '20px',
+      width: '110px',
+      height: '110px',
       zIndex: 100,
       cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    background: {
+      position: 'absolute',
+      width: '105px',
+      height: '105px',
+      borderRadius: '50%',
+      backgroundColor: 'white',
+      zIndex: 1,
+    },
+    imageWrapper: {
+      position: 'absolute',
+      width: '90px',
+      height: '90px',
+      zIndex: 2,
+      cursor: 'pointer',
       transform: `rotate(${compassRotation}deg)`, 
-      transition: 'transform 0.1s linear', // 保持平滑動畫
+      transition: 'transform 0.1s linear',
     },
     image: {
       width: '100%',
@@ -75,12 +90,15 @@ const CesiumCompass = ({ viewer }) => {
       onClick={resetNorth}
       title="Return to true north"
     >
-      <img 
-        src={COMPASS_IMAGE_URL} 
-        alt="Compass" 
-        style={styles.image} 
-        draggable="false"
-      />
+      <div style={styles.background}></div>
+      <div style={styles.imageWrapper}>
+        <img 
+          src={COMPASS_IMAGE_URL} 
+          alt="Compass" 
+          style={styles.image} 
+          draggable="false"
+        />
+      </div>
     </div>
   );
 };

@@ -1,22 +1,23 @@
 import React from 'react';
 import { Plus, Minus, Home, Layers, Settings, Map as MapIcon } from 'lucide-react';
 
-// 定義單個按鈕的樣式組件，避免重複代碼
+// 定義可重用的單一按鈕樣式，避免重複程式碼
 const ToolButton = ({ icon: Icon, onClick, title, active = false }) => (
   <button
     onClick={onClick}
     title={title}
     className={`
-      p-2 rounded-lg transition-all duration-200 ease-in-out
+      p-2.5 rounded-lg transition-all duration-300 ease-in-out
       flex items-center justify-center
       ${active 
-        ? 'bg-blue-100 text-blue-600 hover:bg-blue-200' 
-        : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+        ? 'bg-gradient-to-br from-[#4ECDC4] to-[#45B7D1] text-[#1a1a2e] shadow-lg shadow-[#4ECDC4]/30' 
+        : 'bg-gradient-to-br from-[#2d2d44] to-[#1e1e30] text-[#4ECDC4] hover:from-[#3d3d54] hover:to-[#2d2d44] hover:text-white hover:shadow-lg hover:shadow-[#4ECDC4]/20'
       }
-      shadow-sm border border-gray-200
+      shadow-md border border-[#4ECDC4]/30 backdrop-blur-md hover:border-[#4ECDC4]/60
+      font-weight-600
     `}
   >
-    <Icon size={20} strokeWidth={2} />
+    <Icon size={20} strokeWidth={2.5} />
   </button>
 );
 
@@ -34,7 +35,7 @@ const Toolbar = ({ viewer }) => {
     }
   };
 
-  // 處理回到原點 (Home)
+  // 處理返回預設視角（Home）
   const handleHome = () => {
     if (viewer) {
       viewer.camera.flyHome();
@@ -42,20 +43,20 @@ const Toolbar = ({ viewer }) => {
   };
 
   return (
-    <div className="absolute top-5 left-5 z-50 flex flex-col gap-3">
-      {/* 第一組：地圖操作 */}
-      <div className="flex flex-col gap-1 bg-white/90 backdrop-blur-sm p-1.5 rounded-xl shadow-lg border border-gray-200/50">
-        <ToolButton icon={Plus} onClick={handleZoomIn} title="放大" />
-        <ToolButton icon={Minus} onClick={handleZoomOut} title="縮小" />
-        <div className="h-px w-full bg-gray-200 my-0.5" /> {/* 分隔線 */}
-        <ToolButton icon={Home} onClick={handleHome} title="回到預設視角" />
+    <div className="absolute top-20 left-5 z-50 flex flex-col gap-3">
+      {/* 第 1 組：地圖控制 */}
+      <div className="flex flex-col gap-1.5 bg-gradient-to-br from-[#1a1a2e]/95 to-[#16213e]/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl shadow-[#000000]/50 border border-[#4ECDC4]/20">
+        <ToolButton icon={Plus} onClick={handleZoomIn} title="Zoom In" />
+        <ToolButton icon={Minus} onClick={handleZoomOut} title="Zoom Out" />
+        <div className="h-px w-full bg-gradient-to-r from-[#4ECDC4]/0 via-[#4ECDC4]/40 to-[#4ECDC4]/0 my-1" />
+        <ToolButton icon={Home} onClick={handleHome} title="Return to Default View (Home)" />
       </div>
 
-      {/* 第二組：功能切換 */}
-      <div className="flex flex-col gap-1 bg-white/90 backdrop-blur-sm p-1.5 rounded-xl shadow-lg border border-gray-200/50">
-        <ToolButton icon={Layers} title="圖層管理" onClick={() => alert('開啟圖層選單')} />
-        <ToolButton icon={MapIcon} title="切換地圖底圖" onClick={() => alert('切換底圖')} />
-        <ToolButton icon={Settings} title="設定" onClick={() => alert('開啟設定')} />
+      {/* 第 2 組：功能切換 */}
+      <div className="flex flex-col gap-1.5 bg-gradient-to-br from-[#1a1a2e]/95 to-[#16213e]/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl shadow-[#000000]/50 border border-[#4ECDC4]/20">
+        <ToolButton icon={Layers} title="Layer Management (Layers)" onClick={() => alert('Open Layer Menu')} />
+        <ToolButton icon={MapIcon} title="Switch Basemap (Map)" onClick={() => alert('Switch Basemap')} />
+        <ToolButton icon={Settings} title="Settings" onClick={() => alert('Open Settings')} />
       </div>
     </div>
   );
