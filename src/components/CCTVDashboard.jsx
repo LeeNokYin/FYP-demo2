@@ -72,11 +72,11 @@ function CCTVDashboard({ onViewAnalytics }) {
       // 提供更友善的錯誤訊息
       let errorMsg = err.message
       if (err.message.includes('CORS')) {
-        errorMsg = '🛑 CORS Error: Please ensure the development server is running (npm run dev)'
+        errorMsg = 'CORS Error: Production requires a backend/proxy that allows your GitHub Pages origin.'
       } else if (err.message.includes('fetch')) {
-        errorMsg = '🛑 Network Error: Cannot connect to API server'
+        errorMsg = 'Network Error: Cannot connect to API server'
       } else if (err.message.includes('JSON')) {
-        errorMsg = '🛑 API Response Error: Incorrect data format returned'
+        errorMsg = 'API Response Error: Incorrect data format returned'
       }
       setError(errorMsg)
       console.error('Fetch error:', err)
@@ -132,7 +132,7 @@ function CCTVDashboard({ onViewAnalytics }) {
           )}
           {apiStatus === 'error' && (
             <div className="status-indicator error">
-              ❌ API Connection Failed - Please ensure npm run dev is running
+              API connection failed. GitHub Pages needs API CORS allow-listing or a backend proxy.
             </div>
           )}
           {apiStatus === null && (

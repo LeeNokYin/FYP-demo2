@@ -1,15 +1,15 @@
 // 聲音監測 API 服務
-const API_KEY = 'KWR6JeSgI19T9hMqd1Q8nGcAvZP3umGK'
-
-// 正式環境 API 端點
-const PRODUCTION_API = 'https://eaplanner.odensystems.hk/Api/IVEBird/Voice'
-
-// 開發環境代理端點
+const DEFAULT_API_KEY = 'KWR6JeSgI19T9hMqd1Q8nGcAvZP3umGK'
+const DEFAULT_PRODUCTION_API = 'https://eaplanner.odensystems.hk/Api/IVEBird/Voice'
 const DEV_API = '/api/IVEBird/Voice'
 
-// 取得目前環境的 API URL
-const getApiUrl = () => {
-  return import.meta.env.DEV ? DEV_API : PRODUCTION_API
+const getApiConfig = () => {
+  const apiKey = import.meta.env.VITE_CCTV_API_KEY || DEFAULT_API_KEY
+  const apiUrl = import.meta.env.DEV
+    ? DEV_API
+    : import.meta.env.VITE_CCTV_API_URL || DEFAULT_PRODUCTION_API
+
+  return { apiKey, apiUrl }
 }
 
 /**
@@ -54,9 +54,9 @@ const normalizeVoiceResponse = (data) => {
 
 export const fetchVoiceData = async (params) => {
   try {
-    const url = getApiUrl()
-    console.log(`[CCTV API] Request URL: ${url}`)
-    console.log(`[CCTV API] Environment: ${import.meta.env.DEV ? 'Development (using proxy)' : 'Production'}`)
+    const { apiUrl, apiKey } = getApiConfig()
+    console.log(`[CCTV API] Request URL: ${apiUrl}`)
+    console.log(`[CCTV API] Environment: ${import.meta.env.DEV ? 'Development (using Vite proxy)' : 'Production'}`)
     console.log(`[CCTV API] Request params:`, params)
 
     // 建立表單資料（API 看起來預期 application/x-www-form-urlencoded 格式）
@@ -66,22 +66,15 @@ export const fetchVoiceData = async (params) => {
     formData.append('StartIndex', params.StartIndex)
     formData.append('EndIndex', params.EndIndex)
 
-    const response = await fetch(url, {
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
-        'x-api-key': API_KEY
+        'x-api-key': apiKey
       },
       body: formData
     })
 
     if (!response.ok) {
-      // 提供有用的 CORS 錯誤提示
-      if (response.status === 0 || response.type === 'opaque') {
-        throw new Error(
-          'CORS error: Please ensure the development server is running via `npm run dev`, ' +
-          'or contact the API provider to configure CORS permissions'
-        )
-      }
       throw new Error(`HTTP error: ${response.status}`)
     }
 
@@ -90,6 +83,11 @@ export const fetchVoiceData = async (params) => {
 
     return normalizeVoiceResponse(data)
   } catch (error) {
+    if (error instanceof TypeError && /fetch/i.test(error.message)) {
+      throw new Error(
+        'CORS/network error: In production, this API must be called via a backend/proxy that returns Access-Control-Allow-Origin for your GitHub Pages domain.'
+      )
+    }
     console.error('[CCTV API] Request failed:', error)
     throw error
   }
