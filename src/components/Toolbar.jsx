@@ -2,7 +2,7 @@ import React from 'react';
 import { Plus, Minus, Home, Layers, Settings, Map as MapIcon } from 'lucide-react';
 
 // 定義可重用的單一按鈕樣式，避免重複程式碼
-const ToolButton = ({ icon: Icon, onClick, title, active = false }) => (
+const ToolButton = ({ icon, onClick, title, active = false }) => (
   <button
     onClick={onClick}
     title={title}
@@ -17,7 +17,7 @@ const ToolButton = ({ icon: Icon, onClick, title, active = false }) => (
       font-weight-600
     `}
   >
-    <Icon size={20} strokeWidth={2.5} />
+    {icon ? React.createElement(icon, { size: 20, strokeWidth: 2.5 }) : null}
   </button>
 );
 

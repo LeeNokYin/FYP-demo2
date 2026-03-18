@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import * as Cesium from 'cesium'
-import { transformHK1980ToWGS84, transformWGS84ToHK1980 } from '../services/geodeticTransformApi'
+import { transformHK1980ToWGS84, transformWGS84ToHK1980 } from '../services/coordinateTransform'
+import './RightToolbar.css'
+import './SharedControls.css'
 
 const MIN_CAMERA_HEIGHT = 500
 
@@ -18,7 +20,9 @@ function RightToolbar({ viewer, showPinPanel }) {
     viewer.scene.screenSpaceCameraController.minimumZoomDistance = MIN_CAMERA_HEIGHT
   }, [viewer])
 
-  const appendPinEntity = (pinEntity) => {
+  const appendPinEntity = useCallback((pinEntity) => {
+    if (!viewer) return
+
     pinEntitiesRef.current = [...pinEntitiesRef.current, pinEntity]
     if (pinEntitiesRef.current.length > 5) {
       const oldestPinEntity = pinEntitiesRef.current.shift()
@@ -26,7 +30,7 @@ function RightToolbar({ viewer, showPinPanel }) {
         viewer.entities.remove(oldestPinEntity)
       }
     }
-  }
+  }, [viewer])
 
   const appendPinCoordinate = (newCoordinate) => {
     setPinCoordinates((prev) => {
@@ -43,7 +47,7 @@ function RightToolbar({ viewer, showPinPanel }) {
 
     const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
 
-    const updatePinByClick = async (movement) => {
+    const updatePinByClick = (movement) => {
       const scene = viewer.scene
       const ellipsoid = scene.globe.ellipsoid
 
@@ -61,7 +65,7 @@ function RightToolbar({ viewer, showPinPanel }) {
       let hkE = '-'
       let hkN = '-'
       try {
-        const transformed = await transformWGS84ToHK1980(lat, lon)
+        const transformed = transformWGS84ToHK1980(lat, lon)
         if (transformed?.hkE != null) {
           hkE = Number(transformed.hkE).toFixed(3)
         }
@@ -98,7 +102,7 @@ function RightToolbar({ viewer, showPinPanel }) {
     return () => {
       handler.destroy()
     }
-  }, [viewer, showPinPanel, pinMode])
+  }, [viewer, showPinPanel, pinMode, appendPinEntity])
 
   useEffect(() => {
     if (showPinPanel) return
@@ -114,7 +118,7 @@ function RightToolbar({ viewer, showPinPanel }) {
     setManualPinError('')
   }
 
-  const handleManualHkPin = async (event) => {
+  const handleManualHkPin = (event) => {
     event.preventDefault()
     if (!viewer) return
 
@@ -130,7 +134,7 @@ function RightToolbar({ viewer, showPinPanel }) {
     setIsManualPinLoading(true)
 
     try {
-      const transformed = await transformHK1980ToWGS84(eValue, nValue)
+      const transformed = transformHK1980ToWGS84(eValue, nValue)
       const lat = Number(transformed?.wgsLat)
       const lon = Number(transformed?.wgsLong)
 

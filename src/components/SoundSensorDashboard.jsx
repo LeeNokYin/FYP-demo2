@@ -1,11 +1,8 @@
 import { useState } from 'react'
-import './BirdAnalyticsDashboard.css'
+import './SoundSensorDashboard.css'
 
 function SoundSensorDashboard({ data, onClose }) {
   const [playingId, setPlayingId] = useState(null)
-
-  // 偵錯記錄
-  console.log('SoundSensorDashboard received data:', data)
 
   if (!data) {
     return null

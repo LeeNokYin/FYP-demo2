@@ -1,7 +1,9 @@
 // 聲音監測 API 服務
 const DEFAULT_API_KEY = 'KWR6JeSgI19T9hMqd1Q8nGcAvZP3umGK'
 const DEFAULT_PRODUCTION_API = 'https://eaplanner.odensystems.hk/Api/IVEBird/Voice'
+const DEFAULT_CCTV_PRODUCTION_API = 'https://eaplanner.odensystems.hk/Api/IVEBird/LatestCCTVImage'
 const DEV_API = '/api/IVEBird/Voice'
+const DEV_CCTV_API = '/api/IVEBird/LatestCCTVImage'
 
 const getApiConfig = () => {
   const apiKey = import.meta.env.VITE_VOICE_API_KEY || DEFAULT_API_KEY
@@ -11,6 +13,18 @@ const getApiConfig = () => {
 
   return { apiKey, apiUrl }
 }
+
+const getCctvApiConfig = () => {
+  const apiKey = import.meta.env.VITE_CCTV_API_KEY || import.meta.env.VITE_VOICE_API_KEY || DEFAULT_API_KEY
+  const apiUrl = import.meta.env.DEV
+    ? DEV_CCTV_API
+    : import.meta.env.VITE_CCTV_API_URL || DEFAULT_CCTV_PRODUCTION_API
+
+  return { apiKey, apiUrl }
+}
+
+const DATE_YYYY_MM_DD_REGEX = /^\d{4}-\d{2}-\d{2}$/
+const ALLOWED_CCTV_MEDIA_TYPES = new Set(['images', 'detected_images'])
 
 /**
  * 查詢聲音資料
@@ -49,6 +63,24 @@ const normalizeVoiceResponse = (data) => {
     endIndex: data.endIndex ?? data.EndIndex ?? 0,
     totalLength: data.totalLength ?? data.TotalLength ?? 0,
     voices: voices.map(normalizeVoice)
+  }
+}
+
+const normalizeLatestCctvResponse = (data) => {
+  if (!data || typeof data !== 'object') {
+    return {
+      success: false,
+      errorMessage: 'Invalid response',
+      fileUrl: null,
+      fileTime: null
+    }
+  }
+
+  return {
+    success: data.success ?? data.Success ?? false,
+    errorMessage: data.errorMessage ?? data.ErrorMessage ?? null,
+    fileUrl: data.fileUrl ?? data.FileUrl ?? null,
+    fileTime: data.fileTime ?? data.FileTime ?? null
   }
 }
 
@@ -120,7 +152,64 @@ export const testApiConnection = async () => {
   }
 }
 
+/**
+ * 取得最新 CCTV 影像
+ * @param {Object} params - 查詢參數
+ * @param {string} params.Date - 日期（格式：yyyy-MM-dd）
+ * @param {string} params.MediaType - 只能是 images 或 detected_images
+ * @returns {Promise<Object>} API 回應
+ */
+export const fetchLatestCctvImage = async (params) => {
+  try {
+    const { apiUrl, apiKey } = getCctvApiConfig()
+    console.log(`[CCTV API] Request URL: ${apiUrl}`)
+    console.log('[CCTV API] Request params:', params)
+
+    if (!DATE_YYYY_MM_DD_REGEX.test(params.Date || '')) {
+      throw new Error('Date format must be yyyy-MM-dd')
+    }
+
+    if (!ALLOWED_CCTV_MEDIA_TYPES.has(params.MediaType)) {
+      throw new Error("MediaType must be 'images' or 'detected_images'")
+    }
+
+    // 依規格使用 form-data 提交
+    const formData = new FormData()
+    formData.append('Date', params.Date)
+    formData.append('MediaType', params.MediaType)
+    if (params.StartTime) formData.append('StartTime', params.StartTime)
+    if (params.EndTime) formData.append('EndTime', params.EndTime)
+    if (params.StartIndex !== undefined && params.StartIndex !== null) formData.append('StartIndex', `${params.StartIndex}`)
+    if (params.EndIndex !== undefined && params.EndIndex !== null) formData.append('EndIndex', `${params.EndIndex}`)
+
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey
+      },
+      body: formData
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    console.log('[CCTV API] Response successful:', data)
+    return normalizeLatestCctvResponse(data)
+  } catch (error) {
+    if (error instanceof TypeError && /fetch/i.test(error.message)) {
+      throw new Error(
+        'CORS/network error: In production, this API must be called via a backend/proxy that returns Access-Control-Allow-Origin for your GitHub Pages domain.'
+      )
+    }
+    console.error('[CCTV API] Request failed:', error)
+    throw error
+  }
+}
+
 export default {
   fetchVoiceData,
-  testApiConnection
+  testApiConnection,
+  fetchLatestCctvImage
 }

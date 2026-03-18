@@ -1,19 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import * as Cesium from 'cesium'
-import CesiumCompass from './CesiumCompass'
+import ViewCube from './ViewCube'
 import './MapView.css'
-import Toolbar from './Toolbar'
 import TopToolbar from './TopToolbar'
 import TopPanels from './TopPanels'
 import RightToolbar from './RightToolbar'
-import VoiceDashboard from './VoiceDashboard'
-import BirdAnalyticsDashboard from './BirdAnalyticsDashboard'
+import SoundDashboard from './SoundDashboard'
+import CctvDashboard from './CctvDashboard'
+
+// 香港邊界矩形（西、南、東、北）
+const HK_BOUNDS = Cesium.Rectangle.fromDegrees(113.76, 22.13, 114.44, 22.58)
 
 
 function MapView() {
-  // 香港邊界矩形（西、南、東、北）
-  const HK_BOUNDS = Cesium.Rectangle.fromDegrees(113.76, 22.13, 114.44, 22.58)
-  
   const cesiumContainer = useRef(null)
   const viewerRef = useRef(null)
   const [searchQuery, setSearchQuery] = useState('')
@@ -23,9 +22,7 @@ function MapView() {
   const [terrainEnabled, setTerrainEnabled] = useState(false)
   const [viewerInstance, setViewerInstance] = useState(null)
   const worldTerrainProviderRef = useRef(null)
-  const cesiumContainerRef = useRef(null);
-  const [viewer, setViewer] = useState(null);
-  const [activeTool, setActiveTool] = useState('viewpoint')
+  const cesiumContainerRef = useRef(null)
   const [topPanels, setTopPanels] = useState({
     projectManager: false,
     modelManager: false,
@@ -34,9 +31,8 @@ function MapView() {
     monitoringWizard: false
   })
   const [topPanelPositions, setTopPanelPositions] = useState({})
-  const [activeLeftPanel, setActiveLeftPanel] = useState(null)
-  const [showVoiceDashboard, setShowVoiceDashboard] = useState(false)
-  const [analyticsData, setAnalyticsData] = useState(null)
+  const [showSoundDashboard, setShowSoundDashboard] = useState(false)
+  const [showCctvDashboard, setShowCctvDashboard] = useState(false)
   const [showPinPanel, setShowPinPanel] = useState(false)
   const [cameraTelemetry, setCameraTelemetry] = useState({
     heading: '-',
@@ -47,47 +43,45 @@ function MapView() {
     wgsLon: '-'
   })
 
-  const activateTool = (tool) => {
-    setActiveTool(tool)
-  }
+  const toggleTopPanel = (panel, anchorElement) => {
+    setTopPanels((prev) => {
+      const isOpening = !prev[panel]
+      const next = Object.keys(prev).reduce((acc, key) => {
+        acc[key] = false
+        return acc
+      }, {})
 
-  const getTopPanelPosition = (anchorEl) => {
-    const rect = anchorEl.getBoundingClientRect()
-    const panelWidth = 340
-    const viewportMargin = 12
-    const left = Math.min(
-      Math.max(rect.left, viewportMargin),
-      window.innerWidth - panelWidth - viewportMargin
-    )
-    const top = rect.bottom + 8
+      if (isOpening) {
+        next[panel] = true
+      }
 
-    return { left, top }
-  }
+      return next
+    })
 
-  const toggleTopPanel = (panel, anchorEl) => {
-    if (anchorEl) {
+    if (anchorElement && cesiumContainerRef.current) {
+      const containerRect = cesiumContainerRef.current.getBoundingClientRect()
+      const buttonRect = anchorElement.getBoundingClientRect()
+      const panelWidth = 340
+      const minLeft = 12
+      const maxLeft = Math.max(minLeft, containerRect.width - panelWidth - 12)
+      const centerAlignedLeft = buttonRect.left - containerRect.left + buttonRect.width / 2 - panelWidth / 2
+
       setTopPanelPositions((prev) => ({
         ...prev,
-        [panel]: getTopPanelPosition(anchorEl)
+        [panel]: {
+          left: Math.min(maxLeft, Math.max(minLeft, centerAlignedLeft)),
+          top: buttonRect.bottom - containerRect.top + 8
+        }
       }))
     }
-
-    setTopPanels((prev) => ({
-      ...prev,
-      [panel]: !prev[panel]
-    }))
   }
 
-  const toggleLeftPanel = (panel) => {
-    setActiveLeftPanel((prev) => (prev === panel ? null : panel))
+  const toggleSoundDashboard = () => {
+    setShowSoundDashboard((prev) => !prev)
   }
 
-  const toggleVoiceDashboard = () => {
-    setShowVoiceDashboard((prev) => !prev)
-  }
-
-  const handleViewAnalytics = (data) => {
-    setAnalyticsData(data)
+  const toggleCctvDashboard = () => {
+    setShowCctvDashboard((prev) => !prev)
   }
 
   const getWorldTerrainProvider = async () => {
@@ -336,7 +330,7 @@ function MapView() {
         tileHeight: 256
       })
       imageryLayers.addImageryProvider(backgroundProvider)
-    } catch (e) {
+    } catch {
       console.log('Using default background')
     }
 
@@ -409,14 +403,19 @@ function MapView() {
   }
 
   return (
-    <div className="map-container">
+    <div className="map-container" ref={cesiumContainerRef}>
       <div ref={cesiumContainer} className="cesium-viewer" />
 
       {viewerInstance && (
         <TopToolbar
           topPanels={topPanels}
           toggleTopPanel={toggleTopPanel}
-          toggleLeftPanel={toggleLeftPanel}
+          searchQuery={searchQuery}
+          onSearchQueryChange={setSearchQuery}
+          onSearchSubmit={handleSearch}
+          searchResults={searchResults}
+          showResults={showResults}
+          onSelectResult={handleSelectResult}
         />
       )}
 
@@ -424,51 +423,14 @@ function MapView() {
         topPanels={topPanels}
         topPanelPositions={topPanelPositions}
         toggleTopPanel={toggleTopPanel}
-        toggleVoiceDashboard={toggleVoiceDashboard}
+        toggleSoundDashboard={toggleSoundDashboard}
+        toggleCctvDashboard={toggleCctvDashboard}
       />
 
       <RightToolbar
         viewer={viewerInstance}
-        activeTool={activeTool}
-        activateTool={activateTool}
         showPinPanel={showPinPanel}
       />
-
-      <Toolbar viewer={viewerInstance} />
-      
-      {/* 搜尋框 */}
-      <div className="search-container">
-        <form onSubmit={handleSearch} className="search-form">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search locations"
-            className="search-input"
-          />
-          <button type="submit" className="search-button">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="m21 21-4.35-4.35"/>
-            </svg>
-          </button>
-        </form>
-        
-        {/* 搜尋結果 */}
-        {showResults && searchResults.length > 0 && (
-          <div className="search-results">
-            {searchResults.map((result, index) => (
-              <div
-                key={index}
-                className="search-result-item"
-                onClick={() => handleSelectResult(result)}
-              >
-                <div className="result-name">{result.display_name}</div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
 
       {/* 圖層切換器 */}
       <div className="layer-switcher">
@@ -513,9 +475,7 @@ function MapView() {
         </button>
       </div>
 
-      {viewerInstance && (
-        <CesiumCompass viewer={viewerInstance} />
-      )}
+      {viewerInstance && <ViewCube viewer={viewerInstance} />}
       
       {/* 比例尺 */}
       <div className="camera-info-panel">
@@ -531,21 +491,17 @@ function MapView() {
       </div>
 
       {/* Voice 儀表板 */}
-      {showVoiceDashboard && (
+      {showSoundDashboard && (
         <div className="dashboard-overlay">
           <div className="dashboard-modal">
-            <button className="dashboard-close" onClick={() => setShowVoiceDashboard(false)}>×</button>
-            <VoiceDashboard onViewAnalytics={handleViewAnalytics} />
+            <button className="dashboard-close" onClick={() => setShowSoundDashboard(false)}>×</button>
+            <SoundDashboard />
           </div>
         </div>
       )}
 
-      {/* 鳥類分析儀表板 */}
-      {analyticsData && (
-        <BirdAnalyticsDashboard
-          data={analyticsData}
-          onClose={() => setAnalyticsData(null)}
-        />
+      {showCctvDashboard && (
+        <CctvDashboard onClose={() => setShowCctvDashboard(false)} />
       )}
     </div>
   )

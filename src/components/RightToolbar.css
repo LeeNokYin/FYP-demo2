@@ -1,0 +1,80 @@
+.right-toolbar {
+  position: absolute;
+  right: 12px;
+  top: 190px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  z-index: 1080;
+}
+
+.right-toolbar-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.right-toolbar-debug {
+  min-width: 170px;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(45, 45, 68, 0.75);
+  border: 1px solid rgba(78, 205, 196, 0.25);
+  color: #e5e7eb;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.right-toolbar-pin-panel {
+  width: 280px;
+}
+
+.right-toolbar-debug-pin-btn {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.right-toolbar-debug-pin-btn.active {
+  background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
+  color: #1a1a2e;
+  border-color: #4ECDC4;
+}
+
+.right-toolbar-debug-form {
+  margin-bottom: 8px;
+}
+
+.right-toolbar-debug-input {
+  width: 100%;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin-bottom: 6px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #ddd;
+  font-size: 12px;
+}
+
+.right-toolbar-debug-input::placeholder {
+  color: #888;
+}
+
+.right-toolbar-debug-input:focus {
+  outline: none;
+  border-color: #4ECDC4;
+  background: rgba(45, 45, 68, 0.6);
+  box-shadow: 0 0 8px rgba(78, 205, 196, 0.2);
+}
+
+.right-toolbar-debug-error {
+  margin-top: 4px;
+  color: #ff7875;
+}
+
+.right-toolbar-debug-title {
+  margin-top: 6px;
+  margin-bottom: 2px;
+  color: #4ECDC4;
+  font-weight: 600;
+}
+

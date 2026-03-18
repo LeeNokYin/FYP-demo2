@@ -13,7 +13,9 @@
   },
   "dependencies": {
     "cesium": "^1.138.0",
+    "gsap": "^3.14.2",
     "lucide-react": "^0.564.0",
+    "proj4": "^2.20.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.13.0"

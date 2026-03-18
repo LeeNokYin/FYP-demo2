@@ -222,7 +222,7 @@ function VoiceDashboard({ onViewAnalytics }) {
                 className="view-analytics-btn" 
                 onClick={() => onViewAnalytics(data)}
               >
-                📊 View Analytics Dashboard
+                🎤 View Sound Sensor Dashboard
               </button>
             )}
           </div>
