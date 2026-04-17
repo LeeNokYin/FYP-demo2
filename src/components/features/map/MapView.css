@@ -10,17 +10,43 @@
   height: 100%;
 }
 
-/* 圖層切換器 */
-.layer-switcher {
+/* 官方 BaseLayerPicker */
+.official-layer-picker {
   position: absolute;
-  top: 150px;
-  left: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  top: 116px;
+  right: 18px;
   z-index: 1000;
 }
 
+.official-layer-picker .cesium-toolbar-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid rgba(78, 205, 196, 0.4);
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.official-layer-picker .cesium-toolbar-button:hover {
+  border-color: #4ecdc4;
+  box-shadow: 0 6px 18px rgba(78, 205, 196, 0.35);
+}
+
+.official-layer-picker .cesium-baseLayerPicker-dropDown {
+  right: 52px;
+  left: auto;
+  top: 0;
+  transform: translateY(-8px);
+  transform-origin: top right;
+  min-width: 220px;
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  z-index: 1001;
+}
+
+/* 共用 layer button（給 HK3D 控制按鈕使用） */
 .layer-button {
   width: 44px;
   height: 44px;

@@ -13,7 +13,7 @@ function PanelShell({ panelKey, title, className, getPanelStyle, toggleTopPanel,
   )
 }
 
-function TopPanels({ topPanels, topPanelPositions, toggleTopPanel, toggleSoundDashboard, toggleCctvDashboard }) {
+function TopPanels({ topPanels, topPanelPositions, toggleTopPanel, toggleVoice, toggleCctvMonitoring, toggleBirdList }) {
   const getPanelStyle = (panelKey) => {
     const position = topPanelPositions?.[panelKey]
     if (!position) return undefined
@@ -147,10 +147,10 @@ function TopPanels({ topPanels, topPanelPositions, toggleTopPanel, toggleSoundDa
           <div className="monitoring-types">
             <div className="monitoring-card">
               <img src="/images/monitorWizard/camera.png" alt="" width="32" />
-              <h4>CC TV</h4>
+              <h4>CctvMonitoring</h4>
               <p>View live camera feeds</p>
               <button className="btn-sm" onClick={() => {
-                toggleCctvDashboard()
+                toggleCctvMonitoring()
                 toggleTopPanel('monitoringWizard')
               }}>Open Dashboard</button>
             </div>
@@ -159,15 +159,18 @@ function TopPanels({ topPanels, topPanelPositions, toggleTopPanel, toggleSoundDa
               <h4>Voice</h4>
               <p>Monitor noise levels</p>
               <button className="btn-sm" onClick={() => {
-                toggleSoundDashboard()
+                toggleVoice()
                 toggleTopPanel('monitoringWizard')
               }}>Open Dashboard</button>
             </div>
             <div className="monitoring-card">
               <img src="/images/monitorWizard/monitoring-devices.png" alt="" width="32" />
-              <h4>hello001</h4>
-              <p>hello002</p>
-              <button className="btn-sm">Open Dashboard</button>
+              <h4>List of bird</h4>
+              <p></p>
+              <button className="btn-sm" onClick={() => {
+                toggleBirdList()
+                toggleTopPanel('monitoringWizard')
+              }}>Open Dashboard</button>
             </div>
           </div>
         </PanelShell>

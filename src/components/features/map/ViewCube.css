@@ -1,9 +1,10 @@
 .viewcube-widget {
-	--ring-size: 146px;
-	--cube-size: 58px;
+	--viewport-short-side: min(100vw, 100vh);
+	--ring-size: clamp(108px, calc(var(--viewport-short-side) * 0.16), 172px);
+	--cube-size: clamp(44px, calc(var(--ring-size) * 0.4), 68px);
 	position: absolute;
-	top: 70px;
-	right: 18px;
+	top: clamp(90px, 14vh, 176px);
+	right: clamp(10px, 1.4vw, 18px);
 	width: var(--ring-size);
 	height: var(--ring-size);
 	z-index: 1001;
@@ -60,9 +61,9 @@
 		translateY(calc(-1 * (var(--ring-size) / 2 - 10px)))
 		rotate(calc(-1 * var(--angle)))
 		rotate(var(--counter-rotate));
-	min-width: 24px;
-	padding: 2px 4px;
-	font-size: 10px;
+	min-width: clamp(22px, 2.2vw, 30px);
+	padding: clamp(2px, 0.3vw, 4px) clamp(4px, 0.55vw, 6px);
+	font-size: clamp(9px, 0.7vw, 11px);
 	border-radius: 4px;
 	color: #d5fffb;
 	border: 1px solid rgba(78, 205, 196, 0.2);
@@ -137,9 +138,9 @@
 
 @media (max-width: 768px) {
 	.viewcube-widget {
-		--ring-size: 126px;
-		--cube-size: 50px;
-		top: 64px;
-		right: 12px;
+		--ring-size: clamp(98px, 30vw, 128px);
+		--cube-size: clamp(40px, calc(var(--ring-size) * 0.4), 52px);
+		top: clamp(82px, 12vh, 112px);
+		right: clamp(8px, 2.5vw, 12px);
 	}
 }

@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import * as Cesium from 'cesium'
-import { transformHK1980ToWGS84, transformWGS84ToHK1980 } from '../services/coordinateTransform'
+import { transformHK1980ToWGS84, transformWGS84ToHK1980 } from '../../services/coordinateTransform'
+import { useCameraControls } from '../../hooks/useCameraControls'
 import './RightToolbar.css'
 import './SharedControls.css'
 
-const MIN_CAMERA_HEIGHT = 500
-
-function RightToolbar({ viewer, showPinPanel }) {
+function RightToolbar({ viewer, showPinPanel, onTogglePinPanel }) {
   const [pinMode, setPinMode] = useState(false)
   const [pinCoordinates, setPinCoordinates] = useState([])
   const [manualHkE, setManualHkE] = useState('')
@@ -14,11 +13,7 @@ function RightToolbar({ viewer, showPinPanel }) {
   const [manualPinError, setManualPinError] = useState('')
   const [isManualPinLoading, setIsManualPinLoading] = useState(false)
   const pinEntitiesRef = useRef([])
-
-  useEffect(() => {
-    if (!viewer) return
-    viewer.scene.screenSpaceCameraController.minimumZoomDistance = MIN_CAMERA_HEIGHT
-  }, [viewer])
+  const { handleZoomIn, handleResetView, handleZoomOut } = useCameraControls(viewer)
 
   const appendPinEntity = useCallback((pinEntity) => {
     if (!viewer) return
@@ -77,7 +72,7 @@ function RightToolbar({ viewer, showPinPanel }) {
       }
 
       const pinEntity = viewer.entities.add({
-        position: Cesium.Cartesian3.fromDegrees(lon, lat, Math.max(0, height)),
+        position: Cesium.Cartesian3.fromDegrees(lon, lat, height),
         point: {
           pixelSize: 12,
           color: Cesium.Color.RED,
@@ -173,35 +168,21 @@ function RightToolbar({ viewer, showPinPanel }) {
     }
   }
 
-  const handleZoomIn = () => {
-    if (!viewer) return
-    const currentHeight = viewer.camera.positionCartographic.height
-    const allowedZoomIn = Math.max(0, currentHeight - MIN_CAMERA_HEIGHT)
-    if (allowedZoomIn <= 0) return
-
-    viewer.camera.zoomIn(Math.min(75000, allowedZoomIn))
-  }
-
-  const handleResetView = () => {
-    if (!viewer) return
-    viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(114.164124, 22.384675, 110000),
-      orientation: {
-        heading: Cesium.Math.toRadians(0),
-        pitch: Cesium.Math.toRadians(-90),
-        roll: 0.0
-      },
-      duration: 1.2
-    })
-  }
-
-  const handleZoomOut = () => {
-    if (!viewer) return
-    viewer.camera.zoomOut(75000)
-  }
-
   return (
     <div className="right-toolbar">
+      <button
+        className={`toolbar-btn ${showPinPanel ? 'active' : ''}`}
+        onClick={onTogglePinPanel}
+        title="Pin Tool"
+        aria-label="Toggle pin tool panel"
+        aria-pressed={showPinPanel}
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M12 21s7-4.35 7-11a7 7 0 1 0-14 0c0 6.65 7 11 7 11z" />
+          <circle cx="12" cy="10" r="2.5" />
+        </svg>
+      </button>
+
       {showPinPanel && (
         <div className="right-toolbar-debug right-toolbar-pin-panel">
           <button
@@ -256,7 +237,7 @@ function RightToolbar({ viewer, showPinPanel }) {
       )}
 
       <div className="right-toolbar-controls">
-        <button className="tool-btn" onClick={handleZoomIn} title="Zoom in">
+        <button className="toolbar-btn" onClick={handleZoomIn} title="Zoom in" aria-label="Zoom in">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="7" />
             <line x1="11" y1="8" x2="11" y2="14" />
@@ -264,13 +245,13 @@ function RightToolbar({ viewer, showPinPanel }) {
             <line x1="20" y1="20" x2="16.65" y2="16.65" />
           </svg>
         </button>
-        <button className="tool-btn" onClick={handleResetView} title="Reset View">
+        <button className="toolbar-btn" onClick={handleResetView} title="Reset View" aria-label="Reset view">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M3 10.5 12 3l9 7.5" />
             <path d="M5 9.8V21h14V9.8" />
           </svg>
         </button>
-        <button className="tool-btn" onClick={handleZoomOut} title="Zoom out">
+        <button className="toolbar-btn" onClick={handleZoomOut} title="Zoom out" aria-label="Zoom out">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="7" />
             <line x1="8" y1="11" x2="14" y2="11" />

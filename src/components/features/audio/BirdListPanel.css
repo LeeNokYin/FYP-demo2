@@ -1,0 +1,121 @@
+.bird-list-panel {
+  position: fixed;
+  top: 109px;
+  right: 30px;
+  bottom: 30px;
+  width: min(calc(16.666vw + 75px), calc((100vw - 60px) / 2));
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  border-left: 1px solid rgba(78, 205, 196, 0.2);
+  box-shadow: -14px 0 44px rgba(0, 0, 0, 0.5);
+  z-index: 1800;
+  backdrop-filter: blur(12px);
+  font-size: 17px;
+  overflow: hidden;
+}
+
+.bird-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bird-list-header h3 {
+  margin: 0;
+  color: #e5e7eb;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.bird-list-close {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  border-radius: 15px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #4ecdc4;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bird-list-close:hover {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ecdc4;
+  color: #ffffff;
+}
+
+.bird-list-body {
+  overflow: auto;
+  min-height: 0;
+}
+
+.bird-list-controls {
+  display: grid;
+  gap: 8px;
+}
+
+.bird-list-controls label {
+  color: #b8c9de;
+  font-size: 16px;
+}
+
+.bird-list-controls input[type='datetime-local'] {
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  border-radius: 15px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #e5e7eb;
+  padding: 8px;
+}
+
+.bird-list-controls input[type='range'] {
+  width: 100%;
+}
+
+.bird-list-apply {
+  margin-top: 2px;
+  padding: 8px 10px;
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  border-radius: 15px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #4ecdc4;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bird-list-apply:hover {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ecdc4;
+  color: #ffffff;
+}
+
+.bird-list-apply:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.bird-list-error {
+  margin: 0;
+  color: #ff9b9b;
+  font-size: 14px;
+}
+
+.bird-list-result {
+  margin: 0;
+  color: #d8f6f2;
+  font-size: 14px;
+}
+
+@media (max-width: 1100px) {
+  .bird-list-panel {
+    width: calc((100vw - 20px) / 2);
+    right: 10px;
+    top: 109px;
+    bottom: 10px;
+    border-left: none;
+  }
+}

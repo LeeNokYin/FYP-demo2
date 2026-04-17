@@ -1,14 +1,14 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom'
-import Welcome from './components/Welcome'
-import MapView from './components/MapView'
+import WelcomePage from './pages/WelcomePage'
+import MapPage from './pages/MapPage'
 import './App.css'
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Welcome />} />
-        <Route path="/map" element={<MapView />} />
+        <Route path="/" element={<WelcomePage />} />
+        <Route path="/map" element={<MapPage />} />
       </Routes>
     </Router>
   )

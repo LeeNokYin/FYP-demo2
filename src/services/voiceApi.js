@@ -2,8 +2,13 @@
 const DEFAULT_API_KEY = 'KWR6JeSgI19T9hMqd1Q8nGcAvZP3umGK'
 const DEFAULT_PRODUCTION_API = 'https://eaplanner.odensystems.hk/Api/IVEBird/Voice'
 const DEFAULT_CCTV_PRODUCTION_API = 'https://eaplanner.odensystems.hk/Api/IVEBird/LatestCCTVImage'
+const DEFAULT_CCTV_LIST_PRODUCTION_API = 'https://eaplanner.odensystems.hk/IVEBird/GetCCTVImageList'
 const DEV_API = '/api/IVEBird/Voice'
 const DEV_CCTV_API = '/api/IVEBird/LatestCCTVImage'
+const DEV_CCTV_LIST_API = '/api/IVEBird/GetCCTVImageList'
+
+const NETWORK_ERROR_MESSAGE =
+  'CORS/network error: In production, this API must be called via a backend/proxy that returns Access-Control-Allow-Origin for your GitHub Pages domain.'
 
 const getApiConfig = () => {
   const apiKey = import.meta.env.VITE_VOICE_API_KEY || DEFAULT_API_KEY
@@ -21,6 +26,45 @@ const getCctvApiConfig = () => {
     : import.meta.env.VITE_CCTV_API_URL || DEFAULT_CCTV_PRODUCTION_API
 
   return { apiKey, apiUrl }
+}
+
+const getCctvListApiConfig = () => {
+  const apiKey = import.meta.env.VITE_CCTV_API_KEY || import.meta.env.VITE_VOICE_API_KEY || DEFAULT_API_KEY
+  const apiUrl = import.meta.env.DEV
+    ? DEV_CCTV_LIST_API
+    : import.meta.env.VITE_CCTV_LIST_API_URL || DEFAULT_CCTV_LIST_PRODUCTION_API
+
+  return { apiKey, apiUrl }
+}
+
+const requestApi = async ({ tag, apiUrl, apiKey, params, formDataBuilder, responseNormalizer }) => {
+  try {
+    console.log(`[${tag}] Request URL: ${apiUrl}`)
+    console.log(`[${tag}] Request params:`, params)
+
+    const formData = formDataBuilder(params)
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey
+      },
+      body: formData
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    console.log(`[${tag}] Response successful:`, data)
+    return responseNormalizer(data)
+  } catch (error) {
+    if (error instanceof TypeError && /fetch/i.test(error.message)) {
+      throw new Error(NETWORK_ERROR_MESSAGE)
+    }
+    console.error(`[${tag}] Request failed:`, error)
+    throw error
+  }
 }
 
 const DATE_YYYY_MM_DD_REGEX = /^\d{4}-\d{2}-\d{2}$/
@@ -41,7 +85,8 @@ const normalizeVoice = (voice) => ({
   birdScore: voice?.birdScore ?? voice?.BirdScore ?? '0%',
   birdCount: Number(voice?.birdCount ?? voice?.BirdCount ?? 0),
   soundUrl: voice?.soundUrl ?? voice?.SoundUrl ?? '',
-  recordTime: voice?.recordTime ?? voice?.RecordTime ?? ''
+  recordTime: voice?.recordTime ?? voice?.RecordTime ?? '',
+  iconUrl: voice?.iconUrl ?? voice?.IconUrl ?? ''
 })
 
 const normalizeVoiceResponse = (data) => {
@@ -84,45 +129,82 @@ const normalizeLatestCctvResponse = (data) => {
   }
 }
 
-export const fetchVoiceData = async (params) => {
-  try {
-    const { apiUrl, apiKey } = getApiConfig()
-    console.log(`[VOICE API] Request URL: ${apiUrl}`)
-    console.log(`[VOICE API] Environment: ${import.meta.env.DEV ? 'Development (using Vite proxy)' : 'Production'}`)
-    console.log(`[VOICE API] Request params:`, params)
-
-    // 建立表單資料（API 看起來預期 application/x-www-form-urlencoded 格式）
-    const formData = new URLSearchParams()
-    formData.append('StartTime', params.StartTime)
-    formData.append('EndTime', params.EndTime)
-    formData.append('StartIndex', params.StartIndex)
-    formData.append('EndIndex', params.EndIndex)
-
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'x-api-key': apiKey
-      },
-      body: formData
-    })
-
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`)
+const normalizeCctvImageListResponse = (data) => {
+  if (!data || typeof data !== 'object') {
+    return {
+      success: false,
+      errorMessage: 'Invalid response',
+      imageFiles: []
     }
-
-    const data = await response.json()
-    console.log('[VOICE API] Response successful:', data)
-
-    return normalizeVoiceResponse(data)
-  } catch (error) {
-    if (error instanceof TypeError && /fetch/i.test(error.message)) {
-      throw new Error(
-        'CORS/network error: In production, this API must be called via a backend/proxy that returns Access-Control-Allow-Origin for your GitHub Pages domain.'
-      )
-    }
-    console.error('[VOICE API] Request failed:', error)
-    throw error
   }
+
+  const imageFilesRaw = Array.isArray(data.imageFiles)
+    ? data.imageFiles
+    : Array.isArray(data.ImageFiles)
+      ? data.ImageFiles
+      : []
+
+  return {
+    success: data.success ?? data.Success ?? false,
+    errorMessage: data.errorMessage ?? data.ErrorMessage ?? null,
+    imageFiles: imageFilesRaw
+      .map((item) => ({
+        url: item?.url ?? item?.Url ?? null,
+        fileTime: item?.fileTime ?? item?.FileTime ?? null
+      }))
+      .filter((item) => item.url && item.fileTime)
+  }
+}
+
+const validateCctvParams = (params) => {
+  if (!DATE_YYYY_MM_DD_REGEX.test(params.Date || '')) {
+    throw new Error('Date format must be yyyy-MM-dd')
+  }
+
+  if (!ALLOWED_CCTV_MEDIA_TYPES.has(params.MediaType)) {
+    throw new Error("MediaType must be 'images' or 'detected_images'")
+  }
+}
+
+const buildVoiceFormData = (params) => {
+  const formData = new FormData()
+  formData.append('StartTime', params.StartTime)
+  formData.append('EndTime', params.EndTime)
+  formData.append('StartIndex', `${params.StartIndex}`)
+  formData.append('EndIndex', `${params.EndIndex}`)
+  return formData
+}
+
+const buildLatestCctvFormData = (params) => {
+  const formData = new FormData()
+  formData.append('Date', params.Date)
+  formData.append('MediaType', params.MediaType)
+  if (params.StartTime) formData.append('StartTime', params.StartTime)
+  if (params.EndTime) formData.append('EndTime', params.EndTime)
+  if (params.StartIndex !== undefined && params.StartIndex !== null) formData.append('StartIndex', `${params.StartIndex}`)
+  if (params.EndIndex !== undefined && params.EndIndex !== null) formData.append('EndIndex', `${params.EndIndex}`)
+  return formData
+}
+
+const buildCctvListFormData = (params) => {
+  const formData = new FormData()
+  formData.append('Date', params.Date)
+  formData.append('MediaType', params.MediaType)
+  return formData
+}
+
+export const fetchVoiceData = async (params) => {
+  const { apiUrl, apiKey } = getApiConfig()
+  console.log(`[VOICE API] Environment: ${import.meta.env.DEV ? 'Development (using Vite proxy)' : 'Production'}`)
+
+  return requestApi({
+    tag: 'VOICE API',
+    apiUrl,
+    apiKey,
+    params,
+    formDataBuilder: buildVoiceFormData,
+    responseNormalizer: normalizeVoiceResponse
+  })
 }
 
 /**
@@ -160,56 +242,43 @@ export const testApiConnection = async () => {
  * @returns {Promise<Object>} API 回應
  */
 export const fetchLatestCctvImage = async (params) => {
-  try {
-    const { apiUrl, apiKey } = getCctvApiConfig()
-    console.log(`[CCTV API] Request URL: ${apiUrl}`)
-    console.log('[CCTV API] Request params:', params)
+  validateCctvParams(params)
+  const { apiUrl, apiKey } = getCctvApiConfig()
 
-    if (!DATE_YYYY_MM_DD_REGEX.test(params.Date || '')) {
-      throw new Error('Date format must be yyyy-MM-dd')
-    }
+  return requestApi({
+    tag: 'CCTV API',
+    apiUrl,
+    apiKey,
+    params,
+    formDataBuilder: buildLatestCctvFormData,
+    responseNormalizer: normalizeLatestCctvResponse
+  })
+}
 
-    if (!ALLOWED_CCTV_MEDIA_TYPES.has(params.MediaType)) {
-      throw new Error("MediaType must be 'images' or 'detected_images'")
-    }
+/**
+ * 取得 CCTV 影像清單
+ * @param {Object} params - 查詢參數
+ * @param {string} params.Date - 日期（格式：yyyy-MM-dd）
+ * @param {string} params.MediaType - 只能是 images 或 detected_images
+ * @returns {Promise<Object>} API 回應
+ */
+export const fetchCctvImageList = async (params) => {
+  validateCctvParams(params)
+  const { apiUrl, apiKey } = getCctvListApiConfig()
 
-    // 依規格使用 form-data 提交
-    const formData = new FormData()
-    formData.append('Date', params.Date)
-    formData.append('MediaType', params.MediaType)
-    if (params.StartTime) formData.append('StartTime', params.StartTime)
-    if (params.EndTime) formData.append('EndTime', params.EndTime)
-    if (params.StartIndex !== undefined && params.StartIndex !== null) formData.append('StartIndex', `${params.StartIndex}`)
-    if (params.EndIndex !== undefined && params.EndIndex !== null) formData.append('EndIndex', `${params.EndIndex}`)
-
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'x-api-key': apiKey
-      },
-      body: formData
-    })
-
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`)
-    }
-
-    const data = await response.json()
-    console.log('[CCTV API] Response successful:', data)
-    return normalizeLatestCctvResponse(data)
-  } catch (error) {
-    if (error instanceof TypeError && /fetch/i.test(error.message)) {
-      throw new Error(
-        'CORS/network error: In production, this API must be called via a backend/proxy that returns Access-Control-Allow-Origin for your GitHub Pages domain.'
-      )
-    }
-    console.error('[CCTV API] Request failed:', error)
-    throw error
-  }
+  return requestApi({
+    tag: 'CCTV LIST API',
+    apiUrl,
+    apiKey,
+    params,
+    formDataBuilder: buildCctvListFormData,
+    responseNormalizer: normalizeCctvImageListResponse
+  })
 }
 
 export default {
   fetchVoiceData,
   testApiConnection,
-  fetchLatestCctvImage
+  fetchLatestCctvImage,
+  fetchCctvImageList
 }
