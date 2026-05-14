@@ -3,7 +3,7 @@
 	--ring-size: clamp(108px, calc(var(--viewport-short-side) * 0.16), 172px);
 	--cube-size: clamp(44px, calc(var(--ring-size) * 0.4), 68px);
 	position: absolute;
-	top: clamp(90px, 14vh, 176px);
+	top: clamp(170px, 14vh, 176px);
 	right: clamp(10px, 1.4vw, 18px);
 	width: var(--ring-size);
 	height: var(--ring-size);

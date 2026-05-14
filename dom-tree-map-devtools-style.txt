@@ -1,0 +1,61 @@
+- html (1)
+  - body (1)
+    - div#root (1)
+      - div.map-container (7)
+        - div.cesium-viewer (1)
+          - div.cesium-viewer (6)
+            - div.cesium-viewer-cesiumWidgetContainer (1)
+              - div.cesium-widget (2)
+                - canvas
+                - div.cesium-credit-lightbox-overlay (1)
+            - div.cesium-viewer-bottom (1)
+              - div.cesium-widget-credits (3)
+                - div.cesium-credit-logoContainer (1)
+                - div.cesium-credit-textContainer
+                - a.cesium-credit-expand-link
+            - div.cesium-viewer-selectionIndicatorContainer (1)
+              - div.cesium-selection-wrapper
+            - div.cesium-viewer-infoBoxContainer (1)
+              - div.cesium-infoBox.cesium-infoBox-bodyless (4)
+                - div.cesium-infoBox-title
+                - button.cesium-button.cesium-infoBox-camera
+                - button.cesium-infoBox-close
+                - iframe.cesium-infoBox-iframe
+            - div.cesium-viewer-toolbar (1)
+              - button.cesium-button.cesium-toolbar-button.cesium-home-button
+            - div.cesium-viewer-fullscreenContainer (1)
+              - button.cesium-button.cesium-fullscreenButton
+        - header.top-toolbar (4)
+          - div.toolbar-group
+          - div.toolbar-search-wrap (1)
+            - form.toolbar-search-form (2)
+              - button.toolbar-search-btn
+              - input.toolbar-search-input
+          - div.toolbar-spacer
+          - div.toolbar-icons (1)
+            - div.toolbar-settings
+        - div.right-toolbar (2)
+          - button.toolbar-btn
+          - div.right-toolbar-controls (3)
+            - button.toolbar-btn
+            - button.toolbar-btn
+            - button.toolbar-btn
+        - div#official-layer-picker.official-layer-picker (2)
+          - button.cesium-button.cesium-toolbar-button (1)
+            - img.cesium-baseLayerPicker-selected
+          - div.cesium-baseLayerPicker-dropDown (4)
+            - div.cesium-baseLayerPicker-sectionTitle
+            - div.cesium-baseLayerPicker-section (1)
+              - div.cesium-baseLayerPicker-category (2)
+                - div.cesium-baseLayerPicker-categoryTitle
+                - div.cesium-baseLayerPicker-choices (3)
+            - div.cesium-baseLayerPicker-sectionTitle
+            - div.cesium-baseLayerPicker-section (1)
+              - div.cesium-baseLayerPicker-category (2)
+                - div.cesium-baseLayerPicker-categoryTitle
+                - div.cesium-baseLayerPicker-choices (2)
+        - div.hk3d-controls
+        - div.camera-info-panel
+        - div.scale-bar (2)
+          - div.scale-bar-line
+          - div.scale-bar-label

@@ -17,6 +17,14 @@
 	overflow: hidden;
 }
 
+.voice-monitoring-panel.dashboard-open {
+	top: 20px;
+	right: 10px;
+	bottom: 20px;
+	width: calc(100vw - 20px);
+	max-width: none;
+}
+
 .voice-monitoring-body {
 	overflow: auto;
 	min-height: 0;
@@ -26,10 +34,48 @@
 	padding-top: 2px;
 }
 
+.voice-monitoring-dashboard-container {
+	overflow: auto;
+	min-height: 0;
+	padding-top: 2px;
+}
+
 .voice-monitoring-header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+
+.voice-monitoring-header-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.voice-monitoring-dash {
+	min-width: 62px;
+	height: 30px;
+	padding: 0 12px;
+	border: 1px solid rgba(78, 205, 196, 0.35);
+	border-radius: 999px;
+	background: rgba(45, 45, 68, 0.4);
+	color: #4ecdc4;
+	font-size: 13px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.voice-monitoring-dash:hover {
+	background: rgba(78, 205, 196, 0.15);
+	border-color: #4ecdc4;
+	color: #ffffff;
+}
+
+.voice-monitoring-dash.active {
+	background: rgba(78, 205, 196, 0.22);
+	border-color: #8cf5e8;
+	color: #ffffff;
 }
 
 .voice-monitoring-header h3 {

@@ -15,7 +15,7 @@
   position: absolute;
   top: 116px;
   right: 18px;
-  z-index: 1000;
+  z-index: 1200;
 }
 
 .official-layer-picker .cesium-toolbar-button {
@@ -43,7 +43,7 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
-  z-index: 1001;
+  z-index: 1201;
 }
 
 /* 共用 layer button（給 HK3D 控制按鈕使用） */

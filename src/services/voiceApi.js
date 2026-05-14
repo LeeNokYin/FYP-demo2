@@ -1,10 +1,8 @@
 // 聲音監測 API 服務
 const DEFAULT_API_KEY = 'KWR6JeSgI19T9hMqd1Q8nGcAvZP3umGK'
 const DEFAULT_PRODUCTION_API = 'https://eaplanner.odensystems.hk/Api/IVEBird/Voice'
-const DEFAULT_CCTV_PRODUCTION_API = 'https://eaplanner.odensystems.hk/Api/IVEBird/LatestCCTVImage'
-const DEFAULT_CCTV_LIST_PRODUCTION_API = 'https://eaplanner.odensystems.hk/IVEBird/GetCCTVImageList'
+const DEFAULT_CCTV_LIST_PRODUCTION_API = 'https://eaplanner.odensystems.hk/Api/IVEBird/GetCCTVImageList'
 const DEV_API = '/api/IVEBird/Voice'
-const DEV_CCTV_API = '/api/IVEBird/LatestCCTVImage'
 const DEV_CCTV_LIST_API = '/api/IVEBird/GetCCTVImageList'
 
 const NETWORK_ERROR_MESSAGE =
@@ -15,15 +13,6 @@ const getApiConfig = () => {
   const apiUrl = import.meta.env.DEV
     ? DEV_API
     : import.meta.env.VITE_VOICE_API_URL || DEFAULT_PRODUCTION_API
-
-  return { apiKey, apiUrl }
-}
-
-const getCctvApiConfig = () => {
-  const apiKey = import.meta.env.VITE_CCTV_API_KEY || import.meta.env.VITE_VOICE_API_KEY || DEFAULT_API_KEY
-  const apiUrl = import.meta.env.DEV
-    ? DEV_CCTV_API
-    : import.meta.env.VITE_CCTV_API_URL || DEFAULT_CCTV_PRODUCTION_API
 
   return { apiKey, apiUrl }
 }
@@ -111,24 +100,6 @@ const normalizeVoiceResponse = (data) => {
   }
 }
 
-const normalizeLatestCctvResponse = (data) => {
-  if (!data || typeof data !== 'object') {
-    return {
-      success: false,
-      errorMessage: 'Invalid response',
-      fileUrl: null,
-      fileTime: null
-    }
-  }
-
-  return {
-    success: data.success ?? data.Success ?? false,
-    errorMessage: data.errorMessage ?? data.ErrorMessage ?? null,
-    fileUrl: data.fileUrl ?? data.FileUrl ?? null,
-    fileTime: data.fileTime ?? data.FileTime ?? null
-  }
-}
-
 const normalizeCctvImageListResponse = (data) => {
   if (!data || typeof data !== 'object') {
     return {
@@ -172,17 +143,6 @@ const buildVoiceFormData = (params) => {
   formData.append('EndTime', params.EndTime)
   formData.append('StartIndex', `${params.StartIndex}`)
   formData.append('EndIndex', `${params.EndIndex}`)
-  return formData
-}
-
-const buildLatestCctvFormData = (params) => {
-  const formData = new FormData()
-  formData.append('Date', params.Date)
-  formData.append('MediaType', params.MediaType)
-  if (params.StartTime) formData.append('StartTime', params.StartTime)
-  if (params.EndTime) formData.append('EndTime', params.EndTime)
-  if (params.StartIndex !== undefined && params.StartIndex !== null) formData.append('StartIndex', `${params.StartIndex}`)
-  if (params.EndIndex !== undefined && params.EndIndex !== null) formData.append('EndIndex', `${params.EndIndex}`)
   return formData
 }
 
@@ -235,27 +195,6 @@ export const testApiConnection = async () => {
 }
 
 /**
- * 取得最新 CCTV 影像
- * @param {Object} params - 查詢參數
- * @param {string} params.Date - 日期（格式：yyyy-MM-dd）
- * @param {string} params.MediaType - 只能是 images 或 detected_images
- * @returns {Promise<Object>} API 回應
- */
-export const fetchLatestCctvImage = async (params) => {
-  validateCctvParams(params)
-  const { apiUrl, apiKey } = getCctvApiConfig()
-
-  return requestApi({
-    tag: 'CCTV API',
-    apiUrl,
-    apiKey,
-    params,
-    formDataBuilder: buildLatestCctvFormData,
-    responseNormalizer: normalizeLatestCctvResponse
-  })
-}
-
-/**
  * 取得 CCTV 影像清單
  * @param {Object} params - 查詢參數
  * @param {string} params.Date - 日期（格式：yyyy-MM-dd）
@@ -279,6 +218,5 @@ export const fetchCctvImageList = async (params) => {
 export default {
   fetchVoiceData,
   testApiConnection,
-  fetchLatestCctvImage,
   fetchCctvImageList
 }

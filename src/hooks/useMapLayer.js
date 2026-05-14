@@ -1,9 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import * as Cesium from 'cesium'
+import landDIcon from '../image/landD_icon.png'
 
 const HK_BOUNDS = Cesium.Rectangle.fromDegrees(113.76, 22.13, 114.44, 22.58)
 const HK_3D_TILESET_BASE_URL = 'https://data.map.gov.hk/api/3d-data/meshmodel/WGS84/tileset.json'
 const LEGACY_HK_3D_TILESET_KEY = 'ad5940a63bd344c48b0351ef1c7a905e'
+const HK_4633002_WGS84_REFERENCE = {
+  lon: 114.177657,
+  lat: 22.275956,
+  height: 13
+}
 const HK_3D_CAMERA_PRESET = {
   lat: 22.275626,
   lon: 114.177537,
@@ -12,7 +18,7 @@ const HK_3D_CAMERA_PRESET = {
   pitchDeg: -44.3,
   rollDeg: 360
 }
-const LANDSD_ICON_URL = 'data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%228%22 fill=%22%231a2a3a%22/%3E%3Ccircle cx=%2250%22 cy=%2216%22 r=%226%22 fill=%22%23ffd166%22/%3E%3Cpath d=%22M6 50l16-18 10 11 8-8 18 15v8H6z%22 fill=%22%234ecdc4%22/%3E%3Cpath d=%22M6 56h52%22 stroke=%22%23b8fff8%22 stroke-width=%224%22/%3E%3C/svg%3E'
+const LANDSD_ICON_URL = landDIcon
 
 const createBackgroundProvider = () => {
   const canvas = document.createElement('canvas')
@@ -91,12 +97,23 @@ const loadHk3DTileset = async () => {
   throw lastError || new Error('Unable to load HK 3D tileset from any configured URL')
 }
 
+const create4633002ModelMatrix = () => {
+  const position = Cesium.Cartesian3.fromDegrees(
+    HK_4633002_WGS84_REFERENCE.lon,
+    HK_4633002_WGS84_REFERENCE.lat,
+    HK_4633002_WGS84_REFERENCE.height
+  )
+
+  return Cesium.Transforms.eastNorthUpToFixedFrame(position)
+}
+
 export function useMapLayer(viewer, layerPickerContainerId) {
   const [currentLayer, setCurrentLayer] = useState('arcgis')
   const [terrainEnabled, setTerrainEnabled] = useState(false)
 
   const worldTerrainProviderRef = useRef(null)
   const hkTilesetRef = useRef(null)
+  const hkIonTilesetRef = useRef(null)
   const baseLayerPickerRef = useRef(null)
   const layerViewModelsRef = useRef({
     arcgis: null,
@@ -127,6 +144,13 @@ export function useMapLayer(viewer, layerPickerContainerId) {
 
     viewer.scene.primitives.remove(hkTilesetRef.current)
     hkTilesetRef.current = null
+  }, [viewer])
+
+  const removeHkIonTileset = useCallback(() => {
+    if (!viewer || !hkIonTilesetRef.current) return
+
+    viewer.scene.primitives.remove(hkIonTilesetRef.current)
+    hkIonTilesetRef.current = null
   }, [viewer])
 
   const switchLayer = useCallback(
@@ -174,6 +198,12 @@ export function useMapLayer(viewer, layerPickerContainerId) {
         viewer.scene.primitives.add(hkTilesetRef.current)
       }
 
+      if (!hkIonTilesetRef.current) {
+        const hkIonTileset = await Cesium.Cesium3DTileset.fromIonAssetId(4633002)
+        hkIonTileset.modelMatrix = create4633002ModelMatrix()
+        hkIonTilesetRef.current = viewer.scene.primitives.add(hkIonTileset)
+      }
+
       viewer.camera.flyTo({
         destination: Cesium.Cartesian3.fromDegrees(
           HK_3D_CAMERA_PRESET.lon,
@@ -197,6 +227,7 @@ export function useMapLayer(viewer, layerPickerContainerId) {
 
     if (currentLayer === 'hk3d') {
       removeHkMeshLayer()
+      removeHkIonTileset()
 
       const restoreLayer = lastNonHkLayerRef.current
       const restoreTerrain = lastTerrainEnabledRef.current
@@ -215,7 +246,7 @@ export function useMapLayer(viewer, layerPickerContainerId) {
     }
 
     await enableHk3DMap()
-  }, [currentLayer, enableHk3DMap, removeHkMeshLayer, switchLayer, viewer])
+  }, [currentLayer, enableHk3DMap, removeHkIonTileset, removeHkMeshLayer, switchLayer, viewer])
 
   useEffect(() => {
     if (!viewer) return undefined
@@ -243,9 +274,9 @@ export function useMapLayer(viewer, layerPickerContainerId) {
     })
 
     const landsdViewModel = new Cesium.ProviderViewModel({
-      name: 'LandsD Imagery (WGS84)',
+      name: 'LandsD Imagery',
       iconUrl: LANDSD_ICON_URL,
-      tooltip: 'LandsD Imagery Map API (WGS84)',
+      tooltip: 'LandsD Imagery Map API',
       category: 'Imagery',
       creationFunction: () => createImageryProvider('landsd')
     })
@@ -336,8 +367,9 @@ export function useMapLayer(viewer, layerPickerContainerId) {
   useEffect(() => {
     return () => {
       removeHkMeshLayer()
+      removeHkIonTileset()
     }
-  }, [removeHkMeshLayer])
+  }, [removeHkIonTileset, removeHkMeshLayer])
 
   return {
     currentLayer,

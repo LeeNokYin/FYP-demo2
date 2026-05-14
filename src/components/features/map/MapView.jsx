@@ -7,7 +7,8 @@ import TopPanels from '../../ui/TopPanels'
 import RightToolbar from '../../ui/RightToolbar'
 import VoiceMonitoring from '../audio/VoiceMonitoring'
 import CctvMonitoring from '../cctv/CctvMonitoring'
-import BirdListPanel from '../audio/BirdListPanel'
+import CctvMonitoringTesting from '../cctv/CctvMonitoringTesting'
+import BirdListPanel from '../cctv/BirdListPanel'
 import CarbonCalculator from '../carbon/CarbonCalculator'
 import Hk3DMapControls from './Hk3DMapControls'
 import { useCesiumViewer } from '../../../hooks/useCesiumViewer'
@@ -31,19 +32,30 @@ function MapView() {
     handleSelectResult
   } = useLocationSearch(viewerRef)
   const [topPanels, setTopPanels] = useState({
-    projectManager: false,
-    modelManager: false,
-    layerManager: false,
-    assessmentWizard: false,
     monitoringWizard: false
   })
   const [topPanelPositions, setTopPanelPositions] = useState({})
   const [showVoice, setShowVoice] = useState(false)
   const [showCctvMonitoring, setShowCctvMonitoring] = useState(false)
+  const [showCctvMonitoringTesting, setShowCctvMonitoringTesting] = useState(false)
   const [showBirdList, setShowBirdList] = useState(false)
   const [showCarbonCalculator, setShowCarbonCalculator] = useState(false)
   const [showPinPanel, setShowPinPanel] = useState(false)
   const [showTopToolbar, setShowTopToolbar] = useState(true)
+
+  const closeAllTopPanels = () => {
+    setTopPanels((prev) => Object.keys(prev).reduce((acc, key) => {
+      acc[key] = false
+      return acc
+    }, {}))
+  }
+
+  const closeEcologicalMonitoringPanels = () => {
+    setShowVoice(false)
+    setShowCctvMonitoring(false)
+    setShowCctvMonitoringTesting(false)
+    setShowBirdList(false)
+  }
 
   const toggleTopPanel = (panel, anchorElement) => {
     setTopPanels((prev) => {
@@ -78,47 +90,48 @@ function MapView() {
     }
   }
 
-  const toggleVoice = () => {
-    setShowVoice((prev) => {
-      const next = !prev
-      if (next) {
-        setShowCctvMonitoring(false)
-        setShowBirdList(false)
-      }
-      return next
-    })
+  const handleTopPanelToggle = (panel, anchorElement) => {
+    if (panel === 'monitoringWizard') {
+      setShowCarbonCalculator(false)
+    }
+
+    toggleTopPanel(panel, anchorElement)
   }
 
-  const toggleCctvMonitoring = () => {
-    setShowCctvMonitoring((prev) => {
-      const next = !prev
-      if (next) {
-        setShowVoice(false)
-        setShowBirdList(false)
-      }
-      return next
-    })
+  const openMonitoringPanelExclusive = (panel) => {
+    closeEcologicalMonitoringPanels()
+    setShowVoice(panel === 'voice')
+    setShowCctvMonitoring(panel === 'cctv')
+    setShowCctvMonitoringTesting(panel === 'cctvDetectedOnly')
+    setShowBirdList(panel === 'birdList')
+    setShowCarbonCalculator(false)
   }
 
-  const toggleBirdList = () => {
-    setShowBirdList((prev) => {
-      const next = !prev
-      if (next) {
-        setShowVoice(false)
-        setShowCctvMonitoring(false)
+  const handleCarbonCalculatorClick = () => {
+    setShowCarbonCalculator((prev) => {
+      const isOpening = !prev
+      if (isOpening) {
+        closeAllTopPanels()
+        closeEcologicalMonitoringPanels()
       }
-      return next
+
+      return isOpening
     })
   }
 
   useEffect(() => {
-    if (!showVoice && !showCctvMonitoring && !showBirdList && !showCarbonCalculator) return undefined
+    if (!showVoice && !showCctvMonitoring && !showCctvMonitoringTesting && !showBirdList && !showCarbonCalculator) return undefined
 
     const handleEscapeClose = (event) => {
       if (event.key !== 'Escape') return
 
       if (showCctvMonitoring) {
         setShowCctvMonitoring(false)
+        return
+      }
+
+      if (showCctvMonitoringTesting) {
+        setShowCctvMonitoringTesting(false)
         return
       }
 
@@ -142,7 +155,7 @@ function MapView() {
     return () => {
       window.removeEventListener('keydown', handleEscapeClose)
     }
-  }, [showVoice, showCctvMonitoring, showBirdList, showCarbonCalculator])
+  }, [showVoice, showCctvMonitoring, showCctvMonitoringTesting, showBirdList, showCarbonCalculator])
 
   return (
     <div className="map-container" ref={mapContainerRef}>
@@ -163,7 +176,7 @@ function MapView() {
       {viewer && showTopToolbar && (
         <TopToolbar
           topPanels={topPanels}
-          toggleTopPanel={toggleTopPanel}
+          toggleTopPanel={handleTopPanelToggle}
           showTopToolbar={showTopToolbar}
           onToggleTopToolbar={() => setShowTopToolbar((prev) => !prev)}
           searchQuery={searchQuery}
@@ -172,17 +185,15 @@ function MapView() {
           searchResults={searchResults}
           showResults={showResults}
           onSelectResult={handleSelectResult}
-          onCarbonCalculatorClick={() => setShowCarbonCalculator((prev) => !prev)}
+          onCarbonCalculatorClick={handleCarbonCalculatorClick}
         />
       )}
 
       <TopPanels
         topPanels={topPanels}
         topPanelPositions={topPanelPositions}
-        toggleTopPanel={toggleTopPanel}
-        toggleVoice={toggleVoice}
-        toggleCctvMonitoring={toggleCctvMonitoring}
-        toggleBirdList={toggleBirdList}
+        toggleTopPanel={handleTopPanelToggle}
+        openMonitoringPanelExclusive={openMonitoringPanelExclusive}
       />
 
       <RightToolbar
@@ -220,6 +231,10 @@ function MapView() {
 
       {showCctvMonitoring && (
         <CctvMonitoring onClose={() => setShowCctvMonitoring(false)} />
+      )}
+
+      {showCctvMonitoringTesting && (
+        <CctvMonitoringTesting onClose={() => setShowCctvMonitoringTesting(false)} />
       )}
 
       {showBirdList && (

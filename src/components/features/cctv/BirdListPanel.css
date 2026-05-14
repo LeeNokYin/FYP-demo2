@@ -110,6 +110,16 @@
   font-size: 14px;
 }
 
+.bird-marker-info {
+  margin-top: 6px;
+  padding: 10px;
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  border-radius: 12px;
+  background: rgba(45, 45, 68, 0.4);
+  display: grid;
+  gap: 4px;
+}
+
 @media (max-width: 1100px) {
   .bird-list-panel {
     width: calc((100vw - 20px) / 2);

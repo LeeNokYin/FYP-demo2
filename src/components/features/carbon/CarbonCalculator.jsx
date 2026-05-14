@@ -12,25 +12,66 @@ function parsePositiveNumber(value) {
   return parsed
 }
 
+function normalizeTreeOption(tree, index) {
+  const woodDensity = parsePositiveNumber(tree['Average wood density (g/m³)'])
+  const dbh = parsePositiveNumber(tree['Average DBH'])
+  const treeHeight = parsePositiveNumber(tree['Average Tree Height'])
+
+  if (!woodDensity || !dbh || !treeHeight) {
+    return null
+  }
+
+  return {
+    id: `${tree['Tree Name'] ?? 'tree'}-${index}`,
+    name: tree['Tree Name'] ?? `Tree ${index + 1}`,
+    woodDensity,
+    woodDensityKg: parsePositiveNumber(tree['Average wood density (kg/m³)']),
+    dbh,
+    treeHeight
+  }
+}
+
 function CarbonCalculator({ onClose }) {
   const [woodDensity, setWoodDensity] = useState('')
   const [customWoodDensity, setCustomWoodDensity] = useState('')
   const [dbh, setDbh] = useState('')
   const [customDbh, setCustomDbh] = useState('')
-  const [baseDiameter, setBaseDiameter] = useState('')
   const [treeHeight, setTreeHeight] = useState('')
   const [customTreeHeight, setCustomTreeHeight] = useState('')
   const [result, setResult] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
 
   const hasResult = useMemo(() => result !== null, [result])
-  const dbhOptions = useMemo(
-    () => [...new Set(treeDensityOptions.map((tree) => tree.dbh))].sort((a, b) => a - b),
+  const presetTreeOptions = useMemo(
+    () => treeDensityOptions.map(normalizeTreeOption).filter(Boolean),
     []
   )
+  const dbhOptions = useMemo(
+    () => [...new Set(presetTreeOptions.map((tree) => tree.dbh))].sort((a, b) => a - b),
+    [presetTreeOptions]
+  )
+  const dbhBoundaryOptions = useMemo(() => {
+    if (dbhOptions.length <= 2) {
+      return dbhOptions
+    }
+
+    return [dbhOptions[0], dbhOptions[dbhOptions.length - 1]]
+  }, [dbhOptions])
   const heightOptions = useMemo(
-    () => [...new Set(treeDensityOptions.map((tree) => tree.treeHeight))].sort((a, b) => a - b),
-    []
+    () => [...new Set(presetTreeOptions.map((tree) => tree.treeHeight))].sort((a, b) => a - b),
+    [presetTreeOptions]
+  )
+  const heightBoundaryOptions = useMemo(() => {
+    if (heightOptions.length <= 2) {
+      return heightOptions
+    }
+
+    return [heightOptions[0], heightOptions[heightOptions.length - 1]]
+  }, [heightOptions])
+
+  const selectedPresetTree = useMemo(
+    () => presetTreeOptions.find((tree) => tree.id === woodDensity) ?? null,
+    [presetTreeOptions, woodDensity]
   )
 
   const resolveSelectValue = (selectedValue, customValue) => {
@@ -41,38 +82,52 @@ function CarbonCalculator({ onClose }) {
     return parsePositiveNumber(selectedValue)
   }
 
+  const resolveWoodDensityValue = () => {
+    if (woodDensity === OTHER_OPTION) {
+      return parsePositiveNumber(customWoodDensity)
+    }
+
+    return selectedPresetTree?.woodDensity ?? null
+  }
+
+  const handleWoodDensityChange = (event) => {
+    const nextValue = event.target.value
+    setWoodDensity(nextValue)
+
+    if (nextValue === OTHER_OPTION) {
+      return
+    }
+
+    const tree = presetTreeOptions.find((item) => item.id === nextValue)
+    if (!tree) {
+      return
+    }
+
+    // Keep DBH/height dropdowns concise while still auto-filling exact matched values.
+    setDbh(OTHER_OPTION)
+    setCustomDbh(String(tree.dbh))
+    setTreeHeight(OTHER_OPTION)
+    setCustomTreeHeight(String(tree.treeHeight))
+  }
+
   const handleCalculate = (event) => {
     event.preventDefault()
 
-    // 1) 三個下拉欄位都支援 Other，自訂值時改讀對應手動輸入欄位。
-    const woodDensityValue = resolveSelectValue(woodDensity, customWoodDensity)
+    const woodDensityValue = resolveWoodDensityValue()
     const dbhValue = resolveSelectValue(dbh, customDbh)
-    const baseDiameterValue = parsePositiveNumber(baseDiameter)
     const treeHeightValue = resolveSelectValue(treeHeight, customTreeHeight)
 
-    if (!woodDensityValue || !dbhValue || !baseDiameterValue || !treeHeightValue) {
-      setErrorMessage('Please choose valid values for wood density, DBH, base diameter, and tree height. If you select Other, enter a value greater than 0.')
+    if (!woodDensityValue || !dbhValue || !treeHeightValue) {
+      setErrorMessage('Please choose valid values for wood density, DBH, and tree height. If you select Other, enter a value greater than 0.')
       setResult(null)
       return
     }
 
     setErrorMessage('')
 
-    // 2) Formula 1 (Allometric empirical model):
-    // carbon content = [0.0673 * (Wood density * DBH * DBH * Tree height)^0.976] / 2
-    const allometricBase = woodDensityValue * dbhValue * dbhValue * treeHeightValue
-    const allometricModel = (0.0673 * Math.pow(allometricBase, 0.976)) / 2
+    const carbonContent = (0.0673 * Math.pow(woodDensityValue * dbhValue * dbhValue * treeHeightValue, 0.976)) / 2
 
-    // 3) Formula 2 (Allometric base diameter geometric model):
-    // carbon content = [0.5 * Math.PI * (Base diameter/2)^2 * Tree height * Wood density] / 2
-    const radiusFromBaseDiameter = baseDiameterValue / 2
-    const baseDiameterModel = (0.5 * Math.PI * Math.pow(radiusFromBaseDiameter, 2) * treeHeightValue * woodDensityValue) / 2
-
-    // 4) Save both model outputs for rendering.
-    setResult({
-      allometricModel,
-      baseDiameterModel
-    })
+    setResult({ carbonContent })
   }
 
   return (
@@ -83,19 +138,19 @@ function CarbonCalculator({ onClose }) {
       </div>
 
       <div className="carbon-calculator-body">
-        <p className="carbon-calculator-subtitle">Use dropdown presets or choose Other to input your own values.</p>
+        <p className="carbon-calculator-subtitle">Use JSON presets or choose Other to input your own values.</p>
 
         <form className="carbon-calculator-form" onSubmit={handleCalculate}>
           <label htmlFor="wood-density">Wood Density (g/cm³)</label>
           <select
             id="wood-density"
             value={woodDensity}
-            onChange={(event) => setWoodDensity(event.target.value)}
+            onChange={handleWoodDensityChange}
           >
-            <option value="">Select tree species and density</option>
-            {treeDensityOptions.map((tree) => (
-              <option key={tree.number} value={tree.averageWoodDensityGPerM3}>
-                {tree.englishName} ({tree.averageWoodDensityGPerM3} g/cm³ | {tree.averageWoodDensityKgPerM3} kg/m³)
+            <option value="">Select wood density</option>
+            {presetTreeOptions.map((tree) => (
+              <option key={tree.id} value={tree.id}>
+                {tree.name} ({tree.woodDensity} g/cm³{tree.woodDensityKg ? ` | ${tree.woodDensityKg} kg/m³` : ''})
               </option>
             ))}
             <option value={OTHER_OPTION}>Other</option>
@@ -112,14 +167,14 @@ function CarbonCalculator({ onClose }) {
             />
           )}
 
-          <label htmlFor="dbh">DBH (cm)</label>
+          <label htmlFor="dbh">Diameter Breast Height (cm)</label>
           <select
             id="dbh"
             value={dbh}
             onChange={(event) => setDbh(event.target.value)}
           >
-            <option value="">Select DBH</option>
-            {dbhOptions.map((value) => (
+            <option value="">Select Diameter Breast Height</option>
+            {dbhBoundaryOptions.map((value) => (
               <option key={`dbh-${value}`} value={value}>{value}</option>
             ))}
             <option value={OTHER_OPTION}>Other</option>
@@ -136,18 +191,6 @@ function CarbonCalculator({ onClose }) {
             />
           )}
 
-          <label htmlFor="base-diameter">Base Diameter (cm)</label>
-          <input
-            id="base-diameter"
-            type="number"
-            inputMode="decimal"
-            min="0"
-            step="any"
-            value={baseDiameter}
-            onChange={(event) => setBaseDiameter(event.target.value)}
-            placeholder="Enter base diameter"
-          />
-
           <label htmlFor="tree-height">Tree Height (m)</label>
           <select
             id="tree-height"
@@ -155,7 +198,7 @@ function CarbonCalculator({ onClose }) {
             onChange={(event) => setTreeHeight(event.target.value)}
           >
             <option value="">Select tree height</option>
-            {heightOptions.map((value) => (
+            {heightBoundaryOptions.map((value) => (
               <option key={`height-${value}`} value={value}>{value}</option>
             ))}
             <option value={OTHER_OPTION}>Other</option>
@@ -180,12 +223,8 @@ function CarbonCalculator({ onClose }) {
         {hasResult && (
           <div className="carbon-result-panel">
             <div className="carbon-result-item">
-              <h3>Formula 1: Allometric Model (Empirical)</h3>
-              <p>{result.allometricModel.toFixed(4)}</p>
-            </div>
-            <div className="carbon-result-item">
-              <h3>Formula 2: Allometric Model (Base Diameter Geometric)</h3>
-              <p>{result.baseDiameterModel.toFixed(4)}</p>
+              <h3>Carbon Content</h3>
+              <p>{result.carbonContent.toFixed(4)}</p>
             </div>
           </div>
         )}

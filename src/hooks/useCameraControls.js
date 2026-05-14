@@ -1,14 +1,17 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import * as Cesium from 'cesium'
 
 const MIN_ABS_PITCH_DEG = 1
 const MAX_ABS_PITCH_DEG = 89
+const ZOOM_STEP_DISTANCE = 500
 
 export function useCameraControls(viewer) {
   const lastOrbitRef = useRef({
     target: null,
     range: 0
   })
+  const zoomVelocityRef = useRef(0)
+  const zoomFrameRef = useRef(null)
 
   const clampPitchAvoidHorizontal = useCallback((pitchRad, fallbackSign = -1) => {
     const minAbs = Cesium.Math.toRadians(MIN_ABS_PITCH_DEG)
@@ -92,18 +95,65 @@ export function useCameraControls(viewer) {
     setDraggingState(false)
   }, [viewer])
 
-  const handleZoomIn = useCallback(() => {
+  const stopZoomInertia = useCallback(() => {
+    if (zoomFrameRef.current) {
+      cancelAnimationFrame(zoomFrameRef.current)
+      zoomFrameRef.current = null
+    }
+    zoomVelocityRef.current = 0
+  }, [])
+
+  const startZoomInertia = useCallback((direction) => {
     if (!viewer) return
-    viewer.camera.zoomIn(75000)
-  }, [viewer])
+
+    const height = viewer.camera.positionCartographic?.height ?? 100000
+    const impulse = Cesium.Math.clamp(height * 0.15, ZOOM_STEP_DISTANCE, 150000)
+
+    zoomVelocityRef.current = Cesium.Math.clamp(
+      zoomVelocityRef.current + direction * impulse,
+      -220000,
+      220000
+    )
+
+    if (zoomFrameRef.current) return
+
+    const tick = () => {
+      if (!viewer) {
+        stopZoomInertia()
+        return
+      }
+
+      const speed = Math.abs(zoomVelocityRef.current)
+      if (speed < 140) {
+        stopZoomInertia()
+        return
+      }
+
+      if (zoomVelocityRef.current > 0) {
+        viewer.camera.zoomIn(speed)
+      } else {
+        viewer.camera.zoomOut(speed)
+      }
+
+      zoomVelocityRef.current *= 0.82
+      zoomFrameRef.current = requestAnimationFrame(tick)
+    }
+
+    zoomFrameRef.current = requestAnimationFrame(tick)
+  }, [stopZoomInertia, viewer])
+
+  const handleZoomIn = useCallback(() => {
+    startZoomInertia(1)
+  }, [startZoomInertia])
 
   const handleZoomOut = useCallback(() => {
-    if (!viewer) return
-    viewer.camera.zoomOut(75000)
-  }, [viewer])
+    startZoomInertia(-1)
+  }, [startZoomInertia])
 
   const handleResetView = useCallback(() => {
     if (!viewer) return
+
+    stopZoomInertia()
 
     viewer.camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(114.164124, 22.384675, 110000),
@@ -114,7 +164,13 @@ export function useCameraControls(viewer) {
       },
       duration: 1.2
     })
-  }, [viewer])
+  }, [stopZoomInertia, viewer])
+
+  useEffect(() => {
+    return () => {
+      stopZoomInertia()
+    }
+  }, [stopZoomInertia])
 
   return {
     clampPitchAvoidHorizontal,

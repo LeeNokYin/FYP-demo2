@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useVoiceMonitoring } from '../../../hooks/useVoiceMonitoring'
+import VoiceDashboardPanel from './VoiceDashboardPanel'
 import './VoiceMonitoring.css'
 
 const formatToday = () => {
@@ -21,11 +22,8 @@ const parseRecordTime = (recordTimeStr) => {
   return Number.isNaN(parsed.getTime()) ? null : parsed
 }
 
-const formatDateToApiFormat = (dateStr) => {
-  return `${dateStr} 00:00:00`
-}
-
 function VoiceMonitoring({ onClose }) {
+  const [showDashboard, setShowDashboard] = useState(false)
   const [date, setDate] = useState(formatToday())
   const [startHour, setStartHour] = useState(8)
   const [endHour, setEndHour] = useState(20)
@@ -39,23 +37,6 @@ function VoiceMonitoring({ onClose }) {
     interval: 10
   })
   const { loading, error, voiceData, searchVoicesByDateRange } = useVoiceMonitoring()
-
-  // Fetch voice data for the selected date
-  useEffect(() => {
-    const fetchVoicesForDate = async () => {
-      const startTime = `${date} 00:00:00`
-      const endTime = `${date} 23:59:59`
-
-      await searchVoicesByDateRange({
-        startTime,
-        endTime,
-        startIndex: 0,
-        endIndex: 1000
-      })
-    }
-
-    fetchVoicesForDate()
-  }, [date])
 
   const hourRange = useMemo(() => {
     const from = Math.min(appliedConfig.startHour, appliedConfig.endHour)
@@ -87,8 +68,8 @@ function VoiceMonitoring({ onClose }) {
     if (!voiceData.voices || voiceData.voices.length === 0) {
       return []
     }
-    return createFilteredVoices(voiceData.voices)
-  }, [voiceData.voices, appliedConfig.startHour, appliedConfig.endHour])
+    return voiceData.voices
+  }, [voiceData.voices])
 
   const createSlotMap = (voices) => {
     const map = new Map()
@@ -137,14 +118,26 @@ function VoiceMonitoring({ onClose }) {
   }, [selectedImage])
 
   const handleSearch = async () => {
+    const startHourValue = Math.min(startHour, endHour)
+    const endHourValue = Math.max(startHour, endHour)
+    const startTime = `${date} ${`${startHourValue}`.padStart(2, '0')}:00:00`
+    const endTime = `${date} ${`${endHourValue}`.padStart(2, '0')}:59:59`
+
+    const result = await searchVoicesByDateRange({
+      startTime,
+      endTime,
+      startIndex: 0,
+      endIndex: 1000
+    })
+
     setAppliedConfig({
       date,
-      startHour,
-      endHour,
+      startHour: startHourValue,
+      endHour: endHourValue,
       interval
     })
 
-    setHideTimeControls(filteredVoices.length > 0)
+    setHideTimeControls((result.voices || []).length > 0)
   }
 
   const handleDownload = () => {
@@ -175,144 +168,166 @@ function VoiceMonitoring({ onClose }) {
 
   return (
     <>
-      <aside className="voice-monitoring-panel" aria-label="Voice Monitoring Panel">
+      <aside className={`voice-monitoring-panel ${showDashboard ? 'dashboard-open' : ''}`} aria-label="Voice Monitoring Panel">
         <div className="voice-monitoring-header">
           <h3>Voice Monitoring</h3>
-          <button type="button" className="voice-monitoring-close" onClick={onClose} aria-label="Close voice monitoring">×</button>
+          <div className="voice-monitoring-header-actions">
+            <button
+              type="button"
+              className={`voice-monitoring-dash ${showDashboard ? 'active' : ''}`}
+              onClick={() => setShowDashboard((prev) => !prev)}
+              aria-label="Toggle dashboard view"
+              aria-pressed={showDashboard}
+            >
+              Dashboard
+            </button>
+            <button type="button" className="voice-monitoring-close" onClick={onClose} aria-label="Close voice monitoring">×</button>
+          </div>
         </div>
 
-        <div className="voice-monitoring-body">
-          <div className="voice-monitoring-controls">
-            <div className="voice-control-group">
-              <label htmlFor="voice-date">Date</label>
-              <input id="voice-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-            </div>
-
-            {!hideTimeControls && (
-              <>
+        {showDashboard ? (
+          <div className="voice-monitoring-dashboard-container">
+            <VoiceDashboardPanel
+              voices={filteredVoices}
+              selectedDate={appliedConfig.date}
+              queryStartHour={Math.min(appliedConfig.startHour, appliedConfig.endHour)}
+              queryEndHour={Math.max(appliedConfig.startHour, appliedConfig.endHour)}
+            />
+          </div>
+        ) : (
+          <div className="voice-monitoring-body">
+              <div className="voice-monitoring-controls">
                 <div className="voice-control-group">
-                  <label htmlFor="voice-start-hour">Starting Time: {startHour}</label>
-                  <input
-                    id="voice-start-hour"
-                    type="range"
-                    min="0"
-                    max="23"
-                    step="1"
-                    value={startHour}
-                    onChange={(e) => setStartHour(Number(e.target.value))}
-                  />
+                  <label htmlFor="voice-date">Date</label>
+                  <input id="voice-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
                 </div>
 
-                <div className="voice-control-group">
-                  <label htmlFor="voice-end-hour">Ending Time: {endHour}</label>
-                  <input
-                    id="voice-end-hour"
-                    type="range"
-                    min="0"
-                    max="23"
-                    step="1"
-                    value={endHour}
-                    onChange={(e) => setEndHour(Number(e.target.value))}
-                  />
+                {!hideTimeControls && (
+                  <>
+                    <div className="voice-control-group">
+                      <label htmlFor="voice-start-hour">Starting Time: {startHour}</label>
+                      <input
+                        id="voice-start-hour"
+                        type="range"
+                        min="0"
+                        max="24"
+                        step="1"
+                        value={startHour}
+                        onChange={(e) => setStartHour(Number(e.target.value))}
+                      />
+                    </div>
+
+                    <div className="voice-control-group">
+                      <label htmlFor="voice-end-hour">Ending Time: {endHour}</label>
+                      <input
+                        id="voice-end-hour"
+                        type="range"
+                        min="0"
+                        max="24"
+                        step="1"
+                        value={endHour}
+                        onChange={(e) => setEndHour(Number(e.target.value))}
+                      />
+                    </div>
+
+                    <div className="voice-control-group">
+                      <label htmlFor="voice-interval">Interval: {interval} mins</label>
+                      <input
+                        id="voice-interval"
+                        type="range"
+                        min="5"
+                        max="30"
+                        step="5"
+                        value={interval}
+                        onChange={(e) => setInterval(Number(e.target.value))}
+                      />
+                    </div>
+                  </>
+                )}
+
+                {filteredVoices.length > 0 && (
+                  <div className="voice-stats-card">
+                    <div>Detections: {filteredVoices.length}</div>
+                    <div>BirdCount: {filteredVoices.reduce((sum, v) => sum + v.birdCount, 0)}</div>
+                  </div>
+                )}
+
+                <div className="voice-control-actions">
+                  <button type="button" className="voice-btn" onClick={handleSearch} disabled={loading}>
+                    {loading ? 'Searching...' : 'Search'}
+                  </button>
+                  <button
+                    type="button"
+                    className="voice-btn secondary"
+                    onClick={handleDownload}
+                    disabled={filteredVoices.length === 0}
+                  >
+                    Download
+                  </button>
+                  {filteredVoices.length > 0 && (
+                    <button
+                      type="button"
+                      className="voice-btn secondary"
+                      onClick={() => setHideTimeControls((prev) => !prev)}
+                    >
+                      {hideTimeControls ? 'Show Time Controls' : 'Hide Time Controls'}
+                    </button>
+                  )}
                 </div>
 
-                <div className="voice-control-group">
-                  <label htmlFor="voice-interval">Interval: {interval} mins</label>
-                  <input
-                    id="voice-interval"
-                    type="range"
-                    min="5"
-                    max="30"
-                    step="5"
-                    value={interval}
-                    onChange={(e) => setInterval(Number(e.target.value))}
-                  />
-                </div>
-              </>
-            )}
-
-            {filteredVoices.length > 0 && (
-              <div className="voice-stats-card">
-                <div>Detections: {filteredVoices.length}</div>
-                <div>BirdCount: {filteredVoices.reduce((sum, v) => sum + v.birdCount, 0)}</div>
+                {error && <p className="voice-error">{error}</p>}
               </div>
-            )}
 
-            <div className="voice-control-actions">
-              <button type="button" className="voice-btn" onClick={handleSearch} disabled={loading}>
-                {loading ? 'Searching...' : 'Search'}
-              </button>
-              <button
-                type="button"
-                className="voice-btn secondary"
-                onClick={handleDownload}
-                disabled={filteredVoices.length === 0}
-              >
-                Download
-              </button>
-              {filteredVoices.length > 0 && (
-                <button
-                  type="button"
-                  className="voice-btn secondary"
-                  onClick={() => setHideTimeControls((prev) => !prev)}
-                >
-                  {hideTimeControls ? 'Show Time Controls' : 'Hide Time Controls'}
-                </button>
-              )}
-            </div>
-
-            {error && <p className="voice-error">{error}</p>}
-          </div>
-
-          <div className="voice-table-wrap">
-            <h4 className="voice-table-title">All Birds - Detections Timeline</h4>
-            {voiceData.voices && voiceData.voices.length === 0 && !loading && !error && (
-              <p className="voice-table-empty">No detections found for this date.</p>
-            )}
-            <table className="voice-time-table">
-              <thead>
-                <tr>
-                  <th>Time</th>
-                  {minuteRange.map((minute) => (
-                    <th key={`header-${minute}`}>{toMinuteLabel(minute)}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {hourRange.map((hour) => (
-                  <tr key={`row-${hour}`}>
-                    <td className="voice-hour-label">{toHourLabel(hour)}</td>
-                    {minuteRange.map((minute) => {
-                      const voice = voiceSlotMap.get(toSlotKey(hour, minute))
-                      return (
-                        <td key={`cell-${toSlotKey(hour, minute)}`}>
-                          {voice && voice.length > 0 ? (
-                            <div className="voice-slot-images">
-                              {voice.map((v, idx) =>
-                                v.iconUrl ? (
-                                  <img
-                                    key={`${toSlotKey(hour, minute)}-${idx}`}
-                                    className="voice-slot-image"
-                                    src={v.iconUrl}
-                                    alt={`${v.birdName} - ${v.recordTime}`}
-                                    title={`${v.birdName}\n${v.recordTime}\nCount: ${v.birdCount}, Score: ${v.birdScore}`}
-                                    onClick={() => setSelectedImage(v)}
-                                  />
-                                ) : null
+              <div className="voice-table-wrap">
+                <h4 className="voice-table-title">All Birds - Detections Timeline</h4>
+                {voiceData.voices && voiceData.voices.length === 0 && !loading && !error && (
+                  <p className="voice-table-empty">No detections found for this date.</p>
+                )}
+                <table className="voice-time-table">
+                  <thead>
+                    <tr>
+                      <th>Time</th>
+                      {minuteRange.map((minute) => (
+                        <th key={`header-${minute}`}>{toMinuteLabel(minute)}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {hourRange.map((hour) => (
+                      <tr key={`row-${hour}`}>
+                        <td className="voice-hour-label">{toHourLabel(hour)}</td>
+                        {minuteRange.map((minute) => {
+                          const voice = voiceSlotMap.get(toSlotKey(hour, minute))
+                          return (
+                            <td key={`cell-${toSlotKey(hour, minute)}`}>
+                              {voice && voice.length > 0 ? (
+                                <div className="voice-slot-images">
+                                  {voice.map((v, idx) =>
+                                    v.iconUrl ? (
+                                      <img
+                                        key={`${toSlotKey(hour, minute)}-${idx}`}
+                                        className="voice-slot-image"
+                                        src={v.iconUrl}
+                                        alt={`${v.birdName} - ${v.recordTime}`}
+                                        title={`${v.birdName}\n${v.recordTime}\nCount: ${v.birdCount}, Score: ${v.birdScore}`}
+                                        onClick={() => setSelectedImage(v)}
+                                      />
+                                    ) : null
+                                  )}
+                                </div>
+                              ) : (
+                                <div className="voice-empty-cell" />
                               )}
-                            </div>
-                          ) : (
-                            <div className="voice-empty-cell" />
-                          )}
-                        </td>
-                      )
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                            </td>
+                          )
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
           </div>
-        </div>
+        )}
       </aside>
 
       {selectedImage && typeof document !== 'undefined' && createPortal(

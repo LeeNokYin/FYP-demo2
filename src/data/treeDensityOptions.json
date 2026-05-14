@@ -1,48 +1,324 @@
 [
-  { "number": 1, "englishName": "Scots pine", "averageWoodDensityKgPerM3": 550, "averageWoodDensityGPerM3": 0.55, "stemProportion": 0.58, "treeHeight": 30, "dbh": 40 },
-  { "number": 2, "englishName": "Corsican pine", "averageWoodDensityKgPerM3": 430, "averageWoodDensityGPerM3": 0.43, "stemProportion": 0.58, "treeHeight": 30, "dbh": 40 },
-  { "number": 3, "englishName": "Lodgepole pine", "averageWoodDensityKgPerM3": 380, "averageWoodDensityGPerM3": 0.38, "stemProportion": 0.57, "treeHeight": 24, "dbh": 35 },
-  { "number": 4, "englishName": "Maritime pine", "averageWoodDensityKgPerM3": 410, "averageWoodDensityGPerM3": 0.41, "stemProportion": 0.58, "treeHeight": 30, "dbh": 40 },
-  { "number": 5, "englishName": "Weymouth pine", "averageWoodDensityKgPerM3": 340, "averageWoodDensityGPerM3": 0.34, "stemProportion": 0.55, "treeHeight": 35, "dbh": 45 },
-  { "number": 6, "englishName": "Sitka spruce", "averageWoodDensityKgPerM3": 370, "averageWoodDensityGPerM3": 0.37, "stemProportion": 0.58, "treeHeight": 50, "dbh": 60 },
-  { "number": 7, "englishName": "Norway spruce", "averageWoodDensityKgPerM3": 460, "averageWoodDensityGPerM3": 0.46, "stemProportion": 0.59, "treeHeight": 40, "dbh": 50 },
-  { "number": 8, "englishName": "Omorika spruce", "averageWoodDensityKgPerM3": 370, "averageWoodDensityGPerM3": 0.37, "stemProportion": 0.58, "treeHeight": 35, "dbh": 45 },
-  { "number": 9, "englishName": "European larch", "averageWoodDensityKgPerM3": 600, "averageWoodDensityGPerM3": 0.6, "stemProportion": 0.6, "treeHeight": 35, "dbh": 45 },
-  { "number": 10, "englishName": "Japanese larch / hybrid larch", "averageWoodDensityKgPerM3": 470, "averageWoodDensityGPerM3": 0.47, "stemProportion": 0.58, "treeHeight": 30, "dbh": 40 },
-  { "number": 11, "englishName": "Douglas fir", "averageWoodDensityKgPerM3": 440, "averageWoodDensityGPerM3": 0.44, "stemProportion": 0.68, "treeHeight": 50, "dbh": 60 },
-  { "number": 12, "englishName": "Western hemlock", "averageWoodDensityKgPerM3": 480, "averageWoodDensityGPerM3": 0.48, "stemProportion": 0.58, "treeHeight": 50, "dbh": 55 },
-  { "number": 13, "englishName": "Western red cedar", "averageWoodDensityKgPerM3": 370, "averageWoodDensityGPerM3": 0.37, "stemProportion": 0.57, "treeHeight": 50, "dbh": 60 },
-  { "number": 14, "englishName": "Lawson cypress", "averageWoodDensityKgPerM3": 400, "averageWoodDensityGPerM3": 0.4, "stemProportion": 0.58, "treeHeight": 30, "dbh": 40 },
-  { "number": 15, "englishName": "Leyland cypress", "averageWoodDensityKgPerM3": 425, "averageWoodDensityGPerM3": 0.425, "stemProportion": 0.58, "treeHeight": 25, "dbh": 35 },
-  { "number": 16, "englishName": "Grand fir", "averageWoodDensityKgPerM3": 350, "averageWoodDensityGPerM3": 0.35, "stemProportion": 0.57, "treeHeight": 50, "dbh": 55 },
-  { "number": 17, "englishName": "Noble fir", "averageWoodDensityKgPerM3": 370, "averageWoodDensityGPerM3": 0.37, "stemProportion": 0.57, "treeHeight": 40, "dbh": 50 },
-  { "number": 18, "englishName": "Silver fir", "averageWoodDensityKgPerM3": 350, "averageWoodDensityGPerM3": 0.35, "stemProportion": 0.56, "treeHeight": 40, "dbh": 50 },
-  { "number": 19, "englishName": "Oak (general)", "averageWoodDensityKgPerM3": 660, "averageWoodDensityGPerM3": 0.66, "stemProportion": 0.65, "treeHeight": 25, "dbh": 50 },
-  { "number": 20, "englishName": "Red oak", "averageWoodDensityKgPerM3": 700, "averageWoodDensityGPerM3": 0.7, "stemProportion": 0.64, "treeHeight": 25, "dbh": 50 },
-  { "number": 21, "englishName": "Beech", "averageWoodDensityKgPerM3": 730, "averageWoodDensityGPerM3": 0.73, "stemProportion": 0.66, "treeHeight": 30, "dbh": 45 },
-  { "number": 22, "englishName": "Sycamore", "averageWoodDensityKgPerM3": 640, "averageWoodDensityGPerM3": 0.64, "stemProportion": 0.62, "treeHeight": 30, "dbh": 50 },
-  { "number": 23, "englishName": "Ash", "averageWoodDensityKgPerM3": 680, "averageWoodDensityGPerM3": 0.68, "stemProportion": 0.63, "treeHeight": 25, "dbh": 45 },
-  { "number": 24, "englishName": "Birch", "averageWoodDensityKgPerM3": 660, "averageWoodDensityGPerM3": 0.66, "stemProportion": 0.61, "treeHeight": 20, "dbh": 35 },
-  { "number": 25, "englishName": "Poplar", "averageWoodDensityKgPerM3": 440, "averageWoodDensityGPerM3": 0.44, "stemProportion": 0.58, "treeHeight": 25, "dbh": 40 },
-  { "number": 26, "englishName": "Sweet chestnut", "averageWoodDensityKgPerM3": 590, "averageWoodDensityGPerM3": 0.59, "stemProportion": 0.62, "treeHeight": 25, "dbh": 45 },
-  { "number": 27, "englishName": "Horse chestnut", "averageWoodDensityKgPerM3": 500, "averageWoodDensityGPerM3": 0.5, "stemProportion": 0.59, "treeHeight": 25, "dbh": 40 },
-  { "number": 28, "englishName": "Alder", "averageWoodDensityKgPerM3": 530, "averageWoodDensityGPerM3": 0.53, "stemProportion": 0.6, "treeHeight": 20, "dbh": 35 },
-  { "number": 29, "englishName": "Lime", "averageWoodDensityKgPerM3": 420, "averageWoodDensityGPerM3": 0.42, "stemProportion": 0.59, "treeHeight": 25, "dbh": 40 },
-  { "number": 30, "englishName": "Elm", "averageWoodDensityKgPerM3": 555, "averageWoodDensityGPerM3": 0.555, "stemProportion": 0.62, "treeHeight": 25, "dbh": 45 },
-  { "number": 31, "englishName": "Wych elm", "averageWoodDensityKgPerM3": 555, "averageWoodDensityGPerM3": 0.555, "stemProportion": 0.62, "treeHeight": 25, "dbh": 45 },
-  { "number": 32, "englishName": "Wild cherry, gean", "averageWoodDensityKgPerM3": 620, "averageWoodDensityGPerM3": 0.62, "stemProportion": 0.63, "treeHeight": 20, "dbh": 35 },
-  { "number": 33, "englishName": "Hornbeam", "averageWoodDensityKgPerM3": 690, "averageWoodDensityGPerM3": 0.69, "stemProportion": 0.65, "treeHeight": 20, "dbh": 35 },
-  { "number": 34, "englishName": "Delonix regia", "averageWoodDensityKgPerM3": 530, "averageWoodDensityGPerM3": 0.53, "stemProportion": 0.6, "treeHeight": 12, "dbh": 40 },
-  { "number": 35, "englishName": "Roystonea regia", "averageWoodDensityKgPerM3": 375, "averageWoodDensityGPerM3": 0.375, "stemProportion": 0.78, "treeHeight": 25, "dbh": 35 },
-  { "number": 36, "englishName": "Schefflera actinophylla", "averageWoodDensityKgPerM3": 410, "averageWoodDensityGPerM3": 0.41, "stemProportion": 0.58, "treeHeight": 12, "dbh": 25 },
-  { "number": 37, "englishName": "Washingtonia robusta", "averageWoodDensityKgPerM3": 370, "averageWoodDensityGPerM3": 0.37, "stemProportion": 0.77, "treeHeight": 20, "dbh": 30 },
-  { "number": 38, "englishName": "Citrus spp.", "averageWoodDensityKgPerM3": 780, "averageWoodDensityGPerM3": 0.78, "stemProportion": 0.62, "treeHeight": 8, "dbh": 20 },
-  { "number": 39, "englishName": "Cinnamomum burmannii", "averageWoodDensityKgPerM3": 490, "averageWoodDensityGPerM3": 0.49, "stemProportion": 0.61, "treeHeight": 15, "dbh": 30 },
-  { "number": 40, "englishName": "Syzygium jambos", "averageWoodDensityKgPerM3": 700, "averageWoodDensityGPerM3": 0.7, "stemProportion": 0.62, "treeHeight": 12, "dbh": 25 },
-  { "number": 41, "englishName": "Ficus benjamina", "averageWoodDensityKgPerM3": 460, "averageWoodDensityGPerM3": 0.46, "stemProportion": 0.57, "treeHeight": 15, "dbh": 40 },
-  { "number": 42, "englishName": "Handroanthus chrysanthus", "averageWoodDensityKgPerM3": 1000, "averageWoodDensityGPerM3": 1, "stemProportion": 0.63, "treeHeight": 15, "dbh": 35 },
-  { "number": 43, "englishName": "Syzygium malaccense", "averageWoodDensityKgPerM3": 560, "averageWoodDensityGPerM3": 0.56, "stemProportion": 0.62, "treeHeight": 12, "dbh": 25 },
-  { "number": 44, "englishName": "Broussonetia papyrifera", "averageWoodDensityKgPerM3": 290, "averageWoodDensityGPerM3": 0.29, "stemProportion": 0.58, "treeHeight": 12, "dbh": 25 },
-  { "number": 45, "englishName": "Ficus microcarpa", "averageWoodDensityKgPerM3": 520, "averageWoodDensityGPerM3": 0.52, "stemProportion": 0.56, "treeHeight": 20, "dbh": 50 },
-  { "number": 46, "englishName": "Ficus virens", "averageWoodDensityKgPerM3": 340, "averageWoodDensityGPerM3": 0.34, "stemProportion": 0.56, "treeHeight": 20, "dbh": 45 }
+    {
+        "Tree Name": "Scots pine_歐洲赤松",
+        "Average wood density (kg/m³)": "550",
+        "Average wood density (g/m³)": "0.55",
+        "Average Tree Height": "30",
+        "Average DBH": "40"
+    },
+    {
+        "Tree Name": "Corsican pine_科西嘉松",
+        "Average wood density (kg/m³)": "430",
+        "Average wood density (g/m³)": "0.43",
+        "Average Tree Height": "30",
+        "Average DBH": "40"
+    },
+    {
+        "Tree Name": "Lodgepole pine_扭葉松 / 沼澤松",
+        "Average wood density (kg/m³)": "380",
+        "Average wood density (g/m³)": "0.38",
+        "Average Tree Height": "24",
+        "Average DBH": "35"
+    },
+    {
+        "Tree Name": "Maritime pine_海岸松",
+        "Average wood density (kg/m³)": "410",
+        "Average wood density (g/m³)": "0.41",
+        "Average Tree Height": "30",
+        "Average DBH": "40"
+    },
+    {
+        "Tree Name": "Weymouth pine_魏茅斯松 / 五針松",
+        "Average wood density (kg/m³)": "340",
+        "Average wood density (g/m³)": "0.34",
+        "Average Tree Height": "35",
+        "Average DBH": "45"
+    },
+    {
+        "Tree Name": "Sitka spruce_錫特加雲杉",
+        "Average wood density (kg/m³)": "370",
+        "Average wood density (g/m³)": "0.37",
+        "Average Tree Height": "50",
+        "Average DBH": "60"
+    },
+    {
+        "Tree Name": "Norway spruce_挪威雲杉",
+        "Average wood density (kg/m³)": "460",
+        "Average wood density (g/m³)": "0.46",
+        "Average Tree Height": "40",
+        "Average DBH": "50"
+    },
+    {
+        "Tree Name": "Omorika spruce_塞爾維亞雲杉",
+        "Average wood density (kg/m³)": "370",
+        "Average wood density (g/m³)": "0.37",
+        "Average Tree Height": "35",
+        "Average DBH": "45"
+    },
+    {
+        "Tree Name": "European larch_歐洲落葉松",
+        "Average wood density (kg/m³)": "600",
+        "Average wood density (g/m³)": "0.6",
+        "Average Tree Height": "35",
+        "Average DBH": "45"
+    },
+    {
+        "Tree Name": "Japanese larch / hybrid larch_日本 / 雜交落葉松",
+        "Average wood density (kg/m³)": "470",
+        "Average wood density (g/m³)": "0.47",
+        "Average Tree Height": "30",
+        "Average DBH": "40"
+    },
+    {
+        "Tree Name": "Douglas fir_花旗松",
+        "Average wood density (kg/m³)": "440",
+        "Average wood density (g/m³)": "0.44",
+        "Average Tree Height": "50",
+        "Average DBH": "60"
+    },
+    {
+        "Tree Name": "Western hemlock_西部鐵杉",
+        "Average wood density (kg/m³)": "480",
+        "Average wood density (g/m³)": "0.48",
+        "Average Tree Height": "50",
+        "Average DBH": "55"
+    },
+    {
+        "Tree Name": "Western red cedar_西部紅檜 / 紅雪松",
+        "Average wood density (kg/m³)": "370",
+        "Average wood density (g/m³)": "0.37",
+        "Average Tree Height": "50",
+        "Average DBH": "60"
+    },
+    {
+        "Tree Name": "Lawson cypress_勞森柏",
+        "Average wood density (kg/m³)": "400",
+        "Average wood density (g/m³)": "0.4",
+        "Average Tree Height": "30",
+        "Average DBH": "40"
+    },
+    {
+        "Tree Name": "Leyland cypress_雷蘭柏",
+        "Average wood density (kg/m³)": "425",
+        "Average wood density (g/m³)": "0.425",
+        "Average Tree Height": "25",
+        "Average DBH": "35"
+    },
+    {
+        "Tree Name": "Grand fir_大冷杉",
+        "Average wood density (kg/m³)": "350",
+        "Average wood density (g/m³)": "0.35",
+        "Average Tree Height": "50",
+        "Average DBH": "55"
+    },
+    {
+        "Tree Name": "Noble fir_高貴冷杉",
+        "Average wood density (kg/m³)": "370",
+        "Average wood density (g/m³)": "0.37",
+        "Average Tree Height": "40",
+        "Average DBH": "50"
+    },
+    {
+        "Tree Name": "Silver fir_銀冷杉",
+        "Average wood density (kg/m³)": "350",
+        "Average wood density (g/m³)": "0.35",
+        "Average Tree Height": "40",
+        "Average DBH": "50"
+    },
+    {
+        "Tree Name": "Oak (general)_櫟樹 / 橡樹",
+        "Average wood density (kg/m³)": "660",
+        "Average wood density (g/m³)": "0.66",
+        "Average Tree Height": "25",
+        "Average DBH": "50"
+    },
+    {
+        "Tree Name": "Red oak_紅櫟 / 紅橡",
+        "Average wood density (kg/m³)": "700",
+        "Average wood density (g/m³)": "0.7",
+        "Average Tree Height": "25",
+        "Average DBH": "50"
+    },
+    {
+        "Tree Name": "Beech_山毛櫸",
+        "Average wood density (kg/m³)": "730",
+        "Average wood density (g/m³)": "0.73",
+        "Average Tree Height": "30",
+        "Average DBH": "45"
+    },
+    {
+        "Tree Name": "Sycamore_懸鈴木 / 美國梧桐",
+        "Average wood density (kg/m³)": "640",
+        "Average wood density (g/m³)": "0.64",
+        "Average Tree Height": "30",
+        "Average DBH": "50"
+    },
+    {
+        "Tree Name": "Ash_梣樹 / 白蠟樹",
+        "Average wood density (kg/m³)": "680",
+        "Average wood density (g/m³)": "0.68",
+        "Average Tree Height": "25",
+        "Average DBH": "45"
+    },
+    {
+        "Tree Name": "Birch_樺樹",
+        "Average wood density (kg/m³)": "660",
+        "Average wood density (g/m³)": "0.66",
+        "Average Tree Height": "20",
+        "Average DBH": "35"
+    },
+    {
+        "Tree Name": "Poplar_楊樹",
+        "Average wood density (kg/m³)": "440",
+        "Average wood density (g/m³)": "0.44",
+        "Average Tree Height": "25",
+        "Average DBH": "40"
+    },
+    {
+        "Tree Name": "Sweet chestnut_甜栗 / 歐洲栗",
+        "Average wood density (kg/m³)": "590",
+        "Average wood density (g/m³)": "0.59",
+        "Average Tree Height": "25",
+        "Average DBH": "45"
+    },
+    {
+        "Tree Name": "Horse chestnut_七葉樹 / 印度栗",
+        "Average wood density (kg/m³)": "500",
+        "Average wood density (g/m³)": "0.5",
+        "Average Tree Height": "25",
+        "Average DBH": "40"
+    },
+    {
+        "Tree Name": "Alder_赤楊",
+        "Average wood density (kg/m³)": "530",
+        "Average wood density (g/m³)": "0.53",
+        "Average Tree Height": "20",
+        "Average DBH": "35"
+    },
+    {
+        "Tree Name": "Lime_椴樹",
+        "Average wood density (kg/m³)": "420",
+        "Average wood density (g/m³)": "0.42",
+        "Average Tree Height": "25",
+        "Average DBH": "40"
+    },
+    {
+        "Tree Name": "Elm_榆樹",
+        "Average wood density (kg/m³)": "555",
+        "Average wood density (g/m³)": "0.555",
+        "Average Tree Height": "25",
+        "Average DBH": "45"
+    },
+    {
+        "Tree Name": "Wych elm_歐洲榆 / 山榆",
+        "Average wood density (kg/m³)": "555",
+        "Average wood density (g/m³)": "0.555",
+        "Average Tree Height": "25",
+        "Average DBH": "45"
+    },
+    {
+        "Tree Name": "Wild cherry, gean_野櫻桃 / 歐洲甜櫻桃",
+        "Average wood density (kg/m³)": "620",
+        "Average wood density (g/m³)": "0.62",
+        "Average Tree Height": "20",
+        "Average DBH": "35"
+    },
+    {
+        "Tree Name": "Hornbeam_鵝耳櫪 / 角櫟",
+        "Average wood density (kg/m³)": "690",
+        "Average wood density (g/m³)": "0.69",
+        "Average Tree Height": "20",
+        "Average DBH": "35"
+    },
+    {
+        "Tree Name": "Delonix regia_鳳凰木",
+        "Average wood density (kg/m³)": "530",
+        "Average wood density (g/m³)": "0.53",
+        "Average Tree Height": "12",
+        "Average DBH": "40"
+    },
+    {
+        "Tree Name": "Roystonea regia_王棕",
+        "Average wood density (kg/m³)": "375",
+        "Average wood density (g/m³)": "0.375",
+        "Average Tree Height": "25",
+        "Average DBH": "35"
+    },
+    {
+        "Tree Name": "Schefflera actinophylla_鵝掌柴",
+        "Average wood density (kg/m³)": "410",
+        "Average wood density (g/m³)": "0.41",
+        "Average Tree Height": "12",
+        "Average DBH": "25"
+    },
+    {
+        "Tree Name": "Washingtonia robusta_華盛頓葵",
+        "Average wood density (kg/m³)": "370",
+        "Average wood density (g/m³)": "0.37",
+        "Average Tree Height": "20",
+        "Average DBH": "30"
+    },
+    {
+        "Tree Name": "Citrus spp._柑橘",
+        "Average wood density (kg/m³)": "780",
+        "Average wood density (g/m³)": "0.78",
+        "Average Tree Height": "8",
+        "Average DBH": "20"
+    },
+    {
+        "Tree Name": "Cinnamomum burmannii_陰香",
+        "Average wood density (kg/m³)": "490",
+        "Average wood density (g/m³)": "0.49",
+        "Average Tree Height": "15",
+        "Average DBH": "30"
+    },
+    {
+        "Tree Name": "Syzygium jambos_蒲桃",
+        "Average wood density (kg/m³)": "700",
+        "Average wood density (g/m³)": "0.7",
+        "Average Tree Height": "12",
+        "Average DBH": "25"
+    },
+    {
+        "Tree Name": "Ficus benjamina_垂葉榕",
+        "Average wood density (kg/m³)": "460",
+        "Average wood density (g/m³)": "0.46",
+        "Average Tree Height": "15",
+        "Average DBH": "40"
+    },
+    {
+        "Tree Name": "Handroanthus chrysanthus_黃花風鈴木",
+        "Average wood density (kg/m³)": "1000",
+        "Average wood density (g/m³)": "1",
+        "Average Tree Height": "15",
+        "Average DBH": "35"
+    },
+    {
+        "Tree Name": "Syzygium malaccense_金蒲桃",
+        "Average wood density (kg/m³)": "560",
+        "Average wood density (g/m³)": "0.56",
+        "Average Tree Height": "12",
+        "Average DBH": "25"
+    },
+    {
+        "Tree Name": "Broussonetia papyrifera_構樹",
+        "Average wood density (kg/m³)": "290",
+        "Average wood density (g/m³)": "0.29",
+        "Average Tree Height": "12",
+        "Average DBH": "25"
+    },
+    {
+        "Tree Name": "Ficus microcarpa_細葉榕",
+        "Average wood density (kg/m³)": "520",
+        "Average wood density (g/m³)": "0.52",
+        "Average Tree Height": "20",
+        "Average DBH": "50"
+    },
+    {
+        "Tree Name": "Ficus virens_青果榕",
+        "Average wood density (kg/m³)": "340",
+        "Average wood density (g/m³)": "0.34",
+        "Average Tree Height": "20",
+        "Average DBH": "45"
+    }
 ]

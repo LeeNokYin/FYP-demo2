@@ -2,18 +2,9 @@ import { useState } from 'react'
 import './TopToolbar.css'
 import './SharedControls.css'
 
-const PANEL_BUTTONS = [
-  { key: 'projectManager', icon: '📁', title: 'Project Manager' },
-  { key: 'modelManager', icon: '🏗️', title: 'Model Manager' },
-  { key: 'layerManager', icon: '🗂️', title: 'Layer Manager' }
-]
-
 const WORKFLOW_BUTTONS = [
-  { key: 'climate', icon: '🌤️', title: 'Climate Wizard', type: 'left-panel' },
   { key: 'carbon', icon: '♻️', title: 'Carbon Calculator', type: 'action' },
-  { key: 'assessmentWizard', icon: '📊', title: 'Assessment Wizard', type: 'top-panel' },
   { key: 'monitoringWizard', icon: '🔍', title: 'Monitoring Wizard', type: 'top-panel' },
-  { key: 'presentation', icon: '🎬', title: 'Presentation Wizard', type: 'left-panel' }
 ]
 
 function TopToolbar({
@@ -64,23 +55,6 @@ function TopToolbar({
 
   return (
     <header className="top-toolbar">
-      <div className="toolbar-group">
-        {PANEL_BUTTONS.map((button) => (
-          <button
-            key={button.key}
-            className={`tool-btn ${safeTopPanels[button.key] ? 'active' : ''}`}
-            title={button.title}
-            aria-label={button.title}
-            aria-pressed={!!safeTopPanels[button.key]}
-            onClick={(event) => handlePanelClick(button.key, event)}
-          >
-            {button.icon}
-          </button>
-        ))}
-      </div>
-
-      <div className="toolbar-divider" />
-
       <div className="toolbar-group">
         {WORKFLOW_BUTTONS.map((button) => (
           <button

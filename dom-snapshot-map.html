@@ -1,0 +1,3985 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <link rel="stylesheet" href="cesium/Widgets/widgets.css">
+
+    <script type="module">import { injectIntoGlobalHook } from "/@react-refresh";
+injectIntoGlobalHook(window);
+window.$RefreshReg$ = () => {};
+window.$RefreshSig$ = () => (type) => type;</script>
+
+    <script type="module" src="/@vite/client"></script>
+
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fyp3-0</title>
+  <style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/index.css">* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/components/layout/Welcome.css">.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.welcome-content {
+  text-align: center;
+  color: white;
+}
+
+.welcome-content h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.welcome-content p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.enter-button {
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #667eea;
+  background: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.enter-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.enter-button:active {
+  transform: translateY(0);
+}
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/node_modules/cesium/Build/Cesium/Widgets/widgets.css">/* packages/widgets/Source/shared.css */
+.cesium-svgPath-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.cesium-button {
+  display: inline-block;
+  position: relative;
+  background: #303336;
+  border: 1px solid #444;
+  color: #edffff;
+  fill: #edffff;
+  border-radius: 4px;
+  padding: 5px 12px;
+  margin: 2px 3px;
+  cursor: pointer;
+  overflow: hidden;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.cesium-button:focus {
+  color: #fff;
+  fill: #fff;
+  border-color: #ea4;
+  outline: none;
+}
+.cesium-button:hover {
+  color: #fff;
+  fill: #fff;
+  background: #48b;
+  border-color: #aef;
+  box-shadow: 0 0 8px #fff;
+}
+.cesium-button:active {
+  color: #000;
+  fill: #000;
+  background: #adf;
+  border-color: #fff;
+  box-shadow: 0 0 8px #fff;
+}
+.cesium-button:disabled,
+.cesium-button-disabled,
+.cesium-button-disabled:focus,
+.cesium-button-disabled:hover,
+.cesium-button-disabled:active {
+  background: #303336;
+  border-color: #444;
+  color: #646464;
+  fill: #646464;
+  box-shadow: none;
+  cursor: default;
+}
+.cesium-button option {
+  background-color: #000;
+  color: #eee;
+}
+.cesium-button option:disabled {
+  color: #777;
+}
+.cesium-button input,
+.cesium-button label {
+  cursor: pointer;
+}
+.cesium-button input {
+  vertical-align: sub;
+}
+.cesium-toolbar-button {
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  border-radius: 14%;
+  padding: 0;
+  vertical-align: middle;
+  z-index: 0;
+}
+.cesium-performanceDisplay-defaultContainer {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  text-align: right;
+}
+.cesium-performanceDisplay {
+  background-color: rgba(40, 40, 40, 0.7);
+  padding: 7px;
+  border-radius: 5px;
+  border: 1px solid #444;
+  font: bold 12px sans-serif;
+}
+.cesium-performanceDisplay-fps {
+  color: #e52;
+}
+.cesium-performanceDisplay-throttled {
+  color: #a42;
+}
+.cesium-performanceDisplay-ms {
+  color: #de3;
+}
+
+/* packages/widgets/Source/Animation/Animation.css */
+.cesium-animation-theme {
+  visibility: hidden;
+  display: block;
+  position: absolute;
+  z-index: -100;
+}
+.cesium-animation-themeNormal {
+  color: #222;
+}
+.cesium-animation-themeHover {
+  color: #4488b0;
+}
+.cesium-animation-themeSelect {
+  color: #242;
+}
+.cesium-animation-themeDisabled {
+  color: #333;
+}
+.cesium-animation-themeKnob {
+  color: #222;
+}
+.cesium-animation-themePointer {
+  color: #2e2;
+}
+.cesium-animation-themeSwoosh {
+  color: #8ac;
+}
+.cesium-animation-themeSwooshHover {
+  color: #aef;
+}
+.cesium-animation-svgText {
+  fill: #edffff;
+  font-family: Sans-Serif;
+  font-size: 15px;
+  text-anchor: middle;
+}
+.cesium-animation-blank {
+  fill: #000;
+  fill-opacity: 0.01;
+  stroke: none;
+}
+.cesium-animation-rectButton {
+  cursor: pointer;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.cesium-animation-rectButton .cesium-animation-buttonGlow {
+  fill: #fff;
+  stroke: none;
+  display: none;
+}
+.cesium-animation-rectButton:hover .cesium-animation-buttonGlow {
+  display: block;
+}
+.cesium-animation-rectButton .cesium-animation-buttonPath {
+  fill: #edffff;
+}
+.cesium-animation-rectButton .cesium-animation-buttonMain {
+  stroke: #444;
+  stroke-width: 1.2;
+}
+.cesium-animation-rectButton:hover .cesium-animation-buttonMain {
+  stroke: #aef;
+}
+.cesium-animation-rectButton:active .cesium-animation-buttonMain {
+  fill: #abd6ff;
+}
+.cesium-animation-buttonDisabled {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.cesium-animation-buttonDisabled .cesium-animation-buttonMain {
+  stroke: #555;
+}
+.cesium-animation-buttonDisabled .cesium-animation-buttonPath {
+  fill: #818181;
+}
+.cesium-animation-buttonDisabled .cesium-animation-buttonGlow {
+  display: none;
+}
+.cesium-animation-buttonToggled .cesium-animation-buttonGlow {
+  display: block;
+  fill: #2e2;
+}
+.cesium-animation-buttonToggled .cesium-animation-buttonMain {
+  stroke: #2e2;
+}
+.cesium-animation-buttonToggled:hover .cesium-animation-buttonGlow {
+  fill: #fff;
+}
+.cesium-animation-buttonToggled:hover .cesium-animation-buttonMain {
+  stroke: #2e2;
+}
+.cesium-animation-shuttleRingG {
+  cursor: pointer;
+}
+.cesium-animation-shuttleRingPointer {
+  cursor: pointer;
+}
+.cesium-animation-shuttleRingPausePointer {
+  cursor: pointer;
+}
+.cesium-animation-shuttleRingBack {
+  fill: #181818;
+  fill-opacity: 0.8;
+  stroke: #333;
+  stroke-width: 1.2;
+}
+.cesium-animation-shuttleRingSwoosh line {
+  stroke: #8ac;
+  stroke-width: 3;
+  stroke-opacity: 0.2;
+  stroke-linecap: round;
+}
+.cesium-animation-knobOuter {
+  cursor: pointer;
+  stroke: #444;
+  stroke-width: 1.2;
+}
+.cesium-animation-knobInner {
+  cursor: pointer;
+}
+
+/* packages/widgets/Source/BaseLayerPicker/BaseLayerPicker.css */
+.cesium-baseLayerPicker-selected {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.cesium-baseLayerPicker-dropDown {
+  display: block;
+  position: absolute;
+  box-sizing: content-box;
+  top: auto;
+  right: 0;
+  width: 320px;
+  max-height: 500px;
+  margin-top: 5px;
+  background-color: rgba(38, 38, 38, 0.75);
+  border: 1px solid #444;
+  padding: 6px;
+  overflow: auto;
+  border-radius: 10px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  transform: translate(0, -20%);
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    visibility 0s 0.2s,
+    opacity 0.2s ease-in,
+    transform 0.2s ease-in;
+}
+.cesium-baseLayerPicker-dropDown-visible {
+  transform: translate(0, 0);
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+.cesium-baseLayerPicker-sectionTitle {
+  display: block;
+  font-family: sans-serif;
+  font-size: 16pt;
+  text-align: left;
+  color: #edffff;
+  margin-bottom: 4px;
+}
+.cesium-baseLayerPicker-choices {
+  margin-bottom: 5px;
+}
+.cesium-baseLayerPicker-categoryTitle {
+  color: #edffff;
+  font-size: 11pt;
+}
+.cesium-baseLayerPicker-choices {
+  display: block;
+  border: 1px solid #888;
+  border-radius: 5px;
+  padding: 5px 0;
+}
+.cesium-baseLayerPicker-item {
+  display: inline-block;
+  vertical-align: top;
+  margin: 2px 5px;
+  width: 64px;
+  text-align: center;
+  cursor: pointer;
+}
+.cesium-baseLayerPicker-itemLabel {
+  display: block;
+  font-family: sans-serif;
+  font-size: 8pt;
+  text-align: center;
+  vertical-align: middle;
+  color: #edffff;
+  cursor: pointer;
+  word-wrap: break-word;
+}
+.cesium-baseLayerPicker-item:hover .cesium-baseLayerPicker-itemLabel,
+.cesium-baseLayerPicker-item:focus .cesium-baseLayerPicker-itemLabel {
+  text-decoration: underline;
+}
+.cesium-baseLayerPicker-itemIcon {
+  display: inline-block;
+  position: relative;
+  width: inherit;
+  height: auto;
+  background-size: 100% 100%;
+  border: solid 1px #444;
+  border-radius: 9px;
+  color: #edffff;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.cesium-baseLayerPicker-item:hover .cesium-baseLayerPicker-itemIcon {
+  border-color: #fff;
+  box-shadow: 0 0 8px #fff, 0 0 8px #fff;
+}
+.cesium-baseLayerPicker-selectedItem .cesium-baseLayerPicker-itemLabel {
+  color: rgb(189, 236, 248);
+}
+.cesium-baseLayerPicker-selectedItem .cesium-baseLayerPicker-itemIcon {
+  border: double 4px rgb(189, 236, 248);
+}
+
+/* packages/engine/Source/Widget/CesiumWidget.css */
+.cesium-widget {
+  font-family: sans-serif;
+  font-size: 16px;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.cesium-widget,
+.cesium-widget canvas {
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+.cesium-widget-credits {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: #fff;
+  font-size: 10px;
+  text-shadow: 0px 0px 2px #000000;
+  padding-right: 5px;
+}
+.cesium-widget-errorPanel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 99999;
+}
+.cesium-widget-errorPanel:before {
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+  content: "";
+}
+.cesium-widget-errorPanel-content {
+  width: 75%;
+  max-width: 500px;
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+  border: 1px solid #510c00;
+  border-radius: 7px;
+  background-color: #f0d9d5;
+  font-size: 14px;
+  color: #510c00;
+}
+.cesium-widget-errorPanel-content.expanded {
+  max-width: 75%;
+}
+.cesium-widget-errorPanel-header {
+  font-size: 18px;
+  font-family:
+    "Open Sans",
+    Verdana,
+    Geneva,
+    sans-serif;
+  background: #d69d93;
+  border-bottom: 2px solid #510c00;
+  padding-bottom: 10px;
+  border-radius: 3px 3px 0 0;
+  padding: 15px;
+}
+.cesium-widget-errorPanel-scroll {
+  overflow: auto;
+  font-family:
+    "Open Sans",
+    Verdana,
+    Geneva,
+    sans-serif;
+  white-space: pre-wrap;
+  padding: 0 15px;
+  margin: 10px 0 20px 0;
+}
+.cesium-widget-errorPanel-buttonPanel {
+  padding: 0 15px;
+  margin: 10px 0 20px 0;
+  text-align: right;
+}
+.cesium-widget-errorPanel-buttonPanel button {
+  border-color: #510c00;
+  background: #d69d93;
+  color: #202020;
+  margin: 0;
+}
+.cesium-widget-errorPanel-buttonPanel button:focus {
+  border-color: #510c00;
+  background: #f0d9d5;
+  color: #510c00;
+}
+.cesium-widget-errorPanel-buttonPanel button:hover {
+  border-color: #510c00;
+  background: #f0d9d5;
+  color: #510c00;
+}
+.cesium-widget-errorPanel-buttonPanel button:active {
+  border-color: #510c00;
+  background: #b17b72;
+  color: #510c00;
+}
+.cesium-widget-errorPanel-more-details {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.cesium-widget-errorPanel-more-details:hover {
+  color: #2b0700;
+}
+
+/* packages/widgets/Source/CesiumInspector/CesiumInspector.css */
+.cesium-cesiumInspector {
+  border-radius: 5px;
+  transition: width ease-in-out 0.25s;
+  background: rgba(48, 51, 54, 0.8);
+  border: 1px solid #444;
+  color: #edffff;
+  display: inline-block;
+  position: relative;
+  padding: 4px 12px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+.cesium-cesiumInspector-button {
+  text-align: center;
+  font-size: 11pt;
+}
+.cesium-cesiumInspector-visible .cesium-cesiumInspector-button {
+  border-bottom: 1px solid #aaa;
+  padding-bottom: 3px;
+}
+.cesium-cesiumInspector input:enabled,
+.cesium-cesiumInspector-button {
+  cursor: pointer;
+}
+.cesium-cesiumInspector-visible {
+  width: 185px;
+  height: auto;
+}
+.cesium-cesiumInspector-hidden {
+  width: 122px;
+  height: 17px;
+}
+.cesium-cesiumInspector-sectionContent {
+  max-height: 600px;
+}
+.cesium-cesiumInspector-section-collapsed .cesium-cesiumInspector-sectionContent {
+  max-height: 0;
+  padding: 0 !important;
+  overflow: hidden;
+}
+.cesium-cesiumInspector-dropDown {
+  margin: 5px 0;
+  font-family: sans-serif;
+  font-size: 10pt;
+  width: 185px;
+}
+.cesium-cesiumInspector-frustumStatistics {
+  padding-left: 10px;
+  padding: 5px;
+  background-color: rgba(80, 80, 80, 0.75);
+}
+.cesium-cesiumInspector-pickButton {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #444;
+  color: #edffff;
+  border-radius: 5px;
+  padding: 3px 7px;
+  cursor: pointer;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 0 auto;
+}
+.cesium-cesiumInspector-pickButton:focus {
+  outline: none;
+}
+.cesium-cesiumInspector-pickButton:active,
+.cesium-cesiumInspector-pickButtonHighlight {
+  color: #000;
+  background: #adf;
+  border-color: #fff;
+  box-shadow: 0 0 8px #fff;
+}
+.cesium-cesiumInspector-center {
+  text-align: center;
+}
+.cesium-cesiumInspector-sectionHeader {
+  font-weight: bold;
+  font-size: 10pt;
+  margin: 0;
+  cursor: pointer;
+}
+.cesium-cesiumInspector-pickSection {
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  padding: 3px;
+  margin-bottom: 5px;
+}
+.cesium-cesiumInspector-sectionContent {
+  margin-bottom: 10px;
+  transition: max-height 0.25s;
+}
+.cesium-cesiumInspector-tileText {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #aaa;
+}
+.cesium-cesiumInspector-relativeText {
+  padding-top: 10px;
+}
+.cesium-cesiumInspector-sectionHeader::before {
+  margin-right: 5px;
+  content: "-";
+  width: 1ch;
+  display: inline-block;
+}
+.cesium-cesiumInspector-section-collapsed .cesium-cesiumInspector-sectionHeader::before {
+  content: "+";
+}
+
+/* packages/widgets/Source/Cesium3DTilesInspector/Cesium3DTilesInspector.css */
+ul.cesium-cesiumInspector-statistics {
+  margin: 0;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+ul.cesium-cesiumInspector-statistics + ul.cesium-cesiumInspector-statistics {
+  border-top: 1px solid #aaa;
+}
+.cesium-cesiumInspector-slider {
+  margin-top: 5px;
+}
+.cesium-cesiumInspector-slider input[type=number] {
+  text-align: left;
+  background-color: #222;
+  outline: none;
+  border: 1px solid #444;
+  color: #edffff;
+  width: 100px;
+  border-radius: 3px;
+  padding: 1px;
+  margin-left: 10px;
+  cursor: auto;
+}
+.cesium-cesiumInspector-slider input[type=number]::-webkit-outer-spin-button,
+.cesium-cesiumInspector-slider input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.cesium-cesiumInspector-slider input[type=range] {
+  margin-left: 5px;
+  vertical-align: middle;
+}
+.cesium-cesiumInspector-hide .cesium-cesiumInspector-styleEditor {
+  display: none;
+}
+.cesium-cesiumInspector-styleEditor {
+  padding: 10px;
+  border-radius: 5px;
+  background: rgba(48, 51, 54, 0.8);
+  border: 1px solid #444;
+}
+.cesium-cesiumInspector-styleEditor textarea {
+  width: 100%;
+  height: 300px;
+  background: transparent;
+  color: #edffff;
+  border: none;
+  padding: 0;
+  white-space: pre;
+  overflow-wrap: normal;
+  overflow-x: auto;
+}
+.cesium-3DTilesInspector {
+  width: 300px;
+  pointer-events: all;
+}
+.cesium-3DTilesInspector-statistics {
+  font-size: 11px;
+}
+.cesium-3DTilesInspector-disabledElementsInfo {
+  margin: 5px 0 0 0;
+  padding: 0 0 0 20px;
+  color: #eed202;
+}
+.cesium-3DTilesInspector div,
+.cesium-3DTilesInspector input[type=range] {
+  width: 100%;
+  box-sizing: border-box;
+}
+.cesium-cesiumInspector-error {
+  color: #ff9e9e;
+  overflow: auto;
+}
+.cesium-3DTilesInspector .cesium-cesiumInspector-section {
+  margin-top: 3px;
+}
+.cesium-3DTilesInspector .cesium-cesiumInspector-sectionHeader + .cesium-cesiumInspector-show {
+  border-top: 1px solid white;
+}
+input.cesium-cesiumInspector-url {
+  overflow: hidden;
+  white-space: nowrap;
+  overflow-x: scroll;
+  background-color: transparent;
+  color: white;
+  outline: none;
+  border: none;
+  height: 1em;
+  width: 100%;
+}
+.cesium-cesiumInspector .field-group {
+  display: table;
+}
+.cesium-cesiumInspector .field-group > label {
+  display: table-cell;
+  font-weight: bold;
+}
+.cesium-cesiumInspector .field-group > .field {
+  display: table-cell;
+  width: 100%;
+}
+
+/* packages/widgets/Source/VoxelInspector/VoxelInspector.css */
+.cesium-VoxelInspector {
+  width: 300px;
+  pointer-events: all;
+}
+.cesium-VoxelInspector div,
+.cesium-VoxelInspector input[type=range] {
+  width: 100%;
+  box-sizing: border-box;
+}
+.cesium-VoxelInspector .cesium-cesiumInspector-section {
+  margin-top: 3px;
+}
+.cesium-VoxelInspector .cesium-cesiumInspector-sectionHeader + .cesium-cesiumInspector-show {
+  border-top: 1px solid white;
+}
+
+/* packages/widgets/Source/FullscreenButton/FullscreenButton.css */
+.cesium-button.cesium-fullscreenButton {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+}
+
+/* packages/widgets/Source/VRButton/VRButton.css */
+.cesium-button.cesium-vrButton {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+}
+
+/* packages/widgets/Source/Geocoder/Geocoder.css */
+.cesium-viewer-geocoderContainer .cesium-geocoder-input {
+  border: solid 1px #444;
+  background-color: rgba(40, 40, 40, 0.7);
+  color: white;
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 32px;
+  margin: 0;
+  padding: 0 32px 0 0;
+  border-radius: 0;
+  box-sizing: border-box;
+  transition: width ease-in-out 0.25s, background-color 0.2s ease-in-out;
+  -webkit-appearance: none;
+}
+.cesium-viewer-geocoderContainer:hover .cesium-geocoder-input {
+  border-color: #aef;
+  box-shadow: 0 0 8px #fff;
+}
+.cesium-viewer-geocoderContainer .cesium-geocoder-input:focus {
+  border-color: #ea4;
+  background-color: rgba(15, 15, 15, 0.9);
+  box-shadow: none;
+  outline: none;
+}
+.cesium-viewer-geocoderContainer:hover .cesium-geocoder-input,
+.cesium-viewer-geocoderContainer .cesium-geocoder-input:focus,
+.cesium-viewer-geocoderContainer .cesium-geocoder-input-wide {
+  padding-left: 4px;
+  width: 250px;
+}
+.cesium-viewer-geocoderContainer .search-results {
+  position: absolute;
+  background-color: #000;
+  color: #eee;
+  overflow-y: auto;
+  opacity: 0.8;
+  width: 100%;
+}
+.cesium-viewer-geocoderContainer .search-results ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.cesium-viewer-geocoderContainer .search-results ul li {
+  font-size: 14px;
+  padding: 3px 10px;
+}
+.cesium-viewer-geocoderContainer .search-results ul li:hover {
+  cursor: pointer;
+}
+.cesium-viewer-geocoderContainer .search-results ul li.active {
+  background: #48b;
+}
+.cesium-geocoder-searchButton {
+  background-color: #303336;
+  display: inline-block;
+  position: absolute;
+  cursor: pointer;
+  width: 32px;
+  top: 1px;
+  right: 1px;
+  height: 30px;
+  vertical-align: middle;
+  fill: #edffff;
+}
+.cesium-geocoder-searchButton:hover {
+  background-color: #48b;
+}
+
+/* packages/widgets/Source/InfoBox/InfoBox.css */
+.cesium-infoBox {
+  display: block;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 40%;
+  max-width: 480px;
+  background: rgba(38, 38, 38, 0.95);
+  color: #edffff;
+  border: 1px solid #444;
+  border-right: none;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  box-shadow: 0 0 10px 1px #000;
+  transform: translate(100%, 0);
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    visibility 0s 0.2s,
+    opacity 0.2s ease-in,
+    transform 0.2s ease-in;
+}
+.cesium-infoBox-visible {
+  transform: translate(0, 0);
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+.cesium-infoBox-title {
+  display: block;
+  height: 20px;
+  padding: 5px 30px 5px 25px;
+  background: rgba(84, 84, 84, 1);
+  border-top-left-radius: 7px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: content-box;
+}
+.cesium-infoBox-bodyless .cesium-infoBox-title {
+  border-bottom-left-radius: 7px;
+}
+button.cesium-infoBox-camera {
+  display: block;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 3px;
+  padding: 0 5px;
+  margin: 0;
+}
+button.cesium-infoBox-close {
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  border-radius: 2px;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 0 5px;
+  margin: 0;
+  color: #edffff;
+}
+button.cesium-infoBox-close:focus {
+  background: rgba(238, 136, 0, 0.44);
+  outline: none;
+}
+button.cesium-infoBox-close:hover {
+  background: #888;
+  color: #000;
+}
+button.cesium-infoBox-close:active {
+  background: #a00;
+  color: #000;
+}
+.cesium-infoBox-bodyless .cesium-infoBox-iframe {
+  display: none;
+}
+.cesium-infoBox-iframe {
+  border: none;
+  width: 100%;
+  width: calc(100% - 2px);
+}
+
+/* packages/widgets/Source/SceneModePicker/SceneModePicker.css */
+span.cesium-sceneModePicker-wrapper {
+  display: inline-block;
+  position: relative;
+  margin: 0 3px;
+}
+.cesium-sceneModePicker-visible {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.25s linear;
+}
+.cesium-sceneModePicker-hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.25s, opacity 0.25s linear;
+}
+.cesium-sceneModePicker-wrapper .cesium-sceneModePicker-none {
+  display: none;
+}
+.cesium-sceneModePicker-slide-svg {
+  transition: left 2s;
+  top: 0;
+  left: 0;
+}
+.cesium-sceneModePicker-wrapper .cesium-sceneModePicker-dropDown-icon {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 3px 0;
+}
+.cesium-sceneModePicker-wrapper .cesium-sceneModePicker-button3D,
+.cesium-sceneModePicker-wrapper .cesium-sceneModePicker-buttonColumbusView,
+.cesium-sceneModePicker-wrapper .cesium-sceneModePicker-button2D {
+  margin: 0 0 3px 0;
+}
+.cesium-sceneModePicker-wrapper .cesium-sceneModePicker-button3D .cesium-sceneModePicker-icon2D {
+  left: 100%;
+}
+.cesium-sceneModePicker-wrapper .cesium-sceneModePicker-button3D .cesium-sceneModePicker-iconColumbusView {
+  left: 200%;
+}
+.cesium-sceneModePicker-wrapper .cesium-sceneModePicker-buttonColumbusView .cesium-sceneModePicker-icon3D {
+  left: -200%;
+}
+.cesium-sceneModePicker-wrapper .cesium-sceneModePicker-buttonColumbusView .cesium-sceneModePicker-icon2D {
+  left: -100%;
+}
+.cesium-sceneModePicker-wrapper .cesium-sceneModePicker-button2D .cesium-sceneModePicker-icon3D {
+  left: -100%;
+}
+.cesium-sceneModePicker-wrapper .cesium-sceneModePicker-button2D .cesium-sceneModePicker-iconColumbusView {
+  left: 100%;
+}
+.cesium-sceneModePicker-wrapper .cesium-sceneModePicker-selected {
+  border-color: #2e2;
+  box-shadow: 0 0 8px #fff, 0 0 8px #fff;
+}
+
+/* packages/widgets/Source/ProjectionPicker/ProjectionPicker.css */
+span.cesium-projectionPicker-wrapper {
+  display: inline-block;
+  position: relative;
+  margin: 0 3px;
+}
+.cesium-projectionPicker-visible {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.25s linear;
+}
+.cesium-projectionPicker-hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.25s, opacity 0.25s linear;
+}
+.cesium-projectionPicker-wrapper .cesium-projectionPicker-none {
+  display: none;
+}
+.cesium-projectionPicker-wrapper .cesium-projectionPicker-dropDown-icon {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 3px 0;
+}
+.cesium-projectionPicker-wrapper .cesium-projectionPicker-buttonPerspective,
+.cesium-projectionPicker-wrapper .cesium-projectionPicker-buttonOrthographic {
+  margin: 0 0 3px 0;
+}
+.cesium-projectionPicker-wrapper .cesium-projectionPicker-buttonPerspective .cesium-projectionPicker-iconOrthographic {
+  left: 100%;
+}
+.cesium-projectionPicker-wrapper .cesium-projectionPicker-buttonOrthographic .cesium-projectionPicker-iconPerspective {
+  left: -100%;
+}
+.cesium-projectionPicker-wrapper .cesium-projectionPicker-selected {
+  border-color: #2e2;
+  box-shadow: 0 0 8px #fff, 0 0 8px #fff;
+}
+
+/* packages/widgets/Source/PerformanceWatchdog/PerformanceWatchdog.css */
+.cesium-performance-watchdog-message-area {
+  position: relative;
+  background-color: yellow;
+  color: black;
+  padding: 10px;
+}
+.cesium-performance-watchdog-message {
+  margin-right: 30px;
+}
+.cesium-performance-watchdog-message-dismiss {
+  position: absolute;
+  right: 0;
+  margin: 0 10px 0 0;
+}
+
+/* packages/widgets/Source/NavigationHelpButton/NavigationHelpButton.css */
+.cesium-navigationHelpButton-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.cesium-navigation-help {
+  visibility: hidden;
+  position: absolute;
+  top: 38px;
+  right: 2px;
+  width: 250px;
+  border-radius: 10px;
+  transform: scale(0.01);
+  transform-origin: 234px -10px;
+  transition: visibility 0s 0.25s, transform 0.25s ease-in;
+}
+.cesium-navigation-help-visible {
+  visibility: visible;
+  transform: scale(1);
+  transition: transform 0.25s ease-out;
+}
+.cesium-navigation-help-instructions {
+  border: 1px solid #444;
+  background-color: rgba(38, 38, 38, 0.75);
+  padding-bottom: 5px;
+  border-radius: 0 0 10px 10px;
+}
+.cesium-click-navigation-help {
+  display: none;
+}
+.cesium-touch-navigation-help {
+  display: none;
+  padding-top: 5px;
+}
+.cesium-click-navigation-help-visible {
+  display: block;
+}
+.cesium-touch-navigation-help-visible {
+  display: block;
+}
+.cesium-navigation-help-pan {
+  color: #66ccff;
+  font-weight: bold;
+}
+.cesium-navigation-help-zoom {
+  color: #65fd00;
+  font-weight: bold;
+}
+.cesium-navigation-help-rotate {
+  color: #ffd800;
+  font-weight: bold;
+}
+.cesium-navigation-help-tilt {
+  color: #d800d8;
+  font-weight: bold;
+}
+.cesium-navigation-help-details {
+  color: #ffffff;
+}
+.cesium-navigation-button {
+  color: #fff;
+  background-color: transparent;
+  border-bottom: none;
+  border-top: 1px solid #444;
+  border-right: 1px solid #444;
+  margin: 0;
+  width: 50%;
+  cursor: pointer;
+}
+.cesium-navigation-button-icon {
+  vertical-align: middle;
+  padding: 5px 1px;
+}
+.cesium-navigation-button:focus {
+  outline: none;
+}
+.cesium-navigation-button-left {
+  border-radius: 10px 0 0 0;
+  border-left: 1px solid #444;
+}
+.cesium-navigation-button-right {
+  border-radius: 0 10px 0 0;
+  border-left: none;
+}
+.cesium-navigation-button-selected {
+  background-color: rgba(38, 38, 38, 0.75);
+}
+.cesium-navigation-button-unselected {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+.cesium-navigation-button-unselected:hover {
+  background-color: rgba(76, 76, 76, 0.75);
+}
+
+/* packages/widgets/Source/SelectionIndicator/SelectionIndicator.css */
+.cesium-selection-wrapper {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.2s, opacity 0.2s ease-in;
+}
+.cesium-selection-wrapper-visible {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.2s ease-out;
+}
+.cesium-selection-wrapper svg {
+  fill: #2e2;
+  stroke: #000;
+  stroke-width: 1.1px;
+}
+
+/* packages/widgets/Source/Timeline/Timeline.css */
+.cesium-timeline-main {
+  position: relative;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+  border: solid 1px #888;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.cesium-timeline-trackContainer {
+  width: 100%;
+  overflow: auto;
+  border-top: solid 1px #888;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.cesium-timeline-tracks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.cesium-timeline-needle {
+  position: absolute;
+  left: 0;
+  top: 1.7em;
+  bottom: 0;
+  width: 1px;
+  background: #f00;
+}
+.cesium-timeline-bar {
+  position: relative;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  cursor: pointer;
+  width: 100%;
+  height: 1.7em;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(116, 117, 119, 0.8) 0%,
+      rgba(58, 68, 82, 0.8) 11%,
+      rgba(46, 50, 56, 0.8) 46%,
+      rgba(53, 53, 53, 0.8) 81%,
+      rgba(53, 53, 53, 0.8) 100%);
+}
+.cesium-timeline-ruler {
+  visibility: hidden;
+  white-space: nowrap;
+  font-size: 80%;
+  z-index: -200;
+}
+.cesium-timeline-highlight {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #08f;
+}
+.cesium-timeline-ticLabel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  font-size: 80%;
+  color: #eee;
+}
+.cesium-timeline-ticMain {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 50%;
+  background: #eee;
+}
+.cesium-timeline-ticSub {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 33%;
+  background: #aaa;
+}
+.cesium-timeline-ticTiny {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 25%;
+  background: #888;
+}
+.cesium-timeline-icon16 {
+  display: block;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-image: url(data:text/plain;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sIDBITKIVzLEMAAAKNSURBVEjHxdXNSxRhHAfw7zzrqhuoWJnSkrippUVSEKsHI9BTUYdAJA/RoYMREV26rAdn6tAfUARi16hQqkOBQRgUEYFWEC3OwczMjdZd92VmdWfmeelgTjO7q7gb0VzmmZnn85vvPPPMM8B/3qTcE2PPpuTZKB1eWuUQACgXYACYwVFbCTTVeZXB/i55o4LFelcAZfStYD4vpAoPGAGo4GBcQEgSOAUMQyAezwK6iQfDPXnhS/FkHZ+/8VLMWxxqWkfH3gbMRNOYi2roavbja0zHQmoFPYf8ED4Ko4aivm9MOG/u9I8mwrafeK7a/tVrNc/bARYN5noadeq7q0342vXw9CIMU6BmW8rVP9cPBPe52uu+v3O/y9sB4gkTWs6Qsk0mj5ExXMelejvA8WafYmkmGPHanTijdtvif8rx5RiCjdWKs2Cp3jWRDl96KhrbqlBeJqBOLyLQXg0IgbkZDS0dO8EZxZfPSTA9jvDDK3mT0OmP1FXh3XwEEAKdTX5MRWLgjCK4pwH3xt/YnjgLHAv4lHTCAKMMu/wV+KZGob6PoKyMQ0+sgBpZVJZn0NterxQaVqef/DRn+/EXYds/mZx2eVeAW9d65dhCEsaKCb7K8HH0gqTevyh9GDkn0VULRiaLzJKGBu9swfdaiie5RVo9ESURN8E8BE0n7ggACJy8KzghSCzp6DmwWxkaCm24EBXr8wI8Hrkq06QBiRC0t24HALS11IBTCyJl4vb1AXmzpbVYTwoVOXN0h7L8Mwtm8bXPybIQ/5FCX3dA2cr6XowvGCA02CvztAnz9+JiZk1AMxG6fEreSoBiPNmoyNnuWiWVzAIAtISO08E6pZi/3N96AIDn4E3h3P8L/wshP+txtEs4JAAAAABJRU5ErkJggg==);
+  background-repeat: no-repeat;
+}
+
+/* packages/widgets/Source/Viewer/Viewer.css */
+.cesium-viewer {
+  font-family: sans-serif;
+  font-size: 16px;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.cesium-viewer-cesiumWidgetContainer {
+  width: 100%;
+  height: 100%;
+}
+.cesium-viewer-bottom {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding-right: 5px;
+}
+.cesium-viewer .cesium-widget-credits {
+  display: inline;
+  position: static;
+  bottom: auto;
+  left: auto;
+  padding-right: 0;
+  color: #ffffff;
+  font-size: 10px;
+  text-shadow: 0 0 2px #000000;
+}
+.cesium-viewer-timelineContainer {
+  position: absolute;
+  bottom: 0;
+  left: 169px;
+  right: 29px;
+  height: 27px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  font-size: 14px;
+}
+.cesium-viewer-animationContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0;
+  width: 169px;
+  height: 112px;
+}
+.cesium-viewer-fullscreenContainer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0;
+  width: 29px;
+  height: 29px;
+  overflow: hidden;
+}
+.cesium-viewer-vrContainer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0;
+  width: 29px;
+  height: 29px;
+  overflow: hidden;
+}
+.cesium-viewer-toolbar {
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.cesium-viewer-cesiumInspectorContainer {
+  display: block;
+  position: absolute;
+  top: 50px;
+  right: 10px;
+}
+.cesium-viewer-geocoderContainer {
+  position: relative;
+  display: inline-block;
+  margin: 0 3px;
+}
+.cesium-viewer-cesium3DTilesInspectorContainer {
+  display: block;
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  max-height: calc(100% - 120px);
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.cesium-viewer-voxelInspectorContainer {
+  display: block;
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  max-height: calc(100% - 120px);
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* packages/widgets/Source/I3SBuildingSceneLayerExplorer/I3SBuildingSceneLayerExplorer.css */
+.cesium-viewer-i3s-explorer ul {
+  list-style-type: none;
+}
+.cesium-viewer-i3s-explorer .layersList {
+  padding: 0;
+}
+.cesium-viewer-i3s-explorer input {
+  margin: 0 3px 0 0;
+}
+.cesium-viewer-i3s-explorer .expandItem {
+  cursor: pointer;
+  user-select: none;
+  width: 20px;
+}
+.cesium-viewer-i3s-explorer .nested,
+.cesium-viewer-i3s-explorer #bsl-wrapper {
+  display: none;
+}
+.cesium-viewer-i3s-explorer .active {
+  display: block;
+}
+.cesium-viewer-i3s-explorer .li-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
+
+/* packages/widgets/Source/widgets.css */
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/components/features/map/ViewCube.css">.viewcube-widget {
+	--viewport-short-side: min(100vw, 100vh);
+	--ring-size: clamp(108px, calc(var(--viewport-short-side) * 0.16), 172px);
+	--cube-size: clamp(44px, calc(var(--ring-size) * 0.4), 68px);
+	position: absolute;
+	top: clamp(170px, 14vh, 176px);
+	right: clamp(10px, 1.4vw, 18px);
+	width: var(--ring-size);
+	height: var(--ring-size);
+	z-index: 1001;
+	user-select: none;
+	filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.45));
+}
+
+.viewcube-dial {
+	position: absolute;
+	inset: 0;
+	transition: transform 0.08s linear;
+}
+
+.viewcube-ring {
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	border: 2px solid rgba(78, 205, 196, 0.42);
+	background:
+		radial-gradient(circle, transparent 53%, rgba(78, 205, 196, 0.1) 54%, transparent 56%),
+		conic-gradient(
+			from 0deg,
+			rgba(78, 205, 196, 0.26) 0deg 1deg,
+			transparent 1deg 44deg,
+			rgba(78, 205, 196, 0.26) 44deg 45deg,
+			transparent 45deg 89deg,
+			rgba(78, 205, 196, 0.26) 89deg 90deg,
+			transparent 90deg 134deg,
+			rgba(78, 205, 196, 0.26) 134deg 135deg,
+			transparent 135deg 179deg,
+			rgba(78, 205, 196, 0.26) 179deg 180deg,
+			transparent 180deg 224deg,
+			rgba(78, 205, 196, 0.26) 224deg 225deg,
+			transparent 225deg 269deg,
+			rgba(78, 205, 196, 0.26) 269deg 270deg,
+			transparent 270deg 314deg,
+			rgba(78, 205, 196, 0.26) 314deg 315deg,
+			transparent 315deg 359deg
+		);
+	cursor: ew-resize;
+}
+
+.viewcube-ring.dragging {
+	cursor: grabbing;
+}
+
+.viewcube-direction {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform:
+		translate(-50%, -50%)
+		rotate(var(--angle))
+		translateY(calc(-1 * (var(--ring-size) / 2 - 10px)))
+		rotate(calc(-1 * var(--angle)))
+		rotate(var(--counter-rotate));
+	min-width: clamp(22px, 2.2vw, 30px);
+	padding: clamp(2px, 0.3vw, 4px) clamp(4px, 0.55vw, 6px);
+	font-size: clamp(9px, 0.7vw, 11px);
+	border-radius: 4px;
+	color: #d5fffb;
+	border: 1px solid rgba(78, 205, 196, 0.2);
+	background: rgba(9, 20, 31, 0.45);
+	cursor: pointer;
+	transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.viewcube-direction:hover {
+	border-color: rgba(78, 205, 196, 0.9);
+	background: rgba(78, 205, 196, 0.2);
+	transform:
+		translate(-50%, -50%)
+		rotate(var(--angle))
+		translateY(calc(-1 * (var(--ring-size) / 2 - 10px)))
+		rotate(calc(-1 * var(--angle)))
+		rotate(var(--counter-rotate))
+		scale(1.08);
+}
+
+.viewcube-stage {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: var(--cube-size);
+	height: var(--cube-size);
+	transform: translate(-50%, -50%);
+	perspective: 520px;
+	cursor: grab;
+}
+
+.viewcube-stage.dragging {
+	cursor: grabbing;
+}
+
+.viewcube-cube {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	transform-style: preserve-3d;
+}
+
+.viewcube-face {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border: 1px solid rgba(78, 205, 196, 0.65);
+	color: #dcfffd;
+	font-weight: 700;
+	letter-spacing: 0.4px;
+	background:
+		linear-gradient(150deg, rgba(78, 205, 196, 0.2), rgba(69, 183, 209, 0.08)),
+		rgba(7, 16, 24, 0.78);
+	cursor: pointer;
+	transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.viewcube-face:hover {
+	border-color: #4ecdc4;
+	box-shadow: 0 0 14px rgba(78, 205, 196, 0.35);
+	background:
+		linear-gradient(150deg, rgba(78, 205, 196, 0.34), rgba(69, 183, 209, 0.2)),
+		rgba(11, 22, 34, 0.92);
+}
+
+.viewcube-face.north { transform: rotateY(0deg) translateZ(calc(var(--cube-size) / 2)); }
+.viewcube-face.east { transform: rotateY(90deg) translateZ(calc(var(--cube-size) / 2)); }
+.viewcube-face.south { transform: rotateY(180deg) translateZ(calc(var(--cube-size) / 2)); }
+.viewcube-face.west { transform: rotateY(-90deg) translateZ(calc(var(--cube-size) / 2)); }
+.viewcube-face.top { transform: rotateX(90deg) translateZ(calc(var(--cube-size) / 2)); }
+.viewcube-face.bottom { transform: rotateX(-90deg) translateZ(calc(var(--cube-size) / 2)); }
+
+@media (max-width: 768px) {
+	.viewcube-widget {
+		--ring-size: clamp(98px, 30vw, 128px);
+		--cube-size: clamp(40px, calc(var(--ring-size) * 0.4), 52px);
+		top: clamp(82px, 12vh, 112px);
+		right: clamp(8px, 2.5vw, 12px);
+	}
+}
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/components/features/map/MapView.css">.map-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.cesium-viewer {
+  width: 100%;
+  height: 100%;
+}
+
+/* 官方 BaseLayerPicker */
+.official-layer-picker {
+  position: absolute;
+  top: 116px;
+  right: 18px;
+  z-index: 1200;
+}
+
+.official-layer-picker .cesium-toolbar-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid rgba(78, 205, 196, 0.4);
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.official-layer-picker .cesium-toolbar-button:hover {
+  border-color: #4ecdc4;
+  box-shadow: 0 6px 18px rgba(78, 205, 196, 0.35);
+}
+
+.official-layer-picker .cesium-baseLayerPicker-dropDown {
+  right: 52px;
+  left: auto;
+  top: 0;
+  transform: translateY(-8px);
+  transform-origin: top right;
+  min-width: 220px;
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  z-index: 1201;
+}
+
+/* 共用 layer button（給 HK3D 控制按鈕使用） */
+.layer-button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  background: rgba(45, 45, 68, 0.4);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  color: #4ECDC4;
+  font-weight: 500;
+  backdrop-filter: blur(8px);
+}
+
+.layer-button.inactive {
+  border-color: rgba(78, 205, 196, 0.3);
+  background: rgba(45, 45, 68, 0.4);
+  color: #4ECDC4;
+}
+
+.layer-button:hover {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ECDC4;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(78, 205, 196, 0.35);
+  color: #ffffff;
+}
+
+.layer-button:disabled {
+  cursor: not-allowed;
+}
+
+.layer-button:disabled:hover {
+  transform: none;
+}
+
+.layer-button.active {
+  background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
+  color: #1a1a2e;
+  border-color: #4ECDC4;
+  box-shadow: 0 6px 20px rgba(78, 205, 196, 0.5);
+}
+
+/* 比例尺 */
+.scale-bar {
+  position: absolute;
+  bottom: 30px;
+  left: 20px;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  z-index: 1001;
+  pointer-events: none;
+}
+
+.camera-info-panel {
+  position: absolute;
+  bottom: 96px;
+  left: 20px;
+  min-width: 290px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  z-index: 1001;
+  pointer-events: none;
+}
+
+.camera-info-title {
+  margin-bottom: 6px;
+  color: #4ECDC4;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.camera-info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: #e5e7eb;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.camera-info-row span:first-child {
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.camera-info-row span:last-child {
+  color: #4ECDC4;
+  text-align: right;
+  word-break: break-word;
+}
+
+.scale-bar-line {
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, #4ECDC4, #45B7D1);
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.scale-bar-line::before,
+.scale-bar-line::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 8px;
+  background: #4ECDC4;
+  bottom: -3px;
+}
+
+.scale-bar-line::before {
+  left: 0;
+}
+
+.scale-bar-line::after {
+  right: 0;
+}
+
+.scale-bar-label {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4ECDC4;
+  letter-spacing: 0.5px;
+}
+
+/* 儀表板遮罩層 */
+.dashboard-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.dashboard-modal {
+  position: relative;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+  border: 1px solid rgba(78, 205, 196, 0.2);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+}
+
+.dashboard-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: rgba(78, 205, 196, 0.1);
+  color: #4ECDC4;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2001;
+  transition: all 0.2s ease;
+}
+
+.dashboard-close:hover {
+  background: rgba(78, 205, 196, 0.2);
+  transform: scale(1.1);
+}
+
+
+
+
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/components/ui/TopToolbar.css">.top-toolbar {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(78, 205, 196, 0.2);
+  z-index: 1100;
+  font-size: 16px;
+}
+
+.toolbar-divider {
+  width: 1px;
+  height: 38px;
+  background: linear-gradient(180deg, rgba(78, 205, 196, 0) 0%, rgba(78, 205, 196, 0.3) 50%, rgba(78, 205, 196, 0) 100%);
+}
+
+.toolbar-group,
+.toolbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbar-settings {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.toolbar-spacer {
+  flex: 1;
+}
+
+.toolbar-search-wrap {
+  position: relative;
+  flex: 0 1 420px;
+  min-width: 240px;
+  max-width: 500px;
+  margin-left: 2px;
+}
+
+.toolbar-search-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbar-search-input {
+
+@media (max-width: 1280px) {
+  .toolbar-search-wrap {
+    flex: 0 1 33%;
+    min-width: 180px;
+    max-width: 33%;
+  }
+}
+  width: 100%;
+  height: 42px;
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  border-radius: 12px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #e5e7eb;
+  padding: 0 14px;
+  font-size: 15px;
+}
+
+.toolbar-search-input::placeholder {
+  color: #9ca3af;
+}
+
+.toolbar-search-input:focus {
+  outline: none;
+  border-color: #4ECDC4;
+  box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+}
+
+.toolbar-search-btn {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  border-radius: 12px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #4ECDC4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toolbar-search-btn:hover {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ECDC4;
+  color: #ffffff;
+}
+
+.toolbar-search-results {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  max-height: 360px;
+  overflow-y: auto;
+  border: 1px solid rgba(78, 205, 196, 0.25);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.98) 100%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  padding: 10px;
+}
+
+.toolbar-search-result-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: #e5e7eb;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.toolbar-search-result-item:hover {
+  background: rgba(78, 205, 196, 0.12);
+  color: #ffffff;
+}
+
+.toolbar-settings-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 180px;
+  padding: 8px;
+  border: 1px solid rgba(78, 205, 196, 0.25);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.98) 100%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  z-index: 1200;
+}
+
+.toolbar-settings-item {
+  width: 100%;
+  border: 1px solid rgba(78, 205, 196, 0.25);
+  background: rgba(45, 45, 68, 0.4);
+  color: #e5e7eb;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.toolbar-settings-item:hover {
+  border-color: #4ECDC4;
+  background: rgba(78, 205, 196, 0.15);
+  color: #ffffff;
+}
+
+@media (max-width: 1024px) {
+  .top-toolbar {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 72px;
+    padding: 10px 14px;
+  }
+
+  .toolbar-search-wrap {
+    position: static;
+    flex: 1 1 100%;
+    width: 100%;
+    order: 10;
+  }
+}
+
+@media (max-width: 640px) {
+  .toolbar-group,
+  .toolbar-icons {
+    gap: 4px;
+  }
+
+  .toolbar-search-wrap {
+    width: 100%;
+  }
+}
+
+.top-toolbar .tool-btn {
+  width: 48px;
+  height: 48px;
+  font-size: 22px;
+}
+
+.top-toolbar .tool-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.toolbar-toggle-fallback {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  color: #4ECDC4;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.toolbar-toggle-fallback:hover {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ECDC4;
+  color: #ffffff;
+}
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/components/ui/SharedControls.css">.tool-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  border-radius: 8px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #4ECDC4;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.tool-btn:hover {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ECDC4;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
+}
+
+.tool-btn.active {
+  background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
+  color: #1a1a2e;
+  border-color: #4ECDC4;
+  box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+}
+
+.btn-sm {
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  background: rgba(45, 45, 68, 0.4);
+  color: #4ECDC4;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.btn-sm:hover {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ECDC4;
+  box-shadow: 0 2px 8px rgba(78, 205, 196, 0.2);
+}
+
+@media (max-width: 640px) {
+  .tool-btn {
+    width: 32px;
+    height: 32px;
+  }
+}
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/components/ui/TopPanels.css">.top-panel {
+  position: absolute;
+  top: 74px;
+  left: 12px;
+  width: 340px;
+  max-height: 60vh;
+  overflow-y: auto;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.97) 0%, rgba(22, 33, 62, 0.97) 100%);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(78, 205, 196, 0.2);
+  color: #eee;
+  z-index: 1090;
+}
+
+.model-manager-panel { left: 366px; }
+.layer-manager-panel { left: 720px; }
+.assessment-panel { left: 366px; }
+.monitoring-panel { left: 720px; }
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.panel-content {
+  padding: 12px;
+}
+
+.panel-close {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.project-item,
+.monitoring-card,
+.assessment-btn {
+  width: 100%;
+  border: 1px solid rgba(78, 205, 196, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+  background: rgba(78, 205, 196, 0.05);
+  color: #ddd;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.project-item:hover,
+.monitoring-card:hover,
+.assessment-btn:hover {
+  background: rgba(78, 205, 196, 0.1);
+  border-color: #4ECDC4;
+  box-shadow: 0 4px 12px rgba(78, 205, 196, 0.2);
+}
+
+.project-actions,
+.assessment-options,
+.monitoring-types {
+  display: grid;
+  gap: 8px;
+}
+
+.btn-primary {
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  background: rgba(45, 45, 68, 0.4);
+  color: #4ECDC4;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.btn-primary:hover {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ECDC4;
+  box-shadow: 0 2px 8px rgba(78, 205, 196, 0.2);
+}
+
+.btn-sm.danger {
+  color: #ff7875;
+  border-color: rgba(255, 71, 87, 0.3);
+}
+
+.btn-sm.danger:hover {
+  background: rgba(255, 71, 87, 0.1);
+  border-color: #ff4757;
+}
+
+.top-panel .search-input {
+  width: 100%;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #ddd;
+  transition: all 0.3s;
+  font-size: 13px;
+}
+
+.top-panel .search-input::placeholder {
+  color: #888;
+}
+
+.top-panel .search-input:focus {
+  outline: none;
+  border-color: #4ECDC4;
+  background: rgba(45, 45, 68, 0.6);
+  box-shadow: 0 0 8px rgba(78, 205, 196, 0.2);
+}
+
+.layer-group h4 {
+  margin: 10px 0 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4ECDC4;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.layer-item {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 6px;
+  border-radius: 4px;
+  color: #ddd;
+  transition: all 0.3s;
+}
+
+.layer-item:hover {
+  background: rgba(78, 205, 196, 0.05);
+}
+
+.layer-item input[type="checkbox"] {
+  accent-color: #4ECDC4;
+  cursor: pointer;
+}
+
+.layer-opacity {
+  grid-column: 2;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(78, 205, 196, 0.1);
+  cursor: pointer;
+}
+
+.layer-opacity::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #4ECDC4;
+  cursor: pointer;
+}
+
+.mt-3 {
+  margin-top: 12px;
+}
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/components/ui/RightToolbar.css">.right-toolbar {
+  position: absolute;
+  right: 12px;
+  top: 328px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  z-index: 1080;
+}
+
+.toolbar-btn {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  background: rgba(45, 45, 68, 0.4);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  color: #4ECDC4;
+  font-weight: 500;
+  backdrop-filter: blur(8px);
+}
+
+.toolbar-btn:hover {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ECDC4;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(78, 205, 196, 0.35);
+  color: #ffffff;
+}
+
+.toolbar-btn:active {
+  transform: scale(0.95);
+}
+
+.toolbar-btn.active {
+  background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
+  color: #1a1a2e;
+  border-color: #4ECDC4;
+  box-shadow: 0 6px 20px rgba(78, 205, 196, 0.5);
+}
+
+.right-toolbar-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.right-toolbar-debug {
+  min-width: 170px;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(45, 45, 68, 0.75);
+  border: 1px solid rgba(78, 205, 196, 0.25);
+  color: #e5e7eb;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.right-toolbar-pin-panel {
+  width: 280px;
+  max-width: min(280px, calc(100vw - 36px));
+}
+
+.right-toolbar-debug-pin-btn {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.right-toolbar-debug-pin-btn.active {
+  background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
+  color: #1a1a2e;
+  border-color: #4ECDC4;
+}
+
+.right-toolbar-debug-form {
+  margin-bottom: 8px;
+}
+
+.right-toolbar-debug-input {
+  width: 100%;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin-bottom: 6px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #ddd;
+  font-size: 12px;
+}
+
+.right-toolbar-debug-input::placeholder {
+  color: #888;
+}
+
+.right-toolbar-debug-input:focus {
+  outline: none;
+  border-color: #4ECDC4;
+  background: rgba(45, 45, 68, 0.6);
+  box-shadow: 0 0 8px rgba(78, 205, 196, 0.2);
+}
+
+.right-toolbar-debug-error {
+  margin-top: 4px;
+  color: #ff7875;
+}
+
+.right-toolbar-debug-title {
+  margin-top: 6px;
+  margin-bottom: 2px;
+  color: #4ECDC4;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .right-toolbar {
+    right: 10px;
+    top: 234px;
+  }
+
+  .right-toolbar-pin-panel {
+    width: min(280px, calc(100vw - 20px));
+  }
+}
+
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/components/features/audio/VoiceDashboardPanel.css">.voice-dashboard-root {
+  background: #f7f9fc;
+  border: 1px solid #dbe4f0;
+  border-radius: 16px;
+  padding: 14px;
+  min-height: 100%;
+  color: #1f2937;
+}
+
+.voice-dashboard-grid {
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  gap: 12px;
+}
+
+.voice-dashboard-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.voice-dashboard-kpi-card {
+  background: #ffffff;
+  border: 1px solid #dce6f2;
+  border-radius: 14px;
+  padding: 12px;
+  display: grid;
+  gap: 6px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.voice-dashboard-kpi-card h4 {
+  margin: 0;
+  font-size: 13px;
+  color: #4b5563;
+  letter-spacing: 0.01em;
+}
+
+.voice-dashboard-kpi-main {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.voice-dashboard-kpi-main span {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.voice-dashboard-kpi-trend {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.voice-dashboard-kpi-trend.down {
+  color: #dc2626;
+}
+
+.voice-dashboard-kpi-trend.up {
+  color: #16a34a;
+}
+
+.voice-dashboard-kpi-badge {
+  font-size: 12px;
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.voice-dashboard-kpi-sub {
+  font-size: 11px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.voice-dashboard-block {
+  background: #ffffff;
+  border: 1px solid #dce6f2;
+  border-radius: 14px;
+  padding: 10px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  display: grid;
+  gap: 10px;
+}
+
+.voice-dashboard-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.voice-dashboard-block-header h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #0f172a;
+}
+
+.voice-dashboard-block-header p {
+  margin: 0;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.voice-dashboard-chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  min-height: 270px;
+}
+
+.voice-dashboard-empty {
+  border: 1px dashed #cdd8e9;
+  border-radius: 12px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  background: #f8fbff;
+}
+
+.voice-dashboard-hbar {
+  position: relative;
+  border: 1px solid #e0e7f2;
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  gap: 7px;
+  overflow: hidden;
+}
+
+.voice-dashboard-watermark {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 28px;
+  color: rgba(15, 23, 42, 0.08);
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.voice-dashboard-hbar-row {
+  display: grid;
+  grid-template-columns: 96px 1fr 34px;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 180ms ease;
+}
+
+.voice-dashboard-hbar-name {
+  font-size: 12px;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.voice-dashboard-hbar-track {
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  background: #edf2fa;
+  overflow: hidden;
+}
+
+.voice-dashboard-hbar-fill {
+  height: 100%;
+  border-radius: inherit;
+}
+
+.voice-dashboard-hbar-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+  text-align: right;
+}
+
+.voice-dashboard-pie-wrap {
+  border: 1px solid #e0e7f2;
+  border-radius: 12px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.voice-dashboard-pie {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 1px solid #d7e0f0;
+  margin: 0 auto;
+}
+
+.voice-dashboard-pie-labels {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: #334155;
+}
+
+.voice-dashboard-pie-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 180ms ease;
+}
+
+.voice-dashboard-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.voice-dashboard-line {
+  border: 1px solid #e0e7f2;
+  border-radius: 12px;
+  padding: 6px;
+}
+
+.voice-dashboard-svg {
+  width: 100%;
+  height: 255px;
+}
+
+.voice-dashboard-grid-line {
+  stroke: #dbe5f1;
+  stroke-width: 1;
+}
+
+.voice-dashboard-axis-label {
+  font-size: 10px;
+  fill: #6b7280;
+}
+
+.voice-dashboard-line-label {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.voice-dashboard-pie path,
+.voice-dashboard-line g,
+.voice-dashboard-stacked-segment,
+.voice-dashboard-legend-item {
+  transition: opacity 180ms ease;
+}
+
+.voice-dashboard-stacked-wrap {
+  border: 1px solid #e0e7f2;
+  border-radius: 12px;
+  padding: 10px;
+  overflow-x: auto;
+}
+
+.voice-dashboard-stacked-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 520px;
+}
+
+.voice-dashboard-stacked-col {
+  display: grid;
+  gap: 5px;
+  justify-items: center;
+  min-width: 36px;
+}
+
+.voice-dashboard-stacked-col.active .voice-dashboard-stacked-bar {
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.35);
+}
+
+.voice-dashboard-stacked-col.active .voice-dashboard-stacked-time {
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.voice-dashboard-stacked-total {
+  font-size: 11px;
+  color: #334155;
+  font-weight: 700;
+}
+
+.voice-dashboard-stacked-bar {
+  width: 30px;
+  height: 180px;
+  background: #edf2fa;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.voice-dashboard-stacked-segment {
+  width: 100%;
+  min-height: 2px;
+  color: #ffffff;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.voice-dashboard-stacked-time {
+  font-size: 10px;
+  color: #475569;
+}
+
+.voice-dashboard-bottom {
+  background: #ffffff;
+  border: 1px solid #dce6f2;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  display: grid;
+  gap: 12px;
+}
+
+.voice-dashboard-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 16px;
+}
+
+.voice-dashboard-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #1f2937;
+}
+
+.voice-dashboard-timeline-wrap {
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
+  align-items: center;
+  gap: 8px;
+}
+
+.voice-dashboard-arrow {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #c8d5ea;
+  border-radius: 999px;
+  background: #f8fbff;
+  color: #2563eb;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.voice-dashboard-arrow:hover {
+  background: #eaf2ff;
+}
+
+.voice-dashboard-slider-box {
+  display: grid;
+  gap: 6px;
+}
+
+.voice-dashboard-current-time {
+  font-size: 12px;
+  color: #1d4ed8;
+  text-align: center;
+  font-weight: 700;
+}
+
+.voice-dashboard-play-btn {
+  justify-self: center;
+  min-width: 92px;
+  height: 30px;
+  border: 1px solid #bfcef0;
+  border-radius: 999px;
+  background: #edf3ff;
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.voice-dashboard-play-btn:hover:not(:disabled) {
+  background: #dfeafe;
+}
+
+.voice-dashboard-play-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.voice-dashboard-slider {
+  width: 100%;
+  accent-color: #2563eb;
+}
+
+.voice-dashboard-slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  color: #64748b;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.voice-dashboard-slider-ticks span {
+  display: inline-block;
+  text-align: center;
+  min-width: 30px;
+}
+
+@media (max-width: 1280px) {
+  .voice-dashboard-kpi-row {
+    grid-template-columns: 1fr;
+  }
+
+  .voice-dashboard-chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .voice-dashboard-pie-wrap {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .voice-dashboard-block-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/components/features/audio/VoiceMonitoring.css">.voice-monitoring-panel {
+	position: fixed;
+	top: 109px;
+	right: 30px;
+	bottom: 30px;
+	width: min(calc(33.333vw + 150px), calc(100vw - 60px));
+	display: grid;
+	grid-template-rows: auto 1fr;
+	gap: 12px;
+	padding: 14px 16px;
+	background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+	border-left: 1px solid rgba(78, 205, 196, 0.2);
+	box-shadow: -14px 0 44px rgba(0, 0, 0, 0.5);
+	z-index: 1800;
+	backdrop-filter: blur(12px);
+	font-size: 17px;
+	overflow: hidden;
+}
+
+.voice-monitoring-panel.dashboard-open {
+	top: 20px;
+	right: 10px;
+	bottom: 20px;
+	width: calc(100vw - 20px);
+	max-width: none;
+}
+
+.voice-monitoring-body {
+	overflow: auto;
+	min-height: 0;
+	display: grid;
+	grid-template-rows: auto 1fr;
+	gap: 10px;
+	padding-top: 2px;
+}
+
+.voice-monitoring-dashboard-container {
+	overflow: auto;
+	min-height: 0;
+	padding-top: 2px;
+}
+
+.voice-monitoring-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.voice-monitoring-header-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.voice-monitoring-dash {
+	min-width: 62px;
+	height: 30px;
+	padding: 0 12px;
+	border: 1px solid rgba(78, 205, 196, 0.35);
+	border-radius: 999px;
+	background: rgba(45, 45, 68, 0.4);
+	color: #4ecdc4;
+	font-size: 13px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.voice-monitoring-dash:hover {
+	background: rgba(78, 205, 196, 0.15);
+	border-color: #4ecdc4;
+	color: #ffffff;
+}
+
+.voice-monitoring-dash.active {
+	background: rgba(78, 205, 196, 0.22);
+	border-color: #8cf5e8;
+	color: #ffffff;
+}
+
+.voice-monitoring-header h3 {
+	margin: 0;
+	color: #e5e7eb;
+	font-size: 26px;
+	font-weight: 700;
+}
+
+.voice-monitoring-close {
+	width: 30px;
+	height: 30px;
+	border: 1px solid rgba(78, 205, 196, 0.35);
+	border-radius: 15px;
+	background: rgba(45, 45, 68, 0.4);
+	color: #4ecdc4;
+	font-size: 20px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.voice-monitoring-close:hover {
+	background: rgba(78, 205, 196, 0.15);
+	border-color: #4ecdc4;
+	color: #ffffff;
+}
+
+.voice-monitoring-controls {
+	display: grid;
+	gap: 8px;
+}
+
+.voice-control-group {
+	display: grid;
+	gap: 4px;
+}
+
+.voice-control-group label {
+	color: #b8c9de;
+	font-size: 16px;
+}
+
+.voice-control-group input[type='date'] {
+	border: 1px solid rgba(78, 205, 196, 0.35);
+	border-radius: 15px;
+	background: rgba(45, 45, 68, 0.4);
+	color: #e5e7eb;
+	padding: 8px;
+}
+
+.voice-control-group select {
+	border: 1px solid rgba(78, 205, 196, 0.35);
+	border-radius: 15px;
+	background: rgba(45, 45, 68, 0.4);
+	color: #e5e7eb;
+	padding: 8px;
+}
+
+.voice-control-group input[type='range'] {
+	width: 100%;
+}
+
+.voice-control-actions {
+	display: flex;
+	gap: 5px;
+}
+
+.voice-btn {
+	flex: 1;
+	padding: 8px 10px;
+	border: 1px solid rgba(78, 205, 196, 0.35);
+	border-radius: 15px;
+	background: rgba(45, 45, 68, 0.4);
+	color: #4ecdc4;
+	font-size: 16px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.voice-btn:hover {
+	background: rgba(78, 205, 196, 0.15);
+	border-color: #4ecdc4;
+	color: #ffffff;
+}
+
+.voice-btn.secondary {
+	background: rgba(45, 45, 68, 0.4);
+	border-color: rgba(78, 205, 196, 0.35);
+}
+
+.voice-btn:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+.voice-error {
+	margin: 0;
+	color: #ff9b9b;
+	font-size: 16px;
+}
+
+.voice-stats-card {
+	display: grid;
+	gap: 4px;
+	padding: 8px 10px;
+	border: 1px solid rgba(78, 205, 196, 0.35);
+	border-radius: 15px;
+	background: rgba(78, 205, 196, 0.08);
+	color: #d8f6f2;
+	font-size: 14px;
+}
+
+.voice-table-wrap {
+	overflow: auto;
+	min-height: 0;
+	border: 1px solid rgba(78, 205, 196, 0.2);
+	border-radius: 15px;
+	background: rgba(5, 10, 20, 0.45);
+	padding: 8px;
+}
+
+.voice-table-title {
+	margin: 8px 0 6px;
+	color: #d8f6f2;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.voice-table-empty {
+	margin: 4px 0 8px;
+	color: #9fb4c8;
+	font-size: 14px;
+}
+
+.voice-time-table {
+	width: 100%;
+	min-width: 520px;
+	border-collapse: collapse;
+}
+
+.voice-time-table th,
+.voice-time-table td {
+	border: 1px solid rgba(78, 205, 196, 0.18);
+	text-align: center;
+	padding: 4px;
+}
+
+.voice-time-table th {
+	position: sticky;
+	top: 0;
+	background: rgba(15, 28, 52, 0.95);
+	color: #b7ecff;
+	font-size: 15px;
+}
+
+.voice-hour-label {
+	color: #8fd6ff;
+	font-size: 15px;
+	white-space: nowrap;
+}
+
+.voice-slot-image {
+	width: 64px;
+	height: 46px;
+	object-fit: cover;
+	border-radius: 4px;
+	display: block;
+	margin: 0 auto;
+	cursor: zoom-in;
+}
+
+.voice-empty-cell {
+	width: 64px;
+	height: 46px;
+	margin: 0 auto;
+	border-radius: 4px;
+	border: 1px dashed rgba(109, 143, 171, 0.35);
+}
+
+.voice-slot-images {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px;
+	justify-content: center;
+	align-items: center;
+	padding: 2px;
+}
+
+.voice-slot-images .voice-slot-image {
+	width: 30px;
+	height: 22px;
+	flex-shrink: 0;
+}
+
+.voice-image-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.75);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	z-index: 2600;
+}
+
+.voice-image-overlay-content {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.voice-image-overlay-img {
+	max-width: calc(100vw - 32px);
+	max-height: calc(100vh - 80px);
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	display: block;
+	margin: 0 auto;
+	border-radius: 15px;
+	box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+}
+
+.voice-image-overlay-info {
+	position: fixed;
+	left: 50%;
+	bottom: 16px;
+	transform: translateX(-50%);
+	margin: 0;
+	text-align: center;
+	font-size: 12px;
+	color: #d8e6fa;
+}
+
+.voice-image-overlay-close {
+	position: fixed;
+	top: 8px;
+	right: 8px;
+	width: 30px;
+	height: 30px;
+	border: 1px solid rgba(78, 205, 196, 0.4);
+	border-radius: 15px;
+	background: rgba(78, 205, 196, 0.08);
+	color: #9ff8ee;
+	font-size: 20px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+@media (max-width: 1100px) {
+	.voice-monitoring-panel {
+		width: calc(100vw - 20px);
+		right: 10px;
+		top: 109px;
+		bottom: 10px;
+		border-left: none;
+	}
+}
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/components/features/cctv/CctvMonitoring.css">.cctv-monitoring-panel {
+	position: fixed;
+	top: 109px;
+	right: 30px;
+	bottom: 30px;
+	width: min(calc(33.333vw + 150px), calc(100vw - 60px));
+	display: grid;
+	grid-template-rows: auto 1fr;
+	gap: 12px;
+	padding: 14px 16px;
+	background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+	border-left: 1px solid rgba(78, 205, 196, 0.2);
+	box-shadow: -14px 0 44px rgba(0, 0, 0, 0.5);
+	z-index: 1800;
+	backdrop-filter: blur(12px);
+	font-size: 17px;
+	overflow: hidden;
+}
+
+.cctv-monitoring-body {
+	overflow: auto;
+	min-height: 0;
+	display: grid;
+	grid-template-rows: auto 1fr;
+	gap: 10px;
+	padding-top: 2px;
+}
+
+.cctv-monitoring-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.cctv-monitoring-header h3 {
+	margin: 0;
+	color: #e5e7eb;
+	font-size: 26px;
+	font-weight: 700;
+}
+
+.cctv-monitoring-close {
+	width: 30px;
+	height: 30px;
+	border: 1px solid rgba(78, 205, 196, 0.35);
+	border-radius: 15px;
+	background: rgba(45, 45, 68, 0.4);
+	color: #4ecdc4;
+	font-size: 20px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.cctv-monitoring-close:hover {
+	background: rgba(78, 205, 196, 0.15);
+	border-color: #4ecdc4;
+	color: #ffffff;
+}
+
+.cctv-monitoring-controls {
+	display: grid;
+	gap: 8px;
+}
+
+.cctv-control-group {
+	display: grid;
+	gap: 4px;
+}
+
+.cctv-control-group label {
+	color: #b8c9de;
+	font-size: 16px;
+}
+
+.cctv-control-group input[type='date'] {
+	border: 1px solid rgba(78, 205, 196, 0.35);
+	border-radius: 15px;
+	background: rgba(45, 45, 68, 0.4);
+	color: #e5e7eb;
+	padding: 8px;
+}
+
+.cctv-control-group input[type='range'] {
+	width: 100%;
+}
+
+.cctv-control-actions {
+	display: flex;
+	gap: 5px;
+}
+
+.cctv-btn {
+	flex: 1;
+	padding: 8px 10px;
+	border: 1px solid rgba(78, 205, 196, 0.35);
+	border-radius: 15px;
+	background: rgba(45, 45, 68, 0.4);
+	color: #4ecdc4;
+	font-size: 16px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.cctv-btn:hover {
+	background: rgba(78, 205, 196, 0.15);
+	border-color: #4ecdc4;
+	color: #ffffff;
+}
+
+.cctv-btn.secondary {
+	background: rgba(45, 45, 68, 0.4);
+	border-color: rgba(78, 205, 196, 0.35);
+}
+
+.cctv-btn:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+.cctv-error {
+	margin: 0;
+	color: #ff9b9b;
+	font-size: 16px;
+}
+
+.cctv-stats-card {
+	display: grid;
+	gap: 4px;
+	padding: 8px 10px;
+	border: 1px solid rgba(78, 205, 196, 0.35);
+	border-radius: 15px;
+	background: rgba(78, 205, 196, 0.08);
+	color: #d8f6f2;
+	font-size: 14px;
+}
+
+.cctv-table-wrap {
+	overflow: auto;
+	min-height: 0;
+	border: 1px solid rgba(78, 205, 196, 0.2);
+	border-radius: 15px;
+	background: rgba(5, 10, 20, 0.45);
+	padding: 8px;
+}
+
+.cctv-table-title {
+	margin: 8px 0 6px;
+	color: #d8f6f2;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.cctv-table-toggle-row {
+	display: flex;
+	gap: 6px;
+	margin-bottom: 6px;
+}
+
+.cctv-table-toggle-btn {
+	flex: 1;
+	padding: 6px 8px;
+	border: 1px solid rgba(78, 205, 196, 0.35);
+	border-radius: 15px;
+	background: rgba(45, 45, 68, 0.4);
+	color: #4ecdc4;
+	font-size: 14px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.cctv-table-toggle-btn:hover {
+	background: rgba(78, 205, 196, 0.15);
+	border-color: #4ecdc4;
+	color: #ffffff;
+}
+
+.cctv-table-toggle-btn.active {
+	background: rgba(78, 205, 196, 0.2);
+	border-color: #4ecdc4;
+	color: #ffffff;
+}
+
+.cctv-time-table {
+	width: 100%;
+	min-width: 520px;
+	border-collapse: collapse;
+}
+
+.cctv-time-table th,
+.cctv-time-table td {
+	border: 1px solid rgba(78, 205, 196, 0.18);
+	text-align: center;
+	padding: 4px;
+}
+
+.cctv-time-table th {
+	position: sticky;
+	top: 0;
+	background: rgba(15, 28, 52, 0.95);
+	color: #b7ecff;
+	font-size: 15px;
+}
+
+.cctv-hour-label {
+	color: #8fd6ff;
+	font-size: 15px;
+	white-space: nowrap;
+}
+
+.cctv-slot-image {
+	width: 64px;
+	height: 46px;
+	object-fit: cover;
+	border-radius: 4px;
+	display: block;
+	margin: 0 auto;
+	cursor: zoom-in;
+}
+
+.cctv-empty-cell {
+	width: 64px;
+	height: 46px;
+	margin: 0 auto;
+	border-radius: 4px;
+	border: 1px dashed rgba(109, 143, 171, 0.35);
+}
+
+.cctv-image-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.75);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	z-index: 2600;
+}
+
+.cctv-image-overlay-content {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cctv-image-overlay-img {
+	max-width: calc(100vw - 32px);
+	max-height: calc(100vh - 80px);
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	display: block;
+	margin: 0 auto;
+	border-radius: 15px;
+	box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+}
+
+.cctv-image-overlay-time {
+	position: fixed;
+	left: 50%;
+	bottom: 16px;
+	transform: translateX(-50%);
+	margin: 0;
+	text-align: center;
+	font-size: 12px;
+	color: #d8e6fa;
+}
+
+.cctv-image-overlay-close {
+	position: fixed;
+	top: 8px;
+	right: 8px;
+	width: 30px;
+	height: 30px;
+	border: 1px solid rgba(78, 205, 196, 0.4);
+	border-radius: 15px;
+	background: rgba(78, 205, 196, 0.08);
+	color: #9ff8ee;
+	font-size: 20px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+@media (max-width: 1100px) {
+	.cctv-monitoring-panel {
+		width: calc(100vw - 20px);
+		right: 10px;
+		top: 109px;
+		bottom: 10px;
+		border-left: none;
+	}
+}
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/components/features/cctv/BirdListPanel.css">.bird-list-panel {
+  position: fixed;
+  top: 109px;
+  right: 30px;
+  bottom: 30px;
+  width: min(calc(16.666vw + 75px), calc((100vw - 60px) / 2));
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  border-left: 1px solid rgba(78, 205, 196, 0.2);
+  box-shadow: -14px 0 44px rgba(0, 0, 0, 0.5);
+  z-index: 1800;
+  backdrop-filter: blur(12px);
+  font-size: 17px;
+  overflow: hidden;
+}
+
+.bird-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bird-list-header h3 {
+  margin: 0;
+  color: #e5e7eb;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.bird-list-close {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  border-radius: 15px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #4ecdc4;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bird-list-close:hover {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ecdc4;
+  color: #ffffff;
+}
+
+.bird-list-body {
+  overflow: auto;
+  min-height: 0;
+}
+
+.bird-list-controls {
+  display: grid;
+  gap: 8px;
+}
+
+.bird-list-controls label {
+  color: #b8c9de;
+  font-size: 16px;
+}
+
+.bird-list-controls input[type='datetime-local'] {
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  border-radius: 15px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #e5e7eb;
+  padding: 8px;
+}
+
+.bird-list-controls input[type='range'] {
+  width: 100%;
+}
+
+.bird-list-apply {
+  margin-top: 2px;
+  padding: 8px 10px;
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  border-radius: 15px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #4ecdc4;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bird-list-apply:hover {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ecdc4;
+  color: #ffffff;
+}
+
+.bird-list-apply:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.bird-list-error {
+  margin: 0;
+  color: #ff9b9b;
+  font-size: 14px;
+}
+
+.bird-list-result {
+  margin: 0;
+  color: #d8f6f2;
+  font-size: 14px;
+}
+
+.bird-marker-info {
+  margin-top: 6px;
+  padding: 10px;
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  border-radius: 12px;
+  background: rgba(45, 45, 68, 0.4);
+  display: grid;
+  gap: 4px;
+}
+
+@media (max-width: 1100px) {
+  .bird-list-panel {
+    width: calc((100vw - 20px) / 2);
+    right: 10px;
+    top: 109px;
+    bottom: 10px;
+    border-left: none;
+  }
+}</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/components/features/carbon/CarbonCalculator.css">
+.carbon-calculator-panel {
+  position: fixed;
+  top: 135px;
+  right: 30px;
+  bottom: 30px;
+  width: min(calc(33.333vw + 150px), calc(100vw - 60px));
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  border-left: 1px solid rgba(78, 205, 196, 0.2);
+  box-shadow: -14px 0 44px rgba(0, 0, 0, 0.5);
+  z-index: 1800;
+  backdrop-filter: blur(12px);
+  font-size: 17px;
+  overflow: hidden;
+}
+
+.carbon-calculator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.carbon-calculator-header h3 {
+  margin: 0;
+  color: #e5e7eb;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.carbon-calculator-close {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  border-radius: 15px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #4ecdc4;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.carbon-calculator-close:hover {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ecdc4;
+  color: #ffffff;
+}
+
+.carbon-calculator-body {
+  overflow: auto;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 10px;
+  padding-top: 2px;
+}
+
+.carbon-calculator-subtitle {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 15px;
+}
+
+.carbon-calculator-form {
+  display: grid;
+  gap: 8px;
+}
+
+.carbon-calculator-form label {
+  color: #b8c9de;
+  font-size: 16px;
+}
+
+.carbon-calculator-form input,
+.carbon-calculator-form select {
+  width: 100%;
+  height: 42px;
+  border-radius: 15px;
+  border: 1px solid rgba(78, 205, 196, 0.35);
+  background: rgba(45, 45, 68, 0.35);
+  color: #e5e7eb;
+  padding: 0 12px;
+  font-size: 15px;
+}
+
+.carbon-calculator-form input:focus,
+.carbon-calculator-form select:focus {
+  outline: none;
+  border-color: #4ecdc4;
+  box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+}
+
+.carbon-calculate-btn {
+  margin-top: 10px;
+  height: 42px;
+  border: 1px solid rgba(78, 205, 196, 0.45);
+  border-radius: 15px;
+  background: rgba(45, 45, 68, 0.4);
+  color: #4ecdc4;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.carbon-calculate-btn:hover {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ecdc4;
+  color: #ffffff;
+}
+
+.carbon-error {
+  margin: 0;
+  border: 1px solid rgba(248, 113, 113, 0.45);
+  background: rgba(239, 68, 68, 0.12);
+  color: #fecaca;
+  border-radius: 15px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.carbon-result-panel {
+  margin-top: 0;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.carbon-result-item {
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  border-radius: 15px;
+  padding: 10px 12px;
+  background: rgba(78, 205, 196, 0.08);
+}
+
+.carbon-result-item h3 {
+  margin: 0;
+  font-size: 14px;
+  color: #d8f6f2;
+  font-weight: 600;
+}
+
+.carbon-result-item p {
+  margin: 6px 0 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #4ecdc4;
+}
+
+@media (max-width: 1100px) {
+  .carbon-calculator-panel {
+    width: calc(100vw - 20px);
+    right: 10px;
+    top: 64px;
+    bottom: 10px;
+    border-left: none;
+  }
+}
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/components/features/map/Hk3DMapControls.css">.hk3d-controls {
+  position: absolute;
+  top: 206px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1000;
+}
+</style><style type="text/css" data-vite-dev-id="C:/Users/benne/Desktop/FYP3.0/src/App.css">#root {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+</style><style>
+.cesium-credit-lightbox-overlay {
+  display: none;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(80, 80, 80, 0.8);
+}
+
+.cesium-credit-lightbox {
+  background-color: #303336;
+  color: #ffffff;
+  position: relative;
+  min-height: 100px;
+  margin: auto;
+}
+.cesium-credit-lightbox > ul > li a,
+.cesium-credit-lightbox > ul > li a:visited,
+.cesium-credit-wrapper a,
+.cesium-credit-wrapper a:visited {
+  color: #ffffff;
+}
+.cesium-credit-lightbox > ul > li a:hover {
+  color: #48b;
+}
+.cesium-credit-lightbox.cesium-credit-lightbox-expanded {
+  border: 1px solid #444;
+  border-radius: 5px;
+  max-width: 470px;
+}
+.cesium-credit-lightbox.cesium-credit-lightbox-mobile {
+  height: 100%;
+  width: 100%;
+}
+.cesium-credit-lightbox-title {
+  padding: 20px 20px 0 20px;
+}
+.cesium-credit-lightbox-close {
+  font-size: 18pt;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 6px;
+  color: #ffffff;
+}
+.cesium-credit-lightbox-close:hover {
+  color: #48b;
+}
+.cesium-credit-lightbox > ul {
+  margin: 0;
+  padding: 12px 20px 12px 40px;
+  font-size: 13px;
+}
+.cesium-credit-lightbox > ul > li {
+  padding-bottom: 6px;
+}
+.cesium-credit-lightbox > ul > li * {
+  padding: 0;
+  margin: 0;
+}
+
+.cesium-credit-expand-link {
+  padding-left: 5px;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #ffffff;
+}
+.cesium-credit-expand-link:hover {
+  color: #48b;
+}
+
+.cesium-credit-text {
+  color: #ffffff;
+}
+
+.cesium-credit-delimiter {
+  padding: 0 5px;
+}
+
+.cesium-credit-textContainer *,
+.cesium-credit-logoContainer * {
+  display: inline;
+}
+
+.cesium-credit-textContainer a:hover {
+  color: #48b
+}
+
+.cesium-credit-textContainer .cesium-credit-wrapper:first-of-type {
+  padding-left: 5px;
+}
+</style><style>
+.cesium-credit-lightbox-overlay {
+  display: none;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(80, 80, 80, 0.8);
+}
+
+.cesium-credit-lightbox {
+  background-color: #303336;
+  color: #ffffff;
+  position: relative;
+  min-height: 100px;
+  margin: auto;
+}
+.cesium-credit-lightbox > ul > li a,
+.cesium-credit-lightbox > ul > li a:visited,
+.cesium-credit-wrapper a,
+.cesium-credit-wrapper a:visited {
+  color: #ffffff;
+}
+.cesium-credit-lightbox > ul > li a:hover {
+  color: #48b;
+}
+.cesium-credit-lightbox.cesium-credit-lightbox-expanded {
+  border: 1px solid #444;
+  border-radius: 5px;
+  max-width: 470px;
+}
+.cesium-credit-lightbox.cesium-credit-lightbox-mobile {
+  height: 100%;
+  width: 100%;
+}
+.cesium-credit-lightbox-title {
+  padding: 20px 20px 0 20px;
+}
+.cesium-credit-lightbox-close {
+  font-size: 18pt;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 6px;
+  color: #ffffff;
+}
+.cesium-credit-lightbox-close:hover {
+  color: #48b;
+}
+.cesium-credit-lightbox > ul {
+  margin: 0;
+  padding: 12px 20px 12px 40px;
+  font-size: 13px;
+}
+.cesium-credit-lightbox > ul > li {
+  padding-bottom: 6px;
+}
+.cesium-credit-lightbox > ul > li * {
+  padding: 0;
+  margin: 0;
+}
+
+.cesium-credit-expand-link {
+  padding-left: 5px;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #ffffff;
+}
+.cesium-credit-expand-link:hover {
+  color: #48b;
+}
+
+.cesium-credit-text {
+  color: #ffffff;
+}
+
+.cesium-credit-delimiter {
+  padding: 0 5px;
+}
+
+.cesium-credit-textContainer *,
+.cesium-credit-logoContainer * {
+  display: inline;
+}
+
+.cesium-credit-textContainer a:hover {
+  color: #48b
+}
+
+.cesium-credit-textContainer .cesium-credit-wrapper:first-of-type {
+  padding-left: 5px;
+}
+</style></head>
+  <body>
+    <div id="root"><div class="map-container"><div class="cesium-viewer"><div class="cesium-viewer"><div class="cesium-viewer-cesiumWidgetContainer"><div class="cesium-widget"><canvas width="1600" height="900" style="image-rendering: pixelated;"></canvas><div class="cesium-credit-lightbox-overlay"><div class="cesium-credit-lightbox"><div class="cesium-credit-lightbox-title">Data provided by:</div><a class="cesium-credit-lightbox-close">×</a><ul></ul></div></div></div></div><div class="cesium-viewer-bottom" style="left: 5px; bottom: 3px; right: 29px;"><div class="cesium-widget-credits"><div class="cesium-credit-logoContainer" style="display: inline;"><div class="cesium-credit-wrapper" style="display: inline;"><a href="https://cesium.com/" target="_blank"><img src="http://localhost:5173/cesium/Assets/Images/ion-credit.png" style="vertical-align: -7px" title="Cesium ion"></a></div></div><div class="cesium-credit-textContainer" style="display: inline;"></div><a class="cesium-credit-expand-link" style="display: none;">Data attribution</a></div></div><div class="cesium-viewer-selectionIndicatorContainer"><div class="cesium-selection-wrapper" data-bind="style: { &quot;top&quot; : _screenPositionY, &quot;left&quot; : _screenPositionX },css: { &quot;cesium-selection-wrapper-visible&quot; : isVisible }" style="top: -1000px; left: -1000px;"><svg:svg width="160" height="160" viewBox="0 0 160 160"><g transform="translate(80,80)"><path data-bind="attr: { transform: _transform }" d="M -34 -34 L -34 -11.25 L -30 -15.25 L -30 -30 L -15.25 -30 L -11.25 -34 L -34 -34 z M 11.25 -34 L 15.25 -30 L 30 -30 L 30 -15.25 L 34 -11.25 L 34 -34 L 11.25 -34 z M -34 11.25 L -34 34 L -11.25 34 L -15.25 30 L -30 30 L -30 15.25 L -34 11.25 z M 34 11.25 L 30 15.25 L 30 30 L 15.25 30 L 11.25 34 L 34 34 L 34 11.25 z" transform="scale(1)"></path></g></svg:svg></div></div><div class="cesium-viewer-infoBoxContainer"><div class="cesium-infoBox cesium-infoBox-bodyless" data-bind="css: { &quot;cesium-infoBox-visible&quot; : showInfo, &quot;cesium-infoBox-bodyless&quot; : _bodyless }"><div class="cesium-infoBox-title" data-bind="text: titleText"></div><button type="button" class="cesium-button cesium-infoBox-camera" data-bind="attr: { title: &quot;Focus camera on object&quot; },click: function () { cameraClicked.raiseEvent(this); },enable: enableCamera,cesiumSvgPath: { path: cameraIconPath, width: 32, height: 32 }" title="Focus camera on object" disabled=""><svg:svg class="cesium-svgPath-svg" width="32" height="32" viewBox="0 0 32 32"><path d="M 27.34375 1.65625 L 5.28125 27.9375 L 8.09375 30.3125 L 30.15625 4.03125 L 27.34375 1.65625 z M 13.84375 7.03125 C 11.412798 7.03125 9.46875 8.975298 9.46875 11.40625 L 9.46875 11.59375 L 2.53125 7.21875 L 2.53125 24.0625 L 9.46875 19.6875 C 9.4724893 20.232036 9.5676108 20.7379 9.75 21.21875 L 21.65625 7.03125 L 13.84375 7.03125 z M 28.21875 7.71875 L 14.53125 24.0625 L 25.875 24.0625 C 28.305952 24.0625 30.28125 22.087202 30.28125 19.65625 L 30.28125 11.40625 C 30.28125 9.8371439 29.456025 8.4902779 28.21875 7.71875 z"></path></svg:svg></button><button type="button" class="cesium-infoBox-close" data-bind="click: function () { closeClicked.raiseEvent(this); }">×</button><iframe class="cesium-infoBox-iframe" sandbox="allow-same-origin allow-popups allow-forms" data-bind="style : { maxHeight : maxHeightOffset(40) }" allowfullscreen="true" src="about:blank" style="max-height: 735px; height: 0px;"></iframe></div></div><div class="cesium-viewer-toolbar"><button type="button" class="cesium-button cesium-toolbar-button cesium-home-button" data-bind="attr: { title: tooltip },click: command,cesiumSvgPath: { path: _svgPath, width: 28, height: 28 }" title="View Home"><svg:svg class="cesium-svgPath-svg" width="28" height="28" viewBox="0 0 28 28"><path d="M14,4l-10,8.75h20l-4.25-3.7188v-4.6562h-2.812v2.1875l-2.938-2.5625zm-7.0938,9.906v10.094h14.094v-10.094h-14.094zm2.1876,2.313h3.3122v4.25h-3.3122v-4.25zm5.8442,1.281h3.406v6.438h-3.406v-6.438z"></path></svg:svg></button></div><div class="cesium-viewer-fullscreenContainer" style="display: block;"><button type="button" class="cesium-button cesium-fullscreenButton" data-bind="attr: { title: tooltip },click: command,enable: isFullscreenEnabled,cesiumSvgPath: { path: isFullscreen ? _exitFullScreenPath : _enterFullScreenPath, width: 128, height: 128 }" title="Full screen"><svg:svg class="cesium-svgPath-svg" width="128" height="128" viewBox="0 0 128 128"><path d="M 83.96875 17.5625 L 83.96875 17.59375 L 76.65625 24.875 L 97.09375 24.96875 L 76.09375 45.96875 L 81.9375 51.8125 L 102.78125 30.9375 L 102.875 51.15625 L 110.15625 43.875 L 110.1875 17.59375 L 83.96875 17.5625 z M 44.125 17.59375 L 17.90625 17.625 L 17.9375 43.90625 L 25.21875 51.1875 L 25.3125 30.96875 L 46.15625 51.8125 L 52 45.96875 L 31 25 L 51.4375 24.90625 L 44.125 17.59375 z M 46.0625 76.03125 L 25.1875 96.875 L 25.09375 76.65625 L 17.8125 83.9375 L 17.8125 110.21875 L 44 110.25 L 51.3125 102.9375 L 30.90625 102.84375 L 51.875 81.875 L 46.0625 76.03125 z M 82 76.15625 L 76.15625 82 L 97.15625 103 L 76.71875 103.0625 L 84.03125 110.375 L 110.25 110.34375 L 110.21875 84.0625 L 102.9375 76.8125 L 102.84375 97 L 82 76.15625 z"></path></svg:svg></button></div></div></div><header class="top-toolbar"><div class="toolbar-group"><button class="tool-btn " title="Carbon Calculator" aria-label="Carbon Calculator">♻️</button><button class="tool-btn " title="Monitoring Wizard" aria-label="Monitoring Wizard" aria-pressed="false">🔍</button></div><div class="toolbar-search-wrap"><form class="toolbar-search-form"><button type="submit" class="toolbar-search-btn" title="Search" aria-label="Submit location search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg></button><input class="toolbar-search-input" aria-label="Search location" placeholder="Search location" type="text" value=""></form></div><div class="toolbar-spacer"></div><div class="toolbar-icons"><div class="toolbar-settings"><button class="tool-btn " title="Settings" aria-label="Open settings" aria-expanded="false" aria-haspopup="menu" type="button">⚙️</button></div></div></header><div class="right-toolbar"><button class="toolbar-btn " title="Pin Tool" aria-label="Toggle pin tool panel" aria-pressed="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-4.35 7-11a7 7 0 1 0-14 0c0 6.65 7 11 7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg></button><div class="right-toolbar-controls"><button class="toolbar-btn" title="Zoom in" aria-label="Zoom in"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line><line x1="20" y1="20" x2="16.65" y2="16.65"></line></svg></button><button class="toolbar-btn" title="Reset View" aria-label="Reset view"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.8V21h14V9.8"></path></svg></button><button class="toolbar-btn" title="Zoom out" aria-label="Zoom out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="8" y1="11" x2="14" y2="11"></line><line x1="20" y1="20" x2="16.65" y2="16.65"></line></svg></button></div></div><div id="official-layer-picker" class="official-layer-picker"><button type="button" class="cesium-button cesium-toolbar-button" data-bind="attr: { title: buttonTooltip },click: toggleDropDown" title="ArcGIS World Imagery
+WGS84 Ellipsoid"><img draggable="false" class="cesium-baseLayerPicker-selected" data-bind="attr: { src: buttonImageUrl }, visible: !!buttonImageUrl" src="http://localhost:5173/cesium/Widgets/Images/ImageryProviders/ArcGisMapServiceWorldImagery.png"></button><div class="cesium-baseLayerPicker-dropDown" data-bind="css: { &quot;cesium-baseLayerPicker-dropDown-visible&quot; : dropDownVisible }"><div class="cesium-baseLayerPicker-sectionTitle" data-bind="visible: imageryProviderViewModels.length &gt; 0">Imagery</div><div class="cesium-baseLayerPicker-section" data-bind="foreach: _imageryProviders"><div class="cesium-baseLayerPicker-category"><div class="cesium-baseLayerPicker-categoryTitle" data-bind="text: name">Imagery</div><div class="cesium-baseLayerPicker-choices" data-bind="foreach: providers"><div class="cesium-baseLayerPicker-item cesium-baseLayerPicker-selectedItem" data-bind="css: { &quot;cesium-baseLayerPicker-selectedItem&quot; : $data === $parents[1].selectedImagery },attr: { title: tooltip },visible: creationCommand.canExecute,click: function($data) { $parents[1].selectedImagery = $data; }" title="ArcGIS World Imagery"><img class="cesium-baseLayerPicker-itemIcon" data-bind="attr: { src: iconUrl }" draggable="false" src="http://localhost:5173/cesium/Widgets/Images/ImageryProviders/ArcGisMapServiceWorldImagery.png"><div class="cesium-baseLayerPicker-itemLabel" data-bind="text: name">ArcGIS World Imagery</div></div><div class="cesium-baseLayerPicker-item" data-bind="css: { &quot;cesium-baseLayerPicker-selectedItem&quot; : $data === $parents[1].selectedImagery },attr: { title: tooltip },visible: creationCommand.canExecute,click: function($data) { $parents[1].selectedImagery = $data; }" title="LandsD Imagery Map API"><img class="cesium-baseLayerPicker-itemIcon" data-bind="attr: { src: iconUrl }" draggable="false" src="/src/image/landD_icon.png"><div class="cesium-baseLayerPicker-itemLabel" data-bind="text: name">LandsD Imagery</div></div><div class="cesium-baseLayerPicker-item" data-bind="css: { &quot;cesium-baseLayerPicker-selectedItem&quot; : $data === $parents[1].selectedImagery },attr: { title: tooltip },visible: creationCommand.canExecute,click: function($data) { $parents[1].selectedImagery = $data; }" title="OpenStreetMap"><img class="cesium-baseLayerPicker-itemIcon" data-bind="attr: { src: iconUrl }" draggable="false" src="http://localhost:5173/cesium/Widgets/Images/ImageryProviders/openStreetMap.png"><div class="cesium-baseLayerPicker-itemLabel" data-bind="text: name">OpenStreetMap</div></div></div></div></div><div class="cesium-baseLayerPicker-sectionTitle" data-bind="visible: terrainProviderViewModels.length &gt; 0">Terrain</div><div class="cesium-baseLayerPicker-section" data-bind="foreach: _terrainProviders"><div class="cesium-baseLayerPicker-category"><div class="cesium-baseLayerPicker-categoryTitle" data-bind="text: name">Terrain</div><div class="cesium-baseLayerPicker-choices" data-bind="foreach: providers"><div class="cesium-baseLayerPicker-item cesium-baseLayerPicker-selectedItem" data-bind="css: { &quot;cesium-baseLayerPicker-selectedItem&quot; : $data === $parents[1].selectedTerrain },attr: { title: tooltip },visible: creationCommand.canExecute,click: function($data) { $parents[1].selectedTerrain = $data; }" title="No terrain"><img class="cesium-baseLayerPicker-itemIcon" data-bind="attr: { src: iconUrl }" draggable="false" src="http://localhost:5173/cesium/Widgets/Images/TerrainProviders/Ellipsoid.png"><div class="cesium-baseLayerPicker-itemLabel" data-bind="text: name">WGS84 Ellipsoid</div></div><div class="cesium-baseLayerPicker-item" data-bind="css: { &quot;cesium-baseLayerPicker-selectedItem&quot; : $data === $parents[1].selectedTerrain },attr: { title: tooltip },visible: creationCommand.canExecute,click: function($data) { $parents[1].selectedTerrain = $data; }" title="Cesium World Terrain"><img class="cesium-baseLayerPicker-itemIcon" data-bind="attr: { src: iconUrl }" draggable="false" src="http://localhost:5173/cesium/Widgets/Images/TerrainProviders/CesiumWorldTerrain.png"><div class="cesium-baseLayerPicker-itemLabel" data-bind="text: name">Cesium World Terrain</div></div></div></div></div></div></div><div class="hk3d-controls" role="group" aria-label="Hong Kong 3D map controls"><button class="layer-button inactive" title="Hong Kong 3D Map" aria-label="Toggle Hong Kong 3D map" aria-pressed="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 9h-4v4h4v-4zm5-8v4h-4V4h4zm-9 0v4H5V4h5zm0 9v4H5v-4h5zm9 4h-4v-4h4v4z"></path></svg></button></div><div class="viewcube-widget"><div class="viewcube-dial" style="transform: rotate(8.66174e-10deg);"><div class="viewcube-ring"></div><button class="viewcube-direction" title="Rotate to N" aria-label="Rotate camera heading to N" type="button" style="--angle: 0deg; --counter-rotate: -8.661735389384463e-10deg;">N</button><button class="viewcube-direction" title="Rotate to NE" aria-label="Rotate camera heading to NE" type="button" style="--angle: 45deg; --counter-rotate: -8.661735389384463e-10deg;">NE</button><button class="viewcube-direction" title="Rotate to E" aria-label="Rotate camera heading to E" type="button" style="--angle: 90deg; --counter-rotate: -8.661735389384463e-10deg;">E</button><button class="viewcube-direction" title="Rotate to SE" aria-label="Rotate camera heading to SE" type="button" style="--angle: 135deg; --counter-rotate: -8.661735389384463e-10deg;">SE</button><button class="viewcube-direction" title="Rotate to S" aria-label="Rotate camera heading to S" type="button" style="--angle: 180deg; --counter-rotate: -8.661735389384463e-10deg;">S</button><button class="viewcube-direction" title="Rotate to SW" aria-label="Rotate camera heading to SW" type="button" style="--angle: 225deg; --counter-rotate: -8.661735389384463e-10deg;">SW</button><button class="viewcube-direction" title="Rotate to W" aria-label="Rotate camera heading to W" type="button" style="--angle: 270deg; --counter-rotate: -8.661735389384463e-10deg;">W</button><button class="viewcube-direction" title="Rotate to NW" aria-label="Rotate camera heading to NW" type="button" style="--angle: 315deg; --counter-rotate: -8.661735389384463e-10deg;">NW</button></div><div class="viewcube-stage " tabindex="0" role="group" aria-label="View cube control. Use arrow keys to rotate camera heading and pitch."><div class="viewcube-cube" style="transform: rotateX(-90deg) rotateY(360deg) rotateZ(0deg);"><button class="viewcube-face north" aria-label="Rotate to north face" type="button">S</button><button class="viewcube-face east" aria-label="Rotate to east face" type="button">E</button><button class="viewcube-face south" aria-label="Rotate to south face" type="button">N</button><button class="viewcube-face west" aria-label="Rotate to west face" type="button">W</button><button class="viewcube-face top" aria-label="Rotate to top view" type="button">Top</button><button class="viewcube-face bottom" aria-label="Rotate to bottom view" type="button">Bottom</button></div></div></div><div class="camera-info-panel"><div class="camera-info-title">Camera Info</div><div class="camera-info-row"><span>Angle (H/P/R)</span><span>0.0° / -90.0° / 0.0°</span></div><div class="camera-info-row"><span>Distance</span><span>110.00 km</span></div><div class="camera-info-row"><span>WGS84 (Lat, Lon)</span><span>22.384675, 114.164124</span></div></div><div class="scale-bar" aria-label="Map scale"><div class="scale-bar-line" style="width: 126px;"></div><div class="scale-bar-label">10 km</div></div></div></div>
+    <script type="module" src="/src/main.jsx"></script>
+  
+
+</body></html>

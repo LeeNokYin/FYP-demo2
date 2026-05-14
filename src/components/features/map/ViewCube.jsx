@@ -127,7 +127,6 @@ function ViewCube({ viewer }) {
 		}
 
 		const unwrapHeadingDegrees = (headingDeg) => {
-			// 修正 359 -> 0 或 0 -> 359 時的角度回繞，避免方塊瞬間反向跳轉。
 			return unwrapAngleDegrees(headingDeg, previousHeadingRef, unwrappedHeadingRef)
 		}
 

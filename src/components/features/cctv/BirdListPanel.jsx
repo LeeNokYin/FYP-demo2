@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import * as Cesium from 'cesium'
 import birdData from '../../../data/birddata.json'
-import birdIcon from '../../../image/pigeon_icon.jpeg'
+import birdIcon from '../../../image/pigeon_icon.png'
 import './BirdListPanel.css'
 
 const toDatetimeLocalValue = (timestampMs) => {
@@ -17,6 +17,12 @@ const toDatetimeLocalValue = (timestampMs) => {
 const formatPlaybackTime = (timestampMs) => {
   if (!Number.isFinite(timestampMs)) return '-'
   return new Date(timestampMs).toLocaleString()
+}
+
+const formatCoordinate = (value) => {
+  const numeric = Number(value)
+  if (!Number.isFinite(numeric)) return '-'
+  return numeric.toFixed(6)
 }
 
 function BirdListPanel({ onClose, viewer }) {
@@ -41,6 +47,7 @@ function BirdListPanel({ onClose, viewer }) {
   const [playbackTimeline, setPlaybackTimeline] = useState([])
   const [currentStepIndex, setCurrentStepIndex] = useState(-1)
   const [currentPlaybackTime, setCurrentPlaybackTime] = useState('-')
+  const [selectedMarkerInfo, setSelectedMarkerInfo] = useState(null)
 
   const stopPlayback = useCallback(() => {
     playbackRunIdRef.current += 1
@@ -99,12 +106,16 @@ function BirdListPanel({ onClose, viewer }) {
       position: Cesium.Cartesian3.fromDegrees(lon, lat, Number.isFinite(height) ? height : 0),
       billboard: {
         image: markerIcon,
-        scale: 0.1,
-        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+        scale: 0.06,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER
       },
       properties: {
         cls: item.cls,
-        date: item.date
+        date: item.date,
+        longitude: lon,
+        latitude: lat,
+        height: Number.isFinite(height) ? height : 0
       }
     })
   }, [viewer])
@@ -120,6 +131,7 @@ function BirdListPanel({ onClose, viewer }) {
     })
     markerRefs.current = []
     setPlacedCount(0)
+    setSelectedMarkerInfo(null)
   }, [viewer])
 
   const renderTimelineUpToStep = useCallback((timeline, stepIndex, markerIcon) => {
@@ -155,6 +167,35 @@ function BirdListPanel({ onClose, viewer }) {
     stopPlayback()
     clearMarkers()
   }, [clearMarkers, stopPlayback])
+
+  useEffect(() => {
+    if (!viewer) return undefined
+
+    const clickHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
+    clickHandler.setInputAction((movement) => {
+      const picked = viewer.scene.pick(movement.position)
+      const pickedEntity = picked?.id
+      if (!pickedEntity?.properties) return
+
+      const entityId = typeof pickedEntity.id === 'string' ? pickedEntity.id : ''
+      if (!entityId.startsWith('bird-marker-')) return
+
+      const currentTime = viewer.clock?.currentTime
+      const date = pickedEntity.properties.date?.getValue(currentTime) ?? '-'
+      const longitude = pickedEntity.properties.longitude?.getValue(currentTime)
+      const latitude = pickedEntity.properties.latitude?.getValue(currentTime)
+
+      setSelectedMarkerInfo({
+        date,
+        longitude,
+        latitude
+      })
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
+
+    return () => {
+      clickHandler.destroy()
+    }
+  }, [viewer])
 
   const getCircularBirdIcon = useCallback(async () => {
     if (circularIconRef.current) {
@@ -339,10 +380,10 @@ function BirdListPanel({ onClose, viewer }) {
   }
 
   return (
-    <aside className="bird-list-panel" role="dialog" aria-modal="false" aria-label="Bird list panel">
+    <aside className="bird-list-panel" role="dialog" aria-modal="false" aria-label="Bird location panel">
       <div className="bird-list-header">
-        <h3>List of bird</h3>
-        <button type="button" className="bird-list-close" onClick={handleClose} aria-label="Close bird list panel">×</button>
+        <h3>Bird location</h3>
+        <button type="button" className="bird-list-close" onClick={handleClose} aria-label="Close bird location panel">×</button>
       </div>
 
       <div className="bird-list-body">
@@ -386,6 +427,15 @@ function BirdListPanel({ onClose, viewer }) {
 
           {errorMessage && <p className="bird-list-error">{errorMessage}</p>}
           {!errorMessage && <p className="bird-list-result">Placed bird icons: {placedCount}</p>}
+
+          {selectedMarkerInfo && (
+            <div className="bird-marker-info" role="status" aria-live="polite">
+              <p className="bird-list-result">Selected bird icon</p>
+              <p className="bird-list-result">Longitude: {formatCoordinate(selectedMarkerInfo.longitude)}</p>
+              <p className="bird-list-result">Latitude: {formatCoordinate(selectedMarkerInfo.latitude)}</p>
+              <p className="bird-list-result">Time: {selectedMarkerInfo.date}</p>
+            </div>
+          )}
         </div>
       </div>
     </aside>
